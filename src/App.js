@@ -42,10 +42,8 @@ function App() {
         }).then(() => refreshPokemonCards());
     }
 
-    function deletePokemon(event) {
-        event.preventDefault();
-
-        fetch(`http://localhost:8000/api/pokemoncards/${ID}`, {
+    function deletePokemon(cardID) {
+        fetch(`http://localhost:8000/api/pokemoncards/${cardID}`, {
             method: "DELETE",
         }).then(() => refreshPokemonCards());
     }
@@ -85,7 +83,11 @@ function App() {
                                     <button>edit</button>
                                 </td>
                                 <td>
-                                    <button>delete</button>
+                                    <button
+                                        onClick={() => deletePokemon(card.id)}
+                                    >
+                                        delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -112,16 +114,6 @@ function App() {
                     placeholder="HP"
                 ></input>
                 <button onClick={save}>Submit</button>
-            </form>
-
-            <form>
-                <h2>Delete a Pokemon Card</h2>
-                <input
-                    onChange={(event) => setID(event.target.value)}
-                    type="text"
-                    placeholder="ID"
-                ></input>
-                <button onClick={deletePokemon}>Delete</button>
             </form>
 
             <form>
