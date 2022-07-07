@@ -6,6 +6,7 @@ function App() {
     const [type, setType] = useState("");
     const [HP, setHP] = useState("");
     const [ID, setID] = useState("");
+    const [typeFilter, setTypeFilter] = useState("");
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -13,13 +14,13 @@ function App() {
     }, []);
 
     //runs a fetch that gets all the pokemon and sets them into variable. Its a function so we can call it later when needed
-    const refreshPokemonCards = () => {
+    function refreshPokemonCards() {
         fetch("http://localhost:8000/api/pokemoncards")
             .then((response) => response.json())
             .then((response) => {
                 setPokemonCards(response);
             });
-    };
+    }
 
     // creates an object that is the same shape as what the API can accept and then passes it into the API POST body. Runs refreshPokemonCards to give us back new data that was updated
     function save(event) {
@@ -49,11 +50,26 @@ function App() {
         }).then(() => refreshPokemonCards());
     }
 
+    function filterPokemon(event) {
+        event.preventDefault();
+
+        fetch(
+            `http://localhost:8000/api/pokemoncards?pokemontype=${typeFilter}`
+        )
+            .then((response) => response.json())
+            .then((response) => {
+                setPokemonCards(response);
+            });
+    }
+
     return (
         <div className="App">
-            {pokemonCards.map((card, i) => (
-                <p key={i}>{card.name}</p>
-            ))}
+            <div>
+                {pokemonCards.map((card, i) => (
+                    <p key={i}>{card.name}</p>
+                ))}
+            </div>
+
             <form>
                 <h2>Add a Pokemon Card</h2>
                 <input
@@ -83,6 +99,23 @@ function App() {
                     placeholder="ID"
                 ></input>
                 <button onClick={deletePokemon}>Delete</button>
+            </form>
+
+            <form>
+                <h2>Filter By Type</h2>
+                <select
+                    onChange={(event) => setTypeFilter(event.target.value)}
+                    type="text"
+                    placeholder="Type"
+                >
+                    <option value="" disabled>
+                        Select A Type
+                    </option>
+                    <option value="Fire">Fire</option>
+                    <option value="Water">Water</option>
+                    <option value="Grass">Grass</option>
+                </select>
+                <button onClick={filterPokemon}>Filter</button>
             </form>
         </div>
     );
