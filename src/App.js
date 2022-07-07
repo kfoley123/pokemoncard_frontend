@@ -6,7 +6,7 @@ function App() {
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [HP, setHP] = useState("");
-    const [ID, setID] = useState("");
+    const [selectedPokemon, setSelectedPokemon] = useState({});
     const [typeFilter, setTypeFilter] = useState("");
 
     //because there is nothing in dependency array, runs one time when you load the page
@@ -82,7 +82,11 @@ function App() {
                                 <td>{card.pokemonType}</td>
                                 <td>{card.HP}</td>
                                 <td>
-                                    <button>edit</button>
+                                    <button
+                                        onClick={() => setSelectedPokemon(card)}
+                                    >
+                                        edit
+                                    </button>
                                 </td>
                                 <td>
                                     <button
@@ -95,6 +99,8 @@ function App() {
                         ))}
                     </tbody>
                 </table>
+
+                {selectedPokemon.name}
             </div>
 
             <form>
@@ -123,6 +129,35 @@ function App() {
                 ></input>
                 <button onClick={save}>Submit</button>
             </form>
+
+            {Object.keys(selectedPokemon).length !== 0 && (
+                <div>
+                    <form>
+                        <h2>Edit Pokemon Card</h2>
+                        <input
+                            type="text"
+                            defaultValue={selectedPokemon.pokedexIndex}
+                        ></input>
+                        <input
+                            type="text"
+                            defaultValue={selectedPokemon.name}
+                        ></input>
+                        <input
+                            type="text"
+                            defaultValue={selectedPokemon.pokemonType}
+                        ></input>
+                        <input
+                            type="text"
+                            defaultValue={selectedPokemon.HP}
+                        ></input>
+                    </form>
+
+                    <button>Submit</button>
+                    <button onClick={() => setSelectedPokemon({})}>
+                        Close
+                    </button>
+                </div>
+            )}
 
             <form>
                 <h2>Filter By Type</h2>
