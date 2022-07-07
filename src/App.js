@@ -65,9 +65,32 @@ function App() {
     return (
         <div className="App">
             <div>
-                {pokemonCards.map((card, i) => (
-                    <p key={i}>{card.name}</p>
-                ))}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pokedex Index</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>HP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pokemonCards.map((card, i) => (
+                            <tr key={i}>
+                                <th>{card.pokedexIndex}</th>
+                                <td>{card.name}</td>
+                                <td>{card.pokemonType}</td>
+                                <td>{card.HP}</td>
+                                <td>
+                                    <button>edit</button>
+                                </td>
+                                <td>
+                                    <button>delete</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
 
             <form>
