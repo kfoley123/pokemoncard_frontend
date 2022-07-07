@@ -23,6 +23,26 @@ function App() {
             });
     }
 
+    function updateSelectedCard(event) {
+        event.preventDefault();
+
+        let pokemonCard = {
+            pokedexIndex: pokedexIndex,
+            name: name,
+            pokemonType: type,
+            HP: HP,
+        };
+
+        fetch(`http://localhost:8000/api/pokemoncards/${selectedPokemon.id}/`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(pokemonCard),
+        }).then(() => refreshPokemonCards());
+    }
+
     // creates an object that is the same shape as what the API can accept and then passes it into the API POST body. Runs refreshPokemonCards to give us back new data that was updated
     function save(event) {
         event.preventDefault();
@@ -83,7 +103,13 @@ function App() {
                                 <td>{card.HP}</td>
                                 <td>
                                     <button
-                                        onClick={() => setSelectedPokemon(card)}
+                                        onClick={() => {
+                                            setSelectedPokemon(card);
+                                            setPokedexIndex(card.pokedexIndex);
+                                            setName(card.name);
+                                            setType(card.pokemonType);
+                                            setHP(card.HP);
+                                        }}
                                     >
                                         edit
                                     </button>
@@ -135,24 +161,34 @@ function App() {
                     <form>
                         <h2>Edit Pokemon Card</h2>
                         <input
+                            onChange={(event) =>
+                                setPokedexIndex(event.target.value)
+                            }
                             type="text"
                             defaultValue={selectedPokemon.pokedexIndex}
                         ></input>
                         <input
+                            onChange={(event) => setName(event.target.value)}
                             type="text"
                             defaultValue={selectedPokemon.name}
                         ></input>
                         <input
+                            onChange={(event) => setType(event.target.value)}
                             type="text"
                             defaultValue={selectedPokemon.pokemonType}
                         ></input>
                         <input
+                            onChange={(event) => setHP(event.target.value)}
                             type="text"
                             defaultValue={selectedPokemon.HP}
                         ></input>
                     </form>
+                    {pokedexIndex}
+                    {name}
+                    {type}
+                    {HP}
 
-                    <button>Submit</button>
+                    <button onClick={updateSelectedCard}>Submit</button>
                     <button onClick={() => setSelectedPokemon({})}>
                         Close
                     </button>
