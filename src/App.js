@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 function App() {
     const [pokemonCards, setPokemonCards] = useState([]);
+    const [pokedexIndex, setPokedexIndex] = useState("");
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [HP, setHP] = useState("");
@@ -27,6 +28,7 @@ function App() {
         event.preventDefault();
 
         let pokemonCard = {
+            pokedexIndex: pokedexIndex,
             name: name,
             pokemonType: type,
             HP: HP,
@@ -97,6 +99,12 @@ function App() {
 
             <form>
                 <h2>Add a Pokemon Card</h2>
+
+                <input
+                    onChange={(event) => setPokedexIndex(event.target.value)}
+                    type="text"
+                    placeholder="Pokedex Index"
+                ></input>
                 <input
                     onChange={(event) => setName(event.target.value)}
                     type="text"
