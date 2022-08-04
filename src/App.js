@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import AddPokemon from "./AddPokemon";
+import AddPokemon from "./AddPokemon /AddPokemon";
+import FilterByType from "./FilterByType/FilterByType";
 import Table from "./Table/Table";
 
 function App() {
@@ -176,22 +177,10 @@ function App() {
                 </div>
             )}
 
-            <form>
-                <h2>Filter By Type</h2>
-                <select
-                    onChange={(event) => setTypeFilter(event.target.value)}
-                    type="text"
-                    placeholder="Type"
-                >
-                    <option value="" disabled>
-                        Select A Type
-                    </option>
-                    <option value="Fire">Fire</option>
-                    <option value="Water">Water</option>
-                    <option value="Grass">Grass</option>
-                </select>
-                <button onClick={filterPokemon}>Filter</button>
-            </form>
+            <FilterByType
+                setTypeFilter={setTypeFilter}
+                filterPokemon={filterPokemon}
+            />
         </>
     );
 }
