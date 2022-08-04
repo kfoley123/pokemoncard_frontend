@@ -1,20 +1,34 @@
 import { useState, useEffect } from "react";
+import Table from "./Table/Table";
 
 function App() {
     const [pokemonCards, setPokemonCards] = useState([]);
     const [pokedexIndex, setPokedexIndex] = useState("");
+    const [pokemonCardSets, setPokemonCardSets] = useState([]);
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [HP, setHP] = useState("");
     const [selectedPokemon, setSelectedPokemon] = useState({});
     const [typeFilter, setTypeFilter] = useState("");
+    const [pokemonTypes, setPokemonTypes] = useState([]);
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
         refreshPokemonCards();
+        refreshPokemonTypes();
+        refreshPokemonCardSets();
     }, []);
 
-    //runs a fetch that gets all the pokemon and sets them into variable. Its a function so we can call it later when needed
+    //runs a fetch that gets all the pokemon types and sets them into variable. Its a function so we can call it later when needed
+    function refreshPokemonTypes() {
+        fetch("http://localhost:8000/api/pokemontypes/")
+            .then((response) => response.json())
+            .then((response) => {
+                setPokemonTypes(response);
+            });
+    }
+
+    //runs a fetch that gets all the pokemoncards and sets them into variable. Its a function so we can call it later when needed
     function refreshPokemonCards() {
         fetch("http://localhost:8000/api/pokemoncards")
             .then((response) => response.json())
@@ -23,6 +37,17 @@ function App() {
             });
     }
 
+    // fetch to get pokemonCard sets & save in variable
+
+    function refreshPokemonCardSets() {
+        fetch("http://localhost:8000/api/pokemoncardsets")
+            .then((response) => response.json())
+            .then((response) => {
+                setPokemonCardSets(response);
+            });
+    }
+
+    // takes the event (click) amd runs prevent default, creates an object with the same shape as what API accepts and takes values from edit pokemon card form, uses put method (replaces) and refreshes pokemon cards
     function updateSelectedCard(event) {
         event.preventDefault();
 
@@ -83,51 +108,29 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <>
             <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Pokedex Index</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>HP</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {pokemonCards.map((card, i) => (
-                            <tr key={i}>
-                                <th>{card.pokedexIndex}</th>
-                                <td>{card.name}</td>
-                                <td>{card.pokemonType}</td>
-                                <td>{card.HP}</td>
-                                <td>
-                                    <button
-                                        onClick={() => {
-                                            setSelectedPokemon(card);
-                                            setPokedexIndex(card.pokedexIndex);
-                                            setName(card.name);
-                                            setType(card.pokemonType);
-                                            setHP(card.HP);
-                                        }}
-                                    >
-                                        edit
-                                    </button>
-                                </td>
-                                <td>
-                                    <button
-                                        onClick={() => deletePokemon(card.id)}
-                                    >
-                                        delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-
-                {selectedPokemon.name}
+                <div>
+                    {pokemonTypes.map((type, i) => (
+                        <span key={i}>{type.pokemonType}</span>
+                    ))}
+                </div>
+                <div>
+                    {pokemonCardSets.map((set) => (
+                        <span key={set.name}>{set.name}</span>
+                    ))}
+                </div>
             </div>
+
+            <Table
+                setSelectedPokemon={setSelectedPokemon}
+                pokemonCards={pokemonCards}
+                setPokedexIndex={setPokedexIndex}
+                setName={setName}
+                setType={setType}
+                setHP={setHP}
+                deletePokemon={deletePokemon}
+            />
 
             <form>
                 <h2>Add a Pokemon Card</h2>
@@ -183,10 +186,6 @@ function App() {
                             defaultValue={selectedPokemon.HP}
                         ></input>
                     </form>
-                    {pokedexIndex}
-                    {name}
-                    {type}
-                    {HP}
 
                     <button onClick={updateSelectedCard}>Submit</button>
                     <button onClick={() => setSelectedPokemon({})}>
@@ -211,7 +210,7 @@ function App() {
                 </select>
                 <button onClick={filterPokemon}>Filter</button>
             </form>
-        </div>
+        </>
     );
 }
 
