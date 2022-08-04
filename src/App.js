@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AddPokemon from "./AddPokemon";
 import Table from "./Table/Table";
 
 function App() {
@@ -132,32 +133,13 @@ function App() {
                 deletePokemon={deletePokemon}
             />
 
-            <form>
-                <h2>Add a Pokemon Card</h2>
-
-                <input
-                    onChange={(event) => setPokedexIndex(event.target.value)}
-                    type="text"
-                    placeholder="Pokedex Index"
-                ></input>
-                <input
-                    onChange={(event) => setName(event.target.value)}
-                    type="text"
-                    placeholder="Name"
-                ></input>
-
-                <input
-                    onChange={(event) => setType(event.target.value)}
-                    type="text"
-                    placeholder="Type"
-                ></input>
-                <input
-                    onChange={(event) => setHP(event.target.value)}
-                    type="text"
-                    placeholder="HP"
-                ></input>
-                <button onClick={save}>Submit</button>
-            </form>
+            <AddPokemon
+                setPokedexIndex={setPokedexIndex}
+                setName={setName}
+                setType={setType}
+                setHP={setHP}
+                save={save}
+            />
 
             {Object.keys(selectedPokemon).length !== 0 && (
                 <div>
