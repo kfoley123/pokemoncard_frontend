@@ -151,7 +151,7 @@ function App() {
                     setHP={setHP}
                     updateSelectedCard={updateSelectedCard}
                     setSelectedPokemon={setSelectedPokemon}
-                    selectedPokemon
+                    selectedPokemon={selectedPokemon}
                 />
             )}
 
