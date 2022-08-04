@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import AddPokemon from "./AddPokemon /AddPokemon";
+import EditPokemon from "./EditPokemon/EditPokemon";
 import FilterByType from "./FilterByType/FilterByType";
 import Table from "./Table/Table";
 
@@ -143,38 +144,15 @@ function App() {
             />
 
             {Object.keys(selectedPokemon).length !== 0 && (
-                <div>
-                    <form>
-                        <h2>Edit Pokemon Card</h2>
-                        <input
-                            onChange={(event) =>
-                                setPokedexIndex(event.target.value)
-                            }
-                            type="text"
-                            defaultValue={selectedPokemon.pokedexIndex}
-                        ></input>
-                        <input
-                            onChange={(event) => setName(event.target.value)}
-                            type="text"
-                            defaultValue={selectedPokemon.name}
-                        ></input>
-                        <input
-                            onChange={(event) => setType(event.target.value)}
-                            type="text"
-                            defaultValue={selectedPokemon.pokemonType}
-                        ></input>
-                        <input
-                            onChange={(event) => setHP(event.target.value)}
-                            type="text"
-                            defaultValue={selectedPokemon.HP}
-                        ></input>
-                    </form>
-
-                    <button onClick={updateSelectedCard}>Submit</button>
-                    <button onClick={() => setSelectedPokemon({})}>
-                        Close
-                    </button>
-                </div>
+                <EditPokemon
+                    setPokedexIndex={setPokedexIndex}
+                    setName={setName}
+                    setType={setType}
+                    setHP={setHP}
+                    updateSelectedCard={updateSelectedCard}
+                    setSelectedPokemon={setSelectedPokemon}
+                    selectedPokemon
+                />
             )}
 
             <FilterByType
