@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import EditPokemon from "./EditPokemon/EditPokemon";
 import AddPokemon from "./AddPokemon/AddPokemon";
 import FilterByType from "./FilterByType/FilterByType";
@@ -6,14 +6,17 @@ import Table from "./Table/Table";
 
 function App() {
     const [pokemonCards, setPokemonCards] = useState([]);
-    const [pokedexIndex, setPokedexIndex] = useState("");
     const [pokemonCardSets, setPokemonCardSets] = useState([]);
-    const [name, setName] = useState("");
-    const [type, setType] = useState("");
-    const [HP, setHP] = useState("");
     const [selectedPokemon, setSelectedPokemon] = useState({});
     const [typeFilter, setTypeFilter] = useState("");
     const [pokemonTypes, setPokemonTypes] = useState([]);
+
+    const [pokemonCardData, setPokemonCardData] = useState({
+        name: "",
+        pokemonType: "",
+        HP: "",
+        pokedexIndex: "",
+    });
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -54,20 +57,13 @@ function App() {
     function updateSelectedCard(event) {
         event.preventDefault();
 
-        let pokemonCard = {
-            pokedexIndex: pokedexIndex,
-            name: name,
-            pokemonType: type,
-            HP: HP,
-        };
-
         fetch(`http://localhost:8000/api/pokemoncards/${selectedPokemon.id}/`, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(pokemonCard),
+            body: JSON.stringify(pokemonCardData),
         }).then(() => refreshPokemonCards());
     }
 
@@ -75,20 +71,13 @@ function App() {
     function save(event) {
         event.preventDefault();
 
-        let pokemonCard = {
-            pokedexIndex: pokedexIndex,
-            name: name,
-            pokemonType: type,
-            HP: HP,
-        };
-
         fetch("http://localhost:8000/api/pokemoncards/", {
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(pokemonCard),
+            body: JSON.stringify(pokemonCardData),
         }).then(() => refreshPokemonCards());
     }
 
@@ -98,9 +87,7 @@ function App() {
         }).then(() => refreshPokemonCards());
     }
 
-    function filterPokemon(event) {
-        event.preventDefault();
-
+    const filterPokemon = useCallback(() => {
         fetch(
             `http://localhost:8000/api/pokemoncards?pokemontype=${typeFilter}`
         )
@@ -108,7 +95,13 @@ function App() {
             .then((response) => {
                 setPokemonCards(response);
             });
-    }
+    }, [typeFilter]);
+
+    useEffect(() => {
+        if (typeFilter === "") {
+            refreshPokemonCards();
+        } else filterPokemon();
+    }, [typeFilter, filterPokemon]);
 
     return (
         <>
@@ -128,27 +121,15 @@ function App() {
             <Table
                 setSelectedPokemon={setSelectedPokemon}
                 pokemonCards={pokemonCards}
-                setPokedexIndex={setPokedexIndex}
-                setName={setName}
-                setType={setType}
-                setHP={setHP}
+                setPokemonCardData={setPokemonCardData}
                 deletePokemon={deletePokemon}
             />
 
-            <AddPokemon
-                setPokedexIndex={setPokedexIndex}
-                setName={setName}
-                setType={setType}
-                setHP={setHP}
-                save={save}
-            />
+            <AddPokemon setPokemonCardData={setPokemonCardData} save={save} />
 
             {Object.keys(selectedPokemon).length !== 0 && (
                 <EditPokemon
-                    setPokedexIndex={setPokedexIndex}
-                    setName={setName}
-                    setType={setType}
-                    setHP={setHP}
+                    setPokemonCardData={setPokemonCardData}
                     updateSelectedCard={updateSelectedCard}
                     setSelectedPokemon={setSelectedPokemon}
                     selectedPokemon={selectedPokemon}

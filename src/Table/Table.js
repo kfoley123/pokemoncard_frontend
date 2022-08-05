@@ -4,10 +4,7 @@ export default function Table(props) {
     const {
         pokemonCards,
         setSelectedPokemon,
-        setPokedexIndex,
-        setName,
-        setType,
-        setHP,
+        setPokemonCardData,
         deletePokemon,
     } = props;
     return (
@@ -31,10 +28,7 @@ export default function Table(props) {
                             <button
                                 onClick={() => {
                                     setSelectedPokemon(card);
-                                    setPokedexIndex(card.pokedexIndex);
-                                    setName(card.name);
-                                    setType(card.pokemonType);
-                                    setHP(card.HP);
+                                    setPokemonCardData(card);
                                 }}
                             >
                                 edit

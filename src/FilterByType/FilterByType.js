@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function FilterByType(props) {
-    const { setTypeFilter, filterPokemon } = props;
+    const { setTypeFilter } = props;
     return (
         <form>
             <h2>Filter By Type</h2>
@@ -13,11 +13,11 @@ export default function FilterByType(props) {
                 <option value="" disabled>
                     Select A Type
                 </option>
+                <option value="">View All</option>
                 <option value="Fire">Fire</option>
                 <option value="Water">Water</option>
                 <option value="Grass">Grass</option>
             </select>
-            <button onClick={filterPokemon}>Filter</button>
         </form>
     );
 }
