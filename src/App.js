@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import EditPokemon from "./EditPokemon/EditPokemon";
 import AddPokemon from "./AddPokemon/AddPokemon";
 import FilterByType from "./FilterByType/FilterByType";
@@ -87,9 +87,7 @@ function App() {
         }).then(() => refreshPokemonCards());
     }
 
-    function filterPokemon(event) {
-        event.preventDefault();
-
+    const filterPokemon = useCallback(() => {
         fetch(
             `http://localhost:8000/api/pokemoncards?pokemontype=${typeFilter}`
         )
@@ -97,7 +95,13 @@ function App() {
             .then((response) => {
                 setPokemonCards(response);
             });
-    }
+    }, [typeFilter]);
+
+    useEffect(() => {
+        if (typeFilter === "") {
+            refreshPokemonCards();
+        } else filterPokemon();
+    }, [typeFilter, filterPokemon]);
 
     return (
         <>
