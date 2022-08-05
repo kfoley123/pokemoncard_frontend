@@ -128,6 +128,7 @@ function App() {
             <AddPokemon
                 setPokemonCardData={setPokemonCardData}
                 pokemonTypes={pokemonTypes}
+                pokemonCardSets={pokemonCardSets}
                 save={save}
             />
 

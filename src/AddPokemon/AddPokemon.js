@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function AddPokemon(props) {
-    const { setPokemonCardData, pokemonTypes, save } = props;
+    const { setPokemonCardData, pokemonCardSets, pokemonTypes, save } = props;
     return (
         <form>
             <h2>Add a Pokemon Card</h2>
@@ -18,6 +18,7 @@ export default function AddPokemon(props) {
                 type="text"
                 placeholder="Pokedex Index"
             ></input>
+
             <input
                 onChange={(event) =>
                     setPokemonCardData((prevData) => {
@@ -59,6 +60,11 @@ export default function AddPokemon(props) {
                 type="text"
                 placeholder="HP"
             ></input>
+            <select>
+                {pokemonCardSets.map((set) => {
+                    return <option value={set.id}>{set.name}</option>;
+                })}
+            </select>
             <button onClick={save}>Submit</button>
         </form>
     );
