@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import AddPokemon from "./AddPokemon /AddPokemon";
 import EditPokemon from "./EditPokemon/EditPokemon";
+import AddPokemon from "./AddPokemon/AddPokemon";
 import FilterByType from "./FilterByType/FilterByType";
 import Table from "./Table/Table";
 
