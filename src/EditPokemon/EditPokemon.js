@@ -2,35 +2,60 @@ import React from "react";
 
 export default function EditPokemon(props) {
     const {
-        setPokedexIndex,
-        setName,
-        setType,
-        setHP,
+        setPokemonCardData,
         updateSelectedCard,
         setSelectedPokemon,
         selectedPokemon,
     } = props;
     return (
         <div>
-            <form>
+            <form key={selectedPokemon.id}>
                 <h2>Edit Pokemon Card</h2>
                 <input
-                    onChange={(event) => setPokedexIndex(event.target.value)}
+                    onChange={(event) =>
+                        setPokemonCardData((prevData) => {
+                            return {
+                                ...prevData,
+                                pokedexIndex: event.target.value,
+                            };
+                        })
+                    }
                     type="text"
                     defaultValue={selectedPokemon.pokedexIndex}
                 ></input>
                 <input
-                    onChange={(event) => setName(event.target.value)}
+                    onChange={(event) =>
+                        setPokemonCardData((prevData) => {
+                            return {
+                                ...prevData,
+                                name: event.target.value,
+                            };
+                        })
+                    }
                     type="text"
                     defaultValue={selectedPokemon.name}
                 ></input>
                 <input
-                    onChange={(event) => setType(event.target.value)}
+                    onChange={(event) =>
+                        setPokemonCardData((prevData) => {
+                            return {
+                                ...prevData,
+                                pokemonType: event.target.value,
+                            };
+                        })
+                    }
                     type="text"
                     defaultValue={selectedPokemon.pokemonType}
                 ></input>
                 <input
-                    onChange={(event) => setHP(event.target.value)}
+                    onChange={(event) =>
+                        setPokemonCardData((prevData) => {
+                            return {
+                                ...prevData,
+                                HP: event.target.value,
+                            };
+                        })
+                    }
                     type="text"
                     defaultValue={selectedPokemon.HP}
                 ></input>
