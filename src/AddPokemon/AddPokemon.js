@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function AddPokemon(props) {
-    const { setPokemonCardData, save } = props;
+    const { setPokemonCardData, pokemonTypes, save } = props;
     return (
         <form>
             <h2>Add a Pokemon Card</h2>
@@ -31,7 +31,7 @@ export default function AddPokemon(props) {
                 placeholder="Name"
             ></input>
 
-            <input
+            <select
                 onChange={(event) =>
                     setPokemonCardData((prevData) => {
                         return {
@@ -42,7 +42,11 @@ export default function AddPokemon(props) {
                 }
                 type="text"
                 placeholder="Type"
-            ></input>
+            >
+                {pokemonTypes.map((type) => {
+                    return <option value={type.id}>{type.pokemonType}</option>;
+                })}
+            </select>
             <input
                 onChange={(event) =>
                     setPokemonCardData((prevData) => {

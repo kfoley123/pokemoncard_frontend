@@ -125,7 +125,11 @@ function App() {
                 deletePokemon={deletePokemon}
             />
 
-            <AddPokemon setPokemonCardData={setPokemonCardData} save={save} />
+            <AddPokemon
+                setPokemonCardData={setPokemonCardData}
+                pokemonTypes={pokemonTypes}
+                save={save}
+            />
 
             {Object.keys(selectedPokemon).length !== 0 && (
                 <EditPokemon
