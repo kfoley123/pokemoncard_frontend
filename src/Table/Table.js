@@ -15,6 +15,7 @@ export default function Table(props) {
                     <th>Name</th>
                     <th>Type</th>
                     <th>HP</th>
+                    <th>Set</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,8 +23,9 @@ export default function Table(props) {
                     <tr key={i}>
                         <th>{card.pokedexIndex}</th>
                         <td>{card.name}</td>
-                        <td>{card.pokemonType}</td>
+                        <td>{card.type}</td>
                         <td>{card.HP}</td>
+                        <td>{card.pokemonCardSet.name}</td>
                         <td>
                             <button
                                 onClick={() => {
