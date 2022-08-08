@@ -11,7 +11,7 @@ export default function EditPokemon(props) {
     } = props;
     return (
         <div>
-            <form>
+            <form key={selectedPokemon.id}>
                 <h2>Edit Pokemon Card</h2>
                 <input
                     onChange={(event) =>
@@ -60,12 +60,12 @@ export default function EditPokemon(props) {
                         setPokemonCardData((prevData) => {
                             return {
                                 ...prevData,
-                                type: event.target.value,
+                                HP: event.target.value,
                             };
                         })
                     }
                     type="text"
-                    defaultValue={selectedPokemon.type}
+                    defaultValue={selectedPokemon.HP}
                 ></input>
 
                 <select
@@ -73,7 +73,7 @@ export default function EditPokemon(props) {
                         setPokemonCardData((prevData) => {
                             return {
                                 ...prevData,
-                                pokemonCardSets: event.target.value,
+                                pokemonCardSet: event.target.value,
                             };
                         })
                     }
@@ -82,19 +82,6 @@ export default function EditPokemon(props) {
                         return <option value={set.id}>{set.name}</option>;
                     })}
                 </select>
-
-                <input
-                    onChange={(event) =>
-                        setPokemonCardData((prevData) => {
-                            return {
-                                ...prevData,
-                                HP: event.target.value,
-                            };
-                        })
-                    }
-                    type="text"
-                    defaultValue={selectedPokemon.HP}
-                ></input>
             </form>
 
             <button onClick={updateSelectedCard}>Submit</button>
