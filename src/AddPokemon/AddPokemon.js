@@ -1,60 +1,47 @@
 import React from "react";
 
 export default function AddPokemon(props) {
-    const { setPokemonCardData, save } = props;
+    const { pokemonCardSets, pokemonTypes, save, updateCardData } = props;
+
     return (
         <form>
             <h2>Add a Pokemon Card</h2>
 
             <input
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            pokedexIndex: event.target.value,
-                        };
-                    })
-                }
+                name="pokedexIndex"
+                onChange={updateCardData}
                 type="text"
                 placeholder="Pokedex Index"
             ></input>
+
             <input
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            name: event.target.value,
-                        };
-                    })
-                }
+                name="name"
+                onChange={updateCardData}
                 type="text"
                 placeholder="Name"
             ></input>
 
-            <input
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            pokemonType: event.target.value,
-                        };
-                    })
-                }
+            <select
+                name="type"
+                onChange={updateCardData}
                 type="text"
                 placeholder="Type"
-            ></input>
+            >
+                {pokemonTypes.map((type) => {
+                    return <option value={type.id}>{type.pokemonType}</option>;
+                })}
+            </select>
             <input
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            HP: event.target.value,
-                        };
-                    })
-                }
+                name="HP"
+                onChange={updateCardData}
                 type="text"
                 placeholder="HP"
             ></input>
+            <select name="pokemonCardSet" onChange={updateCardData}>
+                {pokemonCardSets.map((set) => {
+                    return <option value={set.id}>{set.name}</option>;
+                })}
+            </select>
             <button onClick={save}>Submit</button>
         </form>
     );

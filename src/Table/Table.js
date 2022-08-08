@@ -15,20 +15,31 @@ export default function Table(props) {
                     <th>Name</th>
                     <th>Type</th>
                     <th>HP</th>
+                    <th>Set</th>
                 </tr>
             </thead>
             <tbody>
                 {pokemonCards.map((card, i) => (
                     <tr key={i}>
+                        {console.log(card)}
                         <th>{card.pokedexIndex}</th>
                         <td>{card.name}</td>
-                        <td>{card.pokemonType}</td>
+                        <td>{card.type.pokemonType}</td>
                         <td>{card.HP}</td>
+                        <td>{card.pokemonCardSet.name}</td>
                         <td>
                             <button
                                 onClick={() => {
                                     setSelectedPokemon(card);
-                                    setPokemonCardData(card);
+                                    setPokemonCardData(() => {
+                                        let typeid = card.type.id;
+                                        let setid = card.pokemonCardSet.id;
+                                        return {
+                                            ...card,
+                                            type: typeid,
+                                            pokemonCardSet: setid,
+                                        };
+                                    });
                                 }}
                             >
                                 edit

@@ -11,17 +11,12 @@ function App() {
     const [typeFilter, setTypeFilter] = useState("");
     const [pokemonTypes, setPokemonTypes] = useState([]);
 
-    const [pokemonCardData, setPokemonCardData] = useState({
-        name: "",
-        pokemonType: "",
-        HP: "",
-        pokedexIndex: "",
-    });
+    const [pokemonCardData, setPokemonCardData] = useState({});
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
-        refreshPokemonCards();
         refreshPokemonTypes();
+        refreshPokemonCards();
         refreshPokemonCardSets();
     }, []);
 
@@ -56,6 +51,7 @@ function App() {
     // takes the event (click) amd runs prevent default, creates an object with the same shape as what API accepts and takes values from edit pokemon card form, uses put method (replaces) and refreshes pokemon cards
     function updateSelectedCard(event) {
         event.preventDefault();
+        console.log(pokemonCardData);
 
         fetch(`http://localhost:8000/api/pokemoncards/${selectedPokemon.id}/`, {
             method: "PUT",
@@ -103,6 +99,15 @@ function App() {
         } else filterPokemon();
     }, [typeFilter, filterPokemon]);
 
+    function updateCardData(event) {
+        setPokemonCardData((prevData) => {
+            return {
+                ...prevData,
+                [event.target.name]: event.target.value,
+            };
+        });
+    }
+
     return (
         <>
             <div>
@@ -125,14 +130,21 @@ function App() {
                 deletePokemon={deletePokemon}
             />
 
-            <AddPokemon setPokemonCardData={setPokemonCardData} save={save} />
+            <AddPokemon
+                pokemonTypes={pokemonTypes}
+                pokemonCardSets={pokemonCardSets}
+                save={save}
+                updateCardData={updateCardData}
+            />
 
             {Object.keys(selectedPokemon).length !== 0 && (
                 <EditPokemon
-                    setPokemonCardData={setPokemonCardData}
+                    pokemonCardSets={pokemonCardSets}
                     updateSelectedCard={updateSelectedCard}
                     setSelectedPokemon={setSelectedPokemon}
                     selectedPokemon={selectedPokemon}
+                    pokemonTypes={pokemonTypes}
+                    updateCardData={updateCardData}
                 />
             )}
 
