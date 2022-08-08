@@ -114,8 +114,6 @@ function App() {
         });
     }
 
-    console.log(collectedArray);
-
     return (
         <>
             <div>
