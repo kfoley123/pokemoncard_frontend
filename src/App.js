@@ -138,15 +138,19 @@ function App() {
                 setPokemonCardData={setPokemonCardData}
                 pokemonTypes={pokemonTypes}
                 pokemonCardSets={pokemonCardSets}
+                setPokemonCardSets={setPokemonCardSets}
                 save={save}
             />
 
             {Object.keys(selectedPokemon).length !== 0 && (
                 <EditPokemon
                     setPokemonCardData={setPokemonCardData}
+                    pokemonCardSets={pokemonCardSets}
                     updateSelectedCard={updateSelectedCard}
                     setSelectedPokemon={setSelectedPokemon}
+                    setPokemonCardSets={setPokemonCardSets}
                     selectedPokemon={selectedPokemon}
+                    pokemonTypes={pokemonTypes}
                 />
             )}
 
