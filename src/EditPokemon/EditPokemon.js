@@ -2,7 +2,6 @@ import React from "react";
 
 export default function EditPokemon(props) {
     const {
-        setPokemonCardData,
         pokemonTypes,
         pokemonCardSets,
         updateSelectedCard,

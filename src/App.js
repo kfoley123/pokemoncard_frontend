@@ -131,7 +131,6 @@ function App() {
             />
 
             <AddPokemon
-                setPokemonCardData={setPokemonCardData}
                 pokemonTypes={pokemonTypes}
                 pokemonCardSets={pokemonCardSets}
                 save={save}
@@ -140,7 +139,6 @@ function App() {
 
             {Object.keys(selectedPokemon).length !== 0 && (
                 <EditPokemon
-                    setPokemonCardData={setPokemonCardData}
                     pokemonCardSets={pokemonCardSets}
                     updateSelectedCard={updateSelectedCard}
                     setSelectedPokemon={setSelectedPokemon}

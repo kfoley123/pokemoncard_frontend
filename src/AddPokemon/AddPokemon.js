@@ -1,13 +1,7 @@
 import React from "react";
 
 export default function AddPokemon(props) {
-    const {
-        setPokemonCardData,
-        pokemonCardSets,
-        pokemonTypes,
-        save,
-        updateCardData,
-    } = props;
+    const { pokemonCardSets, pokemonTypes, save, updateCardData } = props;
 
     return (
         <form>
