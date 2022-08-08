@@ -1,46 +1,35 @@
 import React from "react";
 
 export default function AddPokemon(props) {
-    const { setPokemonCardData, pokemonCardSets, pokemonTypes, save } = props;
+    const {
+        setPokemonCardData,
+        pokemonCardSets,
+        pokemonTypes,
+        save,
+        updateCardData,
+    } = props;
+
     return (
         <form>
             <h2>Add a Pokemon Card</h2>
 
             <input
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            pokedexIndex: event.target.value,
-                        };
-                    })
-                }
+                name="pokedexIndex"
+                onChange={updateCardData}
                 type="text"
                 placeholder="Pokedex Index"
             ></input>
 
             <input
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            name: event.target.value,
-                        };
-                    })
-                }
+                name="name"
+                onChange={updateCardData}
                 type="text"
                 placeholder="Name"
             ></input>
 
             <select
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            type: event.target.value,
-                        };
-                    })
-                }
+                name="type"
+                onChange={updateCardData}
                 type="text"
                 placeholder="Type"
             >
@@ -49,27 +38,12 @@ export default function AddPokemon(props) {
                 })}
             </select>
             <input
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            HP: event.target.value,
-                        };
-                    })
-                }
+                name="HP"
+                onChange={updateCardData}
                 type="text"
                 placeholder="HP"
             ></input>
-            <select
-                onChange={(event) =>
-                    setPokemonCardData((prevData) => {
-                        return {
-                            ...prevData,
-                            pokemonCardSet: event.target.value,
-                        };
-                    })
-                }
-            >
+            <select name="pokemonCardSet" onChange={updateCardData}>
                 {pokemonCardSets.map((set) => {
                     return <option value={set.id}>{set.name}</option>;
                 })}

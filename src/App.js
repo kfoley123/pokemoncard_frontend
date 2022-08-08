@@ -99,6 +99,15 @@ function App() {
         } else filterPokemon();
     }, [typeFilter, filterPokemon]);
 
+    function updateCardData(event) {
+        setPokemonCardData((prevData) => {
+            return {
+                ...prevData,
+                [event.target.name]: event.target.value,
+            };
+        });
+    }
+
     return (
         <>
             <div>
@@ -126,6 +135,7 @@ function App() {
                 pokemonTypes={pokemonTypes}
                 pokemonCardSets={pokemonCardSets}
                 save={save}
+                updateCardData={updateCardData}
             />
 
             {Object.keys(selectedPokemon).length !== 0 && (
@@ -136,6 +146,7 @@ function App() {
                     setSelectedPokemon={setSelectedPokemon}
                     selectedPokemon={selectedPokemon}
                     pokemonTypes={pokemonTypes}
+                    updateCardData={updateCardData}
                 />
             )}
 

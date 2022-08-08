@@ -8,46 +8,27 @@ export default function EditPokemon(props) {
         updateSelectedCard,
         setSelectedPokemon,
         selectedPokemon,
+        updateCardData,
     } = props;
+
     return (
         <div>
             <form key={selectedPokemon.id}>
                 <h2>Edit Pokemon Card</h2>
                 <input
-                    onChange={(event) =>
-                        setPokemonCardData((prevData) => {
-                            return {
-                                ...prevData,
-                                pokedexIndex: event.target.value,
-                            };
-                        })
-                    }
+                    name="pokedexIndex"
+                    onChange={updateCardData}
                     type="text"
                     defaultValue={selectedPokemon.pokedexIndex}
                 ></input>
                 <input
-                    onChange={(event) =>
-                        setPokemonCardData((prevData) => {
-                            return {
-                                ...prevData,
-                                name: event.target.value,
-                            };
-                        })
-                    }
+                    name="name"
+                    onChange={updateCardData}
                     type="text"
                     defaultValue={selectedPokemon.name}
                 ></input>
 
-                <select
-                    onChange={(event) =>
-                        setPokemonCardData((prevData) => {
-                            return {
-                                ...prevData,
-                                type: event.target.value,
-                            };
-                        })
-                    }
-                >
+                <select name="type" onChange={updateCardData}>
                     {pokemonTypes.map((type) => {
                         return (
                             <option value={type.id}>{type.pokemonType}</option>
@@ -56,28 +37,13 @@ export default function EditPokemon(props) {
                 </select>
 
                 <input
-                    onChange={(event) =>
-                        setPokemonCardData((prevData) => {
-                            return {
-                                ...prevData,
-                                HP: event.target.value,
-                            };
-                        })
-                    }
+                    name="HP"
+                    onChange={updateCardData}
                     type="text"
                     defaultValue={selectedPokemon.HP}
                 ></input>
 
-                <select
-                    onChange={(event) =>
-                        setPokemonCardData((prevData) => {
-                            return {
-                                ...prevData,
-                                pokemonCardSet: event.target.value,
-                            };
-                        })
-                    }
-                >
+                <select name="pokemonCardSet" onChange={updateCardData}>
                     {pokemonCardSets.map((set) => {
                         return <option value={set.id}>{set.name}</option>;
                     })}
