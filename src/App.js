@@ -10,6 +10,7 @@ function App() {
     const [selectedPokemon, setSelectedPokemon] = useState({});
     const [typeFilter, setTypeFilter] = useState("");
     const [pokemonTypes, setPokemonTypes] = useState([]);
+    const [collectedArray, setCollectedArray] = useState([]);
 
     const [pokemonCardData, setPokemonCardData] = useState({});
 
@@ -51,7 +52,6 @@ function App() {
     // takes the event (click) amd runs prevent default, creates an object with the same shape as what API accepts and takes values from edit pokemon card form, uses put method (replaces) and refreshes pokemon cards
     function updateSelectedCard(event) {
         event.preventDefault();
-        console.log(pokemonCardData);
 
         fetch(`http://localhost:8000/api/pokemoncards/${selectedPokemon.id}/`, {
             method: "PUT",
@@ -108,6 +108,14 @@ function App() {
         });
     }
 
+    function addToCollection(card) {
+        setCollectedArray((prevValue) => {
+            return [...prevValue, card];
+        });
+    }
+
+    console.log(collectedArray);
+
     return (
         <>
             <div>
@@ -128,6 +136,7 @@ function App() {
                 pokemonCards={pokemonCards}
                 setPokemonCardData={setPokemonCardData}
                 deletePokemon={deletePokemon}
+                addToCollection={addToCollection}
             />
 
             <AddPokemon
