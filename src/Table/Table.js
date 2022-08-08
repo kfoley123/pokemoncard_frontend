@@ -25,7 +25,7 @@ export default function Table(props) {
                         <td>{card.name}</td>
                         <td>{card.type}</td>
                         <td>{card.HP}</td>
-                        <td>{card.pokemonCardSet.name}</td>
+                        <td>{card.pokemonCardSet}</td>
                         <td>
                             <button
                                 onClick={() => {

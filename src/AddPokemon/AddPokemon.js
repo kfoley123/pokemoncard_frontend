@@ -37,7 +37,7 @@ export default function AddPokemon(props) {
                     setPokemonCardData((prevData) => {
                         return {
                             ...prevData,
-                            pokemonType: event.target.value,
+                            type: event.target.value,
                         };
                     })
                 }
@@ -60,7 +60,16 @@ export default function AddPokemon(props) {
                 type="text"
                 placeholder="HP"
             ></input>
-            <select>
+            <select
+                onChange={(event) =>
+                    setPokemonCardData((prevData) => {
+                        return {
+                            ...prevData,
+                            pokemonCardSet: event.target.value,
+                        };
+                    })
+                }
+            >
                 {pokemonCardSets.map((set) => {
                     return <option value={set.id}>{set.name}</option>;
                 })}
