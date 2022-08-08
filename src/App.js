@@ -65,6 +65,7 @@ function App() {
     // takes the event (click) amd runs prevent default, creates an object with the same shape as what API accepts and takes values from edit pokemon card form, uses put method (replaces) and refreshes pokemon cards
     function updateSelectedCard(event) {
         event.preventDefault();
+        console.log(pokemonCardData);
 
         fetch(`http://localhost:8000/api/pokemoncards/${selectedPokemon.id}/`, {
             method: "PUT",
