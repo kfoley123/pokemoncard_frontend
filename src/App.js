@@ -11,12 +11,7 @@ function App() {
     const [typeFilter, setTypeFilter] = useState("");
     const [pokemonTypes, setPokemonTypes] = useState([]);
 
-    const [pokemonCardData, setPokemonCardData] = useState({
-        name: "",
-        pokemonType: " ",
-        HP: "",
-        pokedexIndex: "",
-    });
+    const [pokemonCardData, setPokemonCardData] = useState({});
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -33,15 +28,6 @@ function App() {
                 setPokemonTypes(response);
             });
     }
-
-    // function findTypeNameFromID(ID) {
-    //     pokemonTypes.forEach((type) => {
-    //         if (ID === type.id) {
-    //             console.log("dog");
-    //             return type.pokemonType;
-    //         }
-    //     });
-    // }
 
     //runs a fetch that gets all the pokemoncards and sets them into variable. Its a function so we can call it later when needed
     function refreshPokemonCards() {
@@ -139,7 +125,6 @@ function App() {
                 setPokemonCardData={setPokemonCardData}
                 pokemonTypes={pokemonTypes}
                 pokemonCardSets={pokemonCardSets}
-                setPokemonCardSets={setPokemonCardSets}
                 save={save}
             />
 
@@ -149,7 +134,6 @@ function App() {
                     pokemonCardSets={pokemonCardSets}
                     updateSelectedCard={updateSelectedCard}
                     setSelectedPokemon={setSelectedPokemon}
-                    setPokemonCardSets={setPokemonCardSets}
                     selectedPokemon={selectedPokemon}
                     pokemonTypes={pokemonTypes}
                 />
