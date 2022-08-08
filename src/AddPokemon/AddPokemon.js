@@ -28,7 +28,11 @@ export default function AddPokemon(props) {
                 placeholder="Type"
             >
                 {pokemonTypes.map((type) => {
-                    return <option value={type.id}>{type.pokemonType}</option>;
+                    return (
+                        <option key={type.id} value={type.id}>
+                            {type.pokemonType}
+                        </option>
+                    );
                 })}
             </select>
             <input
@@ -39,7 +43,11 @@ export default function AddPokemon(props) {
             ></input>
             <select name="pokemonCardSet" onChange={updateCardData}>
                 {pokemonCardSets.map((set) => {
-                    return <option value={set.id}>{set.name}</option>;
+                    return (
+                        <option key={set.id} value={set.id}>
+                            {set.name}
+                        </option>
+                    );
                 })}
             </select>
             <button onClick={save}>Submit</button>
