@@ -20,6 +20,7 @@ function App() {
         refreshPokemonTypes();
         refreshPokemonCards();
         refreshPokemonCardSets();
+        refreshPokemonCollections();
     }, []);
 
     //runs a fetch that gets all the pokemon types and sets them into variable. Its a function so we can call it later when needed
@@ -30,6 +31,16 @@ function App() {
                 setPokemonTypes(response);
             });
     }
+
+    function refreshPokemonCollections() {
+        fetch("http://localhost:8000/api/pokemoncollections/")
+            .then((response) => response.json())
+            .then((response) => {
+                setCollectedArray(response);
+            });
+    }
+
+    console.log(collectedArray);
 
     //runs a fetch that gets all the pokemoncards and sets them into variable. Its a function so we can call it later when needed
     function refreshPokemonCards() {
@@ -78,11 +89,13 @@ function App() {
         }).then(() => refreshPokemonCards());
     }
 
+    // fetch to delete selected card
     function deletePokemon(cardID) {
         fetch(`http://localhost:8000/api/pokemoncards/${cardID}`, {
             method: "DELETE",
         }).then(() => refreshPokemonCards());
     }
+    //fetch to filter pokemon by type, having typeFilter in dependency array updates every time a new filter is added
 
     const filterPokemon = useCallback(() => {
         fetch(
@@ -94,12 +107,14 @@ function App() {
             });
     }, [typeFilter]);
 
+    //
     useEffect(() => {
         if (typeFilter === "") {
             refreshPokemonCards();
         } else filterPokemon();
     }, [typeFilter, filterPokemon]);
 
+    // function that allows you to update any key:value pair depending on which one you select- each select/input in edit pokemon has a name and value is what is entered/selected
     function updateCardData(event) {
         setPokemonCardData((prevData) => {
             return {
@@ -108,6 +123,8 @@ function App() {
             };
         });
     }
+
+    // sets collectedArray to reflect new cards that are added
 
     function addToCollection(card) {
         setCollectedArray((prevValue) => {
@@ -162,7 +179,6 @@ function App() {
             />
 
             <Collections
-                pokemonCards={pokemonCards}
                 collectedArray={collectedArray}
                 setCollectedArray={setCollectedArray}
             />
