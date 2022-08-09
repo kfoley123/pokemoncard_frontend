@@ -89,6 +89,23 @@ function App() {
         }).then(() => refreshPokemonCards());
     }
 
+    function addToCollection(card) {
+        let collectionObj = {
+            user: "User1",
+            quantity: "1",
+            collectedCard: card.id,
+        };
+
+        fetch("http://localhost:8000/api/pokemoncollections/", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(collectionObj),
+        }).then(() => refreshPokemonCollections());
+    }
+
     // fetch to delete selected card
     function deletePokemon(cardID) {
         fetch(`http://localhost:8000/api/pokemoncards/${cardID}`, {
@@ -126,11 +143,11 @@ function App() {
 
     // sets collectedArray to reflect new cards that are added
 
-    function addToCollection(card) {
-        setCollectedArray((prevValue) => {
-            return [...prevValue, card];
-        });
-    }
+    // function addToCollection(card) {
+    //     setCollectedArray((prevValue) => {
+    //         return [...prevValue, card];
+    //     });
+    // }
 
     return (
         <>
