@@ -164,6 +164,7 @@ function App() {
             <Collections
                 pokemonCards={pokemonCards}
                 collectedArray={collectedArray}
+                setCollectedArray={setCollectedArray}
             />
         </>
     );

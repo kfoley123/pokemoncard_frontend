@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Collections(props) {
-    const { pokemonCards, collectedArray } = props;
+    const { pokemonCards, collectedArray, setCollectedArray } = props;
 
     function duplicateCount(collectedCard) {
         let cardCount = 0;
@@ -13,6 +13,10 @@ export default function Collections(props) {
         return cardCount;
     }
 
+    function removeFromCollection(collectedCard) {
+        let newArray = collectedArray.filter((card) => card !== collectedCard);
+        setCollectedArray(newArray);
+    }
     return (
         <table>
             <thead>
@@ -29,7 +33,9 @@ export default function Collections(props) {
                         <td>{card.pokemonCardSet.name}</td>
                         <td> {duplicateCount(card)} </td>
                         <td>
-                            <button>Remove fr Collection</button>
+                            <button onClick={() => removeFromCollection(card)}>
+                                Remove fr Collection
+                            </button>
                         </td>
                         <td></td>
                     </tr>
