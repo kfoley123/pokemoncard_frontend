@@ -1,12 +1,12 @@
 import React from "react";
 
 export default function Collections(props) {
-    const { collectedArray, setCollectedArray } = props;
+    const { collectedArray, removeFromCollection } = props;
 
-    function removeFromCollection(collectedCard) {
-        let newArray = collectedArray.filter((card) => card !== collectedCard);
-        setCollectedArray(newArray);
-    }
+    // function removeFromCollection(collectedCard) {
+    //     let newArray = collectedArray.filter((card) => card !== collectedCard);
+    //     setCollectedArray(newArray);
+    // }
     return (
         <>
             <h1> Collections</h1>

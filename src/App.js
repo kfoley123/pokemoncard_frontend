@@ -106,6 +106,26 @@ function App() {
         }).then(() => refreshPokemonCollections());
     }
 
+    function removeFromCollection(card) {
+        let numbOfCards = card.quantity;
+        let collectionObj = {
+            user: "User1",
+            quantity: numbOfCards - 1,
+            collectedCard: card.collectedCard.id,
+        };
+
+        fetch(`http://localhost:8000/api/pokemoncollections/${card.id}/`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(collectionObj),
+        }).then(() => refreshPokemonCollections());
+        //build an object thats the shape of what we're updating
+        //PUT id of collection
+    }
+
     // fetch to delete selected card
     function deletePokemon(cardID) {
         fetch(`http://localhost:8000/api/pokemoncards/${cardID}`, {
@@ -198,6 +218,7 @@ function App() {
             <Collections
                 collectedArray={collectedArray}
                 setCollectedArray={setCollectedArray}
+                removeFromCollection={removeFromCollection}
             />
         </>
     );
