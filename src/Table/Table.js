@@ -22,7 +22,7 @@ export default function Table(props) {
             <tbody>
                 {pokemonCards.map((card, i) => (
                     <tr key={i}>
-                        <th>{card.pokedexIndex}</th>
+                        <td>{card.pokedexIndex}</td>
                         <td>{card.name}</td>
                         <td>{card.type.pokemonType}</td>
                         <td>{card.HP}</td>

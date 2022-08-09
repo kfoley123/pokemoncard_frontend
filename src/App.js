@@ -3,6 +3,7 @@ import EditPokemon from "./EditPokemon/EditPokemon";
 import AddPokemon from "./AddPokemon/AddPokemon";
 import FilterByType from "./FilterByType/FilterByType";
 import Table from "./Table/Table";
+import Collections from "./Collections";
 
 function App() {
     const [pokemonCards, setPokemonCards] = useState([]);
@@ -158,6 +159,11 @@ function App() {
             <FilterByType
                 setTypeFilter={setTypeFilter}
                 filterPokemon={filterPokemon}
+            />
+
+            <Collections
+                pokemonCards={pokemonCards}
+                collectedArray={collectedArray}
             />
         </>
     );
