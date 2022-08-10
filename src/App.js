@@ -40,8 +40,6 @@ function App() {
             });
     }
 
-    console.log(collectedArray);
-
     //runs a fetch that gets all the pokemoncards and sets them into variable. Its a function so we can call it later when needed
     function refreshPokemonCards() {
         fetch("http://localhost:8000/api/pokemoncards")
@@ -155,9 +153,6 @@ function App() {
                 body: JSON.stringify(collectionObj),
             }).then(() => refreshPokemonCollections());
         }
-
-        //build an object thats the shape of what we're updating
-        //PUT id of collection
     }
 
     // fetch to delete selected card
@@ -243,7 +238,6 @@ function App() {
 
             <Collections
                 collectedArray={collectedArray}
-                setCollectedArray={setCollectedArray}
                 removeFromCollection={removeFromCollection}
             />
         </>
