@@ -90,38 +90,72 @@ function App() {
     }
 
     function addToCollection(card) {
-        let collectionObj = {
-            user: "User1",
-            quantity: "1",
-            collectedCard: card.id,
-        };
+        let cardMatch = false;
+        collectedArray.forEach((item) => {
+            if (item.collectedCard.id === card.id) {
+                let collectionObj = {
+                    user: item.user,
+                    quantity: item.quantity + 1,
+                    collectedCard: card.id,
+                };
+                fetch(
+                    `http://localhost:8000/api/pokemoncollections/${item.id}/`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(collectionObj),
+                    }
+                ).then(() => refreshPokemonCollections());
+                cardMatch = true;
+                return;
+            }
+        });
 
-        fetch("http://localhost:8000/api/pokemoncollections/", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(collectionObj),
-        }).then(() => refreshPokemonCollections());
+        if (!cardMatch) {
+            let collectionObj = {
+                user: "User1",
+                quantity: "1",
+                collectedCard: card.id,
+            };
+
+            fetch("http://localhost:8000/api/pokemoncollections/", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(collectionObj),
+            }).then(() => refreshPokemonCollections());
+        }
     }
 
     function removeFromCollection(card) {
         let numbOfCards = card.quantity;
-        let collectionObj = {
-            user: "User1",
-            quantity: numbOfCards - 1,
-            collectedCard: card.collectedCard.id,
-        };
 
-        fetch(`http://localhost:8000/api/pokemoncollections/${card.id}/`, {
-            method: "PUT",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(collectionObj),
-        }).then(() => refreshPokemonCollections());
+        if (numbOfCards - 1 <= 0) {
+            fetch(`http://localhost:8000/api/pokemoncollections/${card.id}`, {
+                method: "DELETE",
+            }).then(() => refreshPokemonCollections());
+        } else {
+            let collectionObj = {
+                user: "User1",
+                quantity: numbOfCards - 1,
+                collectedCard: card.collectedCard.id,
+            };
+
+            fetch(`http://localhost:8000/api/pokemoncollections/${card.id}/`, {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(collectionObj),
+            }).then(() => refreshPokemonCollections());
+        }
+
         //build an object thats the shape of what we're updating
         //PUT id of collection
     }
@@ -160,14 +194,6 @@ function App() {
             };
         });
     }
-
-    // sets collectedArray to reflect new cards that are added
-
-    // function addToCollection(card) {
-    //     setCollectedArray((prevValue) => {
-    //         return [...prevValue, card];
-    //     });
-    // }
 
     return (
         <>
