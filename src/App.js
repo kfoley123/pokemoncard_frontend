@@ -212,7 +212,7 @@ function App() {
 
             <FilterByType
                 setTypeFilter={setTypeFilter}
-                filterPokemon={filterPokemon}
+                pokemonTypes={pokemonTypes}
             />
 
             <Collections
