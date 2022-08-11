@@ -1,4 +1,5 @@
 import React from "react";
+import "./Table.css";
 
 export default function Table(props) {
     const {
@@ -14,6 +15,7 @@ export default function Table(props) {
             <table>
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Pokedex Index</th>
                         <th>Name</th>
                         <th>Type</th>
@@ -24,6 +26,9 @@ export default function Table(props) {
                 <tbody>
                     {pokemonCards.map((card, i) => (
                         <tr key={i}>
+                            <td>
+                                <img className="image" src={card.image} />
+                            </td>
                             <td>{card.pokedexIndex}</td>
                             <td>{card.name}</td>
                             <td>{card.type.pokemonType}</td>
