@@ -1,7 +1,8 @@
 import React from "react";
 
 export default function AddPokemon(props) {
-    const { pokemonCardSets, pokemonTypes, save, updateCardData } = props;
+    const { pokemonCardSets, pokemonTypes, saveNewPokemon, updateCardData } =
+        props;
 
     return (
         <form>
@@ -50,7 +51,14 @@ export default function AddPokemon(props) {
                     );
                 })}
             </select>
-            <button onClick={save}>Submit</button>
+            <button
+                onClick={(event) => {
+                    event.preventDefault();
+                    saveNewPokemon();
+                }}
+            >
+                Submit
+            </button>
         </form>
     );
 }

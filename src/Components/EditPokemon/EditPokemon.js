@@ -63,7 +63,14 @@ export default function EditPokemon(props) {
                 </select>
             </form>
 
-            <button onClick={updateSelectedCard}>Submit</button>
+            <button
+                onClick={(event) => {
+                    event.preventDefault();
+                    updateSelectedCard();
+                }}
+            >
+                Submit
+            </button>
             <button onClick={() => setSelectedPokemon({})}>Close</button>
         </div>
     );
