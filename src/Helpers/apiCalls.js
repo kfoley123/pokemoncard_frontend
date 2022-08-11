@@ -62,8 +62,14 @@ export function deleteSelectedCard(cardID, refreshPokemonCards) {
     API.delete(`pokemoncards/${cardID}`).then(() => refreshPokemonCards());
 }
 
-export function getFilteredPokemon(typeFilter, setPokemonCards) {
+export function getFilteredType(typeFilter, setPokemonCards) {
     API.get(`pokemoncards?pokemontype=${typeFilter}`).then((response) =>
+        setPokemonCards(response.data)
+    );
+}
+
+export function getFilteredSet(setFilter, setPokemonCards) {
+    API.get(`pokemoncards?pokemonset=${setFilter}`).then((response) =>
         setPokemonCards(response.data)
     );
 }

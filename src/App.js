@@ -5,6 +5,7 @@ import FilterByType from "./Components/FilterByType/FilterByType";
 import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import * as apiCalls from "./Helpers/apiCalls";
+import FilterBySet from "./Components/FilterBySet/FilterBySet";
 
 function App() {
     //state variables
@@ -17,6 +18,7 @@ function App() {
     const [pokemonCardData, setPokemonCardData] = useState({});
 
     const [typeFilter, setTypeFilter] = useState("");
+    const [setFilter, setSetFilter] = useState("");
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -29,8 +31,14 @@ function App() {
     useEffect(() => {
         if (typeFilter === "") {
             refreshPokemonCards();
-        } else apiCalls.getFilteredPokemon(typeFilter, setPokemonCards);
+        } else apiCalls.getFilteredType(typeFilter, setPokemonCards);
     }, [typeFilter]);
+
+    useEffect(() => {
+        if (setFilter === "") {
+            refreshPokemonCards();
+        } else apiCalls.getFilteredSet(setFilter, setPokemonCards);
+    }, [setFilter]);
 
     //runs an API call to GET all pokemon types and sets PokemonTypes variable to the response
     function refreshPokemonTypes() {
@@ -171,6 +179,12 @@ function App() {
             <FilterByType
                 setTypeFilter={setTypeFilter}
                 pokemonTypes={pokemonTypes}
+            />
+
+            <FilterBySet
+                setFilter={setFilter}
+                setSetFilter={setSetFilter}
+                pokemonCardSets={pokemonCardSets}
             />
 
             <Collections
