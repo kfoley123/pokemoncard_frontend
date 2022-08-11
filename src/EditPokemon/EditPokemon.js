@@ -15,22 +15,22 @@ export default function EditPokemon(props) {
             <form key={selectedPokemon.id}>
                 <h2>Edit Pokemon Card</h2>
                 <input
+                    defaultValue={selectedPokemon.pokedexIndex}
                     name="pokedexIndex"
                     onChange={updateCardData}
                     type="text"
-                    defaultValue={selectedPokemon.pokedexIndex}
                 ></input>
                 <input
+                    defaultValue={selectedPokemon.name}
                     name="name"
                     onChange={updateCardData}
                     type="text"
-                    defaultValue={selectedPokemon.name}
                 ></input>
 
                 <select
-                    value={selectedPokemon.type.id}
                     name="type"
                     onChange={updateCardData}
+                    value={selectedPokemon.type.id}
                 >
                     {pokemonTypes.map((type) => {
                         return (
@@ -42,16 +42,16 @@ export default function EditPokemon(props) {
                 </select>
 
                 <input
+                    defaultValue={selectedPokemon.HP}
                     name="HP"
                     onChange={updateCardData}
                     type="text"
-                    defaultValue={selectedPokemon.HP}
                 ></input>
 
                 <select
-                    value={selectedPokemon.pokemonCardSet.id}
                     name="pokemonCardSet"
                     onChange={updateCardData}
+                    value={selectedPokemon.pokemonCardSet.id}
                 >
                     {pokemonCardSets.map((set) => {
                         return (
