@@ -1,33 +1,27 @@
+import axios from "axios";
+
 export function getAllPokemonCards(setPokemonCards) {
-    fetch("http://localhost:8000/api/pokemoncards")
-        .then((response) => response.json())
-        .then((response) => {
-            setPokemonCards(response);
-        });
+    axios
+        .get("http://localhost:8000/api/pokemoncards")
+        .then((response) => setPokemonCards(response.data));
 }
 
 export function getAllPokemonCollections(setCollectedArray) {
-    fetch("http://localhost:8000/api/pokemoncollections/")
-        .then((response) => response.json())
-        .then((response) => {
-            setCollectedArray(response);
-        });
+    axios
+        .get("http://localhost:8000/api/pokemoncollections/")
+        .then((response) => setCollectedArray(response.data));
 }
 
 export function getAllPokemonTypes(setPokemonTypes) {
-    fetch("http://localhost:8000/api/pokemontypes/")
-        .then((response) => response.json())
-        .then((response) => {
-            setPokemonTypes(response);
-        });
+    axios
+        .get("http://localhost:8000/api/pokemontypes/")
+        .then((response) => setPokemonTypes(response.data));
 }
 
 export function getAllPokemonSets(setPokemonCardSets) {
-    fetch("http://localhost:8000/api/pokemoncardsets")
-        .then((response) => response.json())
-        .then((response) => {
-            setPokemonCardSets(response);
-        });
+    axios
+        .get("http://localhost:8000/api/pokemoncardsets")
+        .then((response) => setPokemonCardSets(response.data));
 }
 
 export function putSelectedCard(
@@ -35,25 +29,18 @@ export function putSelectedCard(
     selectedPokemon,
     refreshPokemonCards
 ) {
-    fetch(`http://localhost:8000/api/pokemoncards/${selectedPokemon.id}/`, {
-        method: "PUT",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pokemonCardData),
-    }).then(() => refreshPokemonCards());
+    axios
+        .put(
+            `http://localhost:8000/api/pokemoncards/${selectedPokemon.id}/`,
+            pokemonCardData
+        )
+        .then(() => refreshPokemonCards());
 }
 
 export function createNewPokemonCard(pokemonCardData, refreshPokemonCards) {
-    fetch("http://localhost:8000/api/pokemoncards/", {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pokemonCardData),
-    }).then(() => refreshPokemonCards());
+    axios
+        .post("http://localhost:8000/api/pokemoncards/", pokemonCardData)
+        .then(() => refreshPokemonCards());
 }
 
 export function updateSelectedCollection(
@@ -61,43 +48,34 @@ export function updateSelectedCollection(
     collectionObj,
     refreshPokemonCollections
 ) {
-    fetch(`http://localhost:8000/api/pokemoncollections/${item.id}/`, {
-        method: "PUT",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(collectionObj),
-    }).then(() => refreshPokemonCollections());
+    axios
+        .put(
+            `http://localhost:8000/api/pokemoncollections/${item.id}/`,
+            collectionObj
+        )
+        .then(() => refreshPokemonCollections());
 }
 
 export function createNewCollection(collectionObj, refreshPokemonCollections) {
-    fetch("http://localhost:8000/api/pokemoncollections/", {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(collectionObj),
-    }).then(() => refreshPokemonCollections());
+    axios
+        .post("http://localhost:8000/api/pokemoncollections/", collectionObj)
+        .then(() => refreshPokemonCollections());
 }
 
 export function deleteSelectedCollection(card, refreshPokemonCollections) {
-    fetch(`http://localhost:8000/api/pokemoncollections/${card.id}`, {
-        method: "DELETE",
-    }).then(() => refreshPokemonCollections());
+    axios
+        .delete(`http://localhost:8000/api/pokemoncollections/${card.id}`)
+        .then(() => refreshPokemonCollections());
 }
 
 export function deleteSelectedCard(cardID, refreshPokemonCards) {
-    fetch(`http://localhost:8000/api/pokemoncards/${cardID}`, {
-        method: "DELETE",
-    }).then(() => refreshPokemonCards());
+    axios
+        .delete(`http://localhost:8000/api/pokemoncards/${cardID}`)
+        .then(() => refreshPokemonCards());
 }
 
 export function getFilteredPokemon(typeFilter, setPokemonCards) {
-    fetch(`http://localhost:8000/api/pokemoncards?pokemontype=${typeFilter}`)
-        .then((response) => response.json())
-        .then((response) => {
-            setPokemonCards(response);
-        });
+    axios
+        .get(`http://localhost:8000/api/pokemoncards?pokemontype=${typeFilter}`)
+        .then((response) => setPokemonCards(response.data));
 }
