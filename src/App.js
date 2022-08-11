@@ -4,6 +4,7 @@ import AddPokemon from "./AddPokemon/AddPokemon";
 import FilterByType from "./FilterByType/FilterByType";
 import Table from "./Table/Table";
 import Collections from "./Collections";
+import * as apiCalls from "./apiCalls";
 
 function App() {
     const [pokemonCards, setPokemonCards] = useState([]);
@@ -12,7 +13,6 @@ function App() {
     const [typeFilter, setTypeFilter] = useState("");
     const [pokemonTypes, setPokemonTypes] = useState([]);
     const [collectedArray, setCollectedArray] = useState([]);
-
     const [pokemonCardData, setPokemonCardData] = useState({});
 
     //because there is nothing in dependency array, runs one time when you load the page
@@ -25,123 +25,103 @@ function App() {
 
     //runs a fetch that gets all the pokemon types and sets them into variable. Its a function so we can call it later when needed
     function refreshPokemonTypes() {
-        fetch("http://localhost:8000/api/pokemontypes/")
-            .then((response) => response.json())
-            .then((response) => {
-                setPokemonTypes(response);
-            });
+        apiCalls.getAllPokemonTypes(setPokemonTypes);
     }
 
     function refreshPokemonCollections() {
-        fetch("http://localhost:8000/api/pokemoncollections/")
-            .then((response) => response.json())
-            .then((response) => {
-                setCollectedArray(response);
-            });
+        apiCalls.getAllPokemonCollections(setCollectedArray);
     }
-
-    console.log(collectedArray);
 
     //runs a fetch that gets all the pokemoncards and sets them into variable. Its a function so we can call it later when needed
     function refreshPokemonCards() {
-        fetch("http://localhost:8000/api/pokemoncards")
-            .then((response) => response.json())
-            .then((response) => {
-                setPokemonCards(response);
-            });
+        apiCalls.getAllPokemonCards(setPokemonCards);
     }
 
     // fetch to get pokemonCard sets & save in variable
 
     function refreshPokemonCardSets() {
-        fetch("http://localhost:8000/api/pokemoncardsets")
-            .then((response) => response.json())
-            .then((response) => {
-                setPokemonCardSets(response);
-            });
+        apiCalls.getAllPokemonSets(setPokemonCardSets);
     }
 
     // takes the event (click) amd runs prevent default, creates an object with the same shape as what API accepts and takes values from edit pokemon card form, uses put method (replaces) and refreshes pokemon cards
     function updateSelectedCard(event) {
         event.preventDefault();
 
-        fetch(`http://localhost:8000/api/pokemoncards/${selectedPokemon.id}/`, {
-            method: "PUT",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(pokemonCardData),
-        }).then(() => refreshPokemonCards());
+        apiCalls.putSelectedCard(
+            pokemonCardData,
+            selectedPokemon,
+            refreshPokemonCards
+        );
     }
 
     // creates an object that is the same shape as what the API can accept and then passes it into the API POST body. Runs refreshPokemonCards to give us back new data that was updated
     function save(event) {
         event.preventDefault();
 
-        fetch("http://localhost:8000/api/pokemoncards/", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(pokemonCardData),
-        }).then(() => refreshPokemonCards());
+        apiCalls.createNewPokemonCard(pokemonCardData, refreshPokemonCards);
     }
 
     function addToCollection(card) {
-        let collectionObj = {
-            user: "User1",
-            quantity: "1",
-            collectedCard: card.id,
-        };
+        let cardMatch = false;
+        collectedArray.forEach((item) => {
+            if (item.collectedCard.id === card.id) {
+                let collectionObj = {
+                    user: item.user,
+                    quantity: item.quantity + 1,
+                    collectedCard: card.id,
+                };
+                apiCalls.updateSelectedCollection(
+                    item,
+                    collectionObj,
+                    refreshPokemonCollections
+                );
+                cardMatch = true;
+                return;
+            }
+        });
 
-        fetch("http://localhost:8000/api/pokemoncollections/", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(collectionObj),
-        }).then(() => refreshPokemonCollections());
+        if (!cardMatch) {
+            let collectionObj = {
+                user: "User1",
+                quantity: "1",
+                collectedCard: card.id,
+            };
+
+            apiCalls.createNewCollection(
+                collectionObj,
+                refreshPokemonCollections
+            );
+        }
     }
 
     function removeFromCollection(card) {
         let numbOfCards = card.quantity;
-        let collectionObj = {
-            user: "User1",
-            quantity: numbOfCards - 1,
-            collectedCard: card.collectedCard.id,
-        };
 
-        fetch(`http://localhost:8000/api/pokemoncollections/${card.id}/`, {
-            method: "PUT",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(collectionObj),
-        }).then(() => refreshPokemonCollections());
-        //build an object thats the shape of what we're updating
-        //PUT id of collection
+        if (numbOfCards - 1 <= 0) {
+            apiCalls.deleteSelectedCollection(card, refreshPokemonCollections);
+        } else {
+            let collectionObj = {
+                user: "User1",
+                quantity: numbOfCards - 1,
+                collectedCard: card.collectedCard.id,
+            };
+
+            apiCalls.updateSelectedCollection(
+                card,
+                collectionObj,
+                refreshPokemonCollections
+            );
+        }
     }
 
     // fetch to delete selected card
     function deletePokemon(cardID) {
-        fetch(`http://localhost:8000/api/pokemoncards/${cardID}`, {
-            method: "DELETE",
-        }).then(() => refreshPokemonCards());
+        apiCalls.deleteSelectedCard(cardID, refreshPokemonCards);
     }
     //fetch to filter pokemon by type, having typeFilter in dependency array updates every time a new filter is added
 
     const filterPokemon = useCallback(() => {
-        fetch(
-            `http://localhost:8000/api/pokemoncards?pokemontype=${typeFilter}`
-        )
-            .then((response) => response.json())
-            .then((response) => {
-                setPokemonCards(response);
-            });
+        apiCalls.getFilteredPokemon(typeFilter, setPokemonCards);
     }, [typeFilter]);
 
     //
@@ -160,14 +140,6 @@ function App() {
             };
         });
     }
-
-    // sets collectedArray to reflect new cards that are added
-
-    // function addToCollection(card) {
-    //     setCollectedArray((prevValue) => {
-    //         return [...prevValue, card];
-    //     });
-    // }
 
     return (
         <>
@@ -217,7 +189,6 @@ function App() {
 
             <Collections
                 collectedArray={collectedArray}
-                setCollectedArray={setCollectedArray}
                 removeFromCollection={removeFromCollection}
             />
         </>
