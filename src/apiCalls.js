@@ -56,7 +56,7 @@ export function createNewPokemonCard(pokemonCardData, refreshPokemonCards) {
     }).then(() => refreshPokemonCards());
 }
 
-export function putToCollection(
+export function updateSelectedCollection(
     item,
     collectionObj,
     refreshPokemonCollections
@@ -71,7 +71,7 @@ export function putToCollection(
     }).then(() => refreshPokemonCollections());
 }
 
-export function postToCollection(collectionObj, refreshPokemonCollections) {
+export function createNewCollection(collectionObj, refreshPokemonCollections) {
     fetch("http://localhost:8000/api/pokemoncollections/", {
         method: "POST",
         headers: {
@@ -82,24 +82,9 @@ export function postToCollection(collectionObj, refreshPokemonCollections) {
     }).then(() => refreshPokemonCollections());
 }
 
-export function deleteFromCollection(card, refreshPokemonCollections) {
+export function deleteSelectedCollection(card, refreshPokemonCollections) {
     fetch(`http://localhost:8000/api/pokemoncollections/${card.id}`, {
         method: "DELETE",
-    }).then(() => refreshPokemonCollections());
-}
-
-export function removeFromCollection(
-    card,
-    collectionObj,
-    refreshPokemonCollections
-) {
-    fetch(`http://localhost:8000/api/pokemoncollections/${card.id}/`, {
-        method: "PUT",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(collectionObj),
     }).then(() => refreshPokemonCollections());
 }
 

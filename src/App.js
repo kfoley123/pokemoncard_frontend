@@ -70,7 +70,7 @@ function App() {
                     quantity: item.quantity + 1,
                     collectedCard: card.id,
                 };
-                apiCalls.putToCollection(
+                apiCalls.updateSelectedCollection(
                     item,
                     collectionObj,
                     refreshPokemonCollections
@@ -87,7 +87,10 @@ function App() {
                 collectedCard: card.id,
             };
 
-            apiCalls.postToCollection(collectionObj, refreshPokemonCollections);
+            apiCalls.createNewCollection(
+                collectionObj,
+                refreshPokemonCollections
+            );
         }
     }
 
@@ -95,7 +98,7 @@ function App() {
         let numbOfCards = card.quantity;
 
         if (numbOfCards - 1 <= 0) {
-            apiCalls.deleteFromCollection(card, refreshPokemonCollections);
+            apiCalls.deleteSelectedCollection(card, refreshPokemonCollections);
         } else {
             let collectionObj = {
                 user: "User1",
@@ -103,7 +106,7 @@ function App() {
                 collectedCard: card.collectedCard.id,
             };
 
-            apiCalls.removeFromCollection(
+            apiCalls.updateSelectedCollection(
                 card,
                 collectionObj,
                 refreshPokemonCollections
