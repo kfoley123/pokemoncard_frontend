@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
-import EditPokemon from "./EditPokemon/EditPokemon";
-import AddPokemon from "./AddPokemon/AddPokemon";
-import FilterByType from "./FilterByType/FilterByType";
-import Table from "./Table/Table";
-import Collections from "./Collections";
-import * as apiCalls from "./apiCalls";
+import { useState, useEffect } from "react";
+import EditPokemon from "./Components/EditPokemon/EditPokemon";
+import AddPokemon from "./Components/AddPokemon/AddPokemon";
+import FilterByType from "./Components/FilterByType/FilterByType";
+import Table from "./Components/Table/Table";
+import Collections from "./Components/Collections/Collections";
+import * as apiCalls from "./Helpers/apiCalls";
 
 function App() {
     //state variables
