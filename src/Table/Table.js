@@ -6,6 +6,7 @@ export default function Table(props) {
         setSelectedPokemon,
         setPokemonCardData,
         deletePokemon,
+        addToCollection,
     } = props;
     return (
         <table>
@@ -21,8 +22,7 @@ export default function Table(props) {
             <tbody>
                 {pokemonCards.map((card, i) => (
                     <tr key={i}>
-                        {console.log(card)}
-                        <th>{card.pokedexIndex}</th>
+                        <td>{card.pokedexIndex}</td>
                         <td>{card.name}</td>
                         <td>{card.type.pokemonType}</td>
                         <td>{card.HP}</td>
@@ -42,12 +42,19 @@ export default function Table(props) {
                                     });
                                 }}
                             >
-                                edit
+                                Edit
                             </button>
                         </td>
                         <td>
                             <button onClick={() => deletePokemon(card.id)}>
-                                delete
+                                Delete
+                            </button>
+                            <button
+                                onClick={() => {
+                                    addToCollection(card);
+                                }}
+                            >
+                                Add To Collection
                             </button>
                         </td>
                     </tr>

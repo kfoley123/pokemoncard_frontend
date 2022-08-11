@@ -30,7 +30,9 @@ export default function EditPokemon(props) {
                 <select name="type" onChange={updateCardData}>
                     {pokemonTypes.map((type) => {
                         return (
-                            <option value={type.id}>{type.pokemonType}</option>
+                            <option key={type.id} value={type.id}>
+                                {type.pokemonType}
+                            </option>
                         );
                     })}
                 </select>
@@ -44,7 +46,11 @@ export default function EditPokemon(props) {
 
                 <select name="pokemonCardSet" onChange={updateCardData}>
                     {pokemonCardSets.map((set) => {
-                        return <option value={set.id}>{set.name}</option>;
+                        return (
+                            <option key={set.id} value={set.id}>
+                                {set.name}
+                            </option>
+                        );
                     })}
                 </select>
             </form>
