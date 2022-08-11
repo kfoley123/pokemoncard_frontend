@@ -7,13 +7,16 @@ import Collections from "./Collections";
 import * as apiCalls from "./apiCalls";
 
 function App() {
+    //state variables
     const [pokemonCards, setPokemonCards] = useState([]);
     const [pokemonCardSets, setPokemonCardSets] = useState([]);
-    const [selectedPokemon, setSelectedPokemon] = useState({});
-    const [typeFilter, setTypeFilter] = useState("");
     const [pokemonTypes, setPokemonTypes] = useState([]);
     const [collectedArray, setCollectedArray] = useState([]);
+
+    const [selectedPokemon, setSelectedPokemon] = useState({});
     const [pokemonCardData, setPokemonCardData] = useState({});
+
+    const [typeFilter, setTypeFilter] = useState("");
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -23,30 +26,35 @@ function App() {
         refreshPokemonCollections();
     }, []);
 
-    //runs a fetch that gets all the pokemon types and sets them into variable. Its a function so we can call it later when needed
+    useEffect(() => {
+        if (typeFilter === "") {
+            refreshPokemonCards();
+        } else apiCalls.getFilteredPokemon(typeFilter, setPokemonCards);
+    }, [typeFilter]);
+
+    //runs an API call to GET all pokemon types and sets PokemonTypes variable to the response
     function refreshPokemonTypes() {
         apiCalls.getAllPokemonTypes(setPokemonTypes);
     }
 
+    // runs an API call to GET all pokemon collections, saves them into the collectedArray
     function refreshPokemonCollections() {
         apiCalls.getAllPokemonCollections(setCollectedArray);
     }
 
-    //runs a fetch that gets all the pokemoncards and sets them into variable. Its a function so we can call it later when needed
+    //runs an API call to GET Pokemon Cards and sets PokemonCards variable to the response
     function refreshPokemonCards() {
         apiCalls.getAllPokemonCards(setPokemonCards);
     }
 
-    // fetch to get pokemonCard sets & save in variable
+    // runs an API call to GET all pokemon sets and sets PokemonCardSets to the response
 
     function refreshPokemonCardSets() {
         apiCalls.getAllPokemonSets(setPokemonCardSets);
     }
 
-    // takes the event (click) amd runs prevent default, creates an object with the same shape as what API accepts and takes values from edit pokemon card form, uses put method (replaces) and refreshes pokemon cards
-    function updateSelectedCard(event) {
-        event.preventDefault();
-
+    // runs an API call to update (PUT) selected card and then refreshes pokemon cards
+    function updateSelectedCard() {
         apiCalls.putSelectedCard(
             pokemonCardData,
             selectedPokemon,
@@ -54,13 +62,12 @@ function App() {
         );
     }
 
-    // creates an object that is the same shape as what the API can accept and then passes it into the API POST body. Runs refreshPokemonCards to give us back new data that was updated
-    function save(event) {
-        event.preventDefault();
-
+    //runs an API call to save new pokemon card (POST) and refreshes pokemon cards
+    function saveNewPokemon() {
         apiCalls.createNewPokemonCard(pokemonCardData, refreshPokemonCards);
     }
 
+    // function that adds card to collection (PUT) if its a duplicate or POSTs card if its new to collection
     function addToCollection(card) {
         let cardMatch = false;
         collectedArray.forEach((item) => {
@@ -94,6 +101,8 @@ function App() {
         }
     }
 
+    // function that removes a card from the collection or deletes that card from the collection if its the last one
+
     function removeFromCollection(card) {
         let numbOfCards = card.quantity;
 
@@ -114,22 +123,10 @@ function App() {
         }
     }
 
-    // fetch to delete selected card
+    // runs an API call that deleted selected card and refreshes pokemon cards
     function deletePokemon(cardID) {
         apiCalls.deleteSelectedCard(cardID, refreshPokemonCards);
     }
-    //fetch to filter pokemon by type, having typeFilter in dependency array updates every time a new filter is added
-
-    const filterPokemon = useCallback(() => {
-        apiCalls.getFilteredPokemon(typeFilter, setPokemonCards);
-    }, [typeFilter]);
-
-    //
-    useEffect(() => {
-        if (typeFilter === "") {
-            refreshPokemonCards();
-        } else filterPokemon();
-    }, [typeFilter, filterPokemon]);
 
     // function that allows you to update any key:value pair depending on which one you select- each select/input in edit pokemon has a name and value is what is entered/selected
     function updateCardData(event) {
@@ -143,18 +140,7 @@ function App() {
 
     return (
         <>
-            <div>
-                <div>
-                    {pokemonTypes.map((type, i) => (
-                        <span key={i}>{type.pokemonType}</span>
-                    ))}
-                </div>
-                <div>
-                    {pokemonCardSets.map((set) => (
-                        <span key={set.name}>{set.name}</span>
-                    ))}
-                </div>
-            </div>
+            <h1> Pokemon Card Collection App </h1>
 
             <Table
                 setSelectedPokemon={setSelectedPokemon}
@@ -167,7 +153,7 @@ function App() {
             <AddPokemon
                 pokemonTypes={pokemonTypes}
                 pokemonCardSets={pokemonCardSets}
-                save={save}
+                saveNewPokemon={saveNewPokemon}
                 updateCardData={updateCardData}
             />
 
