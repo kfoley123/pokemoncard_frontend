@@ -27,7 +27,11 @@ export default function EditPokemon(props) {
                     defaultValue={selectedPokemon.name}
                 ></input>
 
-                <select name="type" onChange={updateCardData}>
+                <select
+                    value={selectedPokemon.type.id}
+                    name="type"
+                    onChange={updateCardData}
+                >
                     {pokemonTypes.map((type) => {
                         return (
                             <option key={type.id} value={type.id}>
@@ -44,7 +48,11 @@ export default function EditPokemon(props) {
                     defaultValue={selectedPokemon.HP}
                 ></input>
 
-                <select name="pokemonCardSet" onChange={updateCardData}>
+                <select
+                    value={selectedPokemon.pokemonCardSet.id}
+                    name="pokemonCardSet"
+                    onChange={updateCardData}
+                >
                     {pokemonCardSets.map((set) => {
                         return (
                             <option key={set.id} value={set.id}>

@@ -16,7 +16,11 @@ export default function FilterByType(props) {
                 <option value="">View All</option>
 
                 {pokemonTypes.map((type) => {
-                    return <option value={type.id}>{type.pokemonType}</option>;
+                    return (
+                        <option key={type.id} value={type.id}>
+                            {type.pokemonType}
+                        </option>
+                    );
                 })}
             </select>
         </form>
