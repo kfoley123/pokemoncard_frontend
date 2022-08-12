@@ -1,12 +1,19 @@
 import React from "react";
 
 export default function FilterByType(props) {
-    const { setTypeFilter, pokemonTypes } = props;
+    const { setFilterParams, pokemonTypes } = props;
     return (
         <form>
             <h2>Filter By Type</h2>
             <select
-                onChange={(event) => setTypeFilter(event.target.value)}
+                onChange={(event) =>
+                    setFilterParams((prevData) => {
+                        return {
+                            ...prevData,
+                            pokemontype: event.target.value,
+                        };
+                    })
+                }
                 type="text"
                 placeholder="Type"
             >

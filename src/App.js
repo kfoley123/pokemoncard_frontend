@@ -17,8 +17,10 @@ function App() {
     const [selectedPokemon, setSelectedPokemon] = useState({});
     const [pokemonCardData, setPokemonCardData] = useState({});
 
-    const [typeFilter, setTypeFilter] = useState("");
-    const [setFilter, setSetFilter] = useState("");
+    const [filterParams, setFilterParams] = useState({
+        pokemonset: "",
+        pokemontype: "",
+    });
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -29,16 +31,18 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (typeFilter === "") {
+        if (filterParams.pokemontype === "") {
             refreshPokemonCards();
-        } else apiCalls.getFilteredType(typeFilter, setPokemonCards);
-    }, [typeFilter]);
+        } else
+            apiCalls.getFilteredType(filterParams.pokemontype, setPokemonCards);
+    }, [filterParams.pokemontype]);
 
     useEffect(() => {
-        if (setFilter === "") {
+        if (filterParams.pokemonset === "") {
             refreshPokemonCards();
-        } else apiCalls.getFilteredSet(setFilter, setPokemonCards);
-    }, [setFilter]);
+        } else
+            apiCalls.getFilteredSet(filterParams.pokemonset, setPokemonCards);
+    }, [filterParams.pokemonset]);
 
     //runs an API call to GET all pokemon types and sets PokemonTypes variable to the response
     function refreshPokemonTypes() {
@@ -146,6 +150,15 @@ function App() {
         });
     }
 
+    // function filterCards(event){
+    //     setFilteredPokemonCards((prevData) => {
+    //         return {
+    //             ...prevData,
+    //             []
+    //         }
+    //     })
+    // }
+
     return (
         <>
             <h1> Pokemon Card Collection App </h1>
@@ -177,13 +190,12 @@ function App() {
             )}
 
             <FilterByType
-                setTypeFilter={setTypeFilter}
+                setFilterParams={setFilterParams}
                 pokemonTypes={pokemonTypes}
             />
 
             <FilterBySet
-                setFilter={setFilter}
-                setSetFilter={setSetFilter}
+                setFilterParams={setFilterParams}
                 pokemonCardSets={pokemonCardSets}
             />
 

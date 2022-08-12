@@ -1,12 +1,19 @@
 import React from "react";
 
 export default function FilterBySet(props) {
-    const { setSetFilter, pokemonCardSets } = props;
+    const { setFilterParams, pokemonCardSets } = props;
     return (
         <form>
             <h2>Filter By Set</h2>
             <select
-                onChange={(event) => setSetFilter(event.target.value)}
+                onChange={(event) =>
+                    setFilterParams((prevData) => {
+                        return {
+                            ...prevData,
+                            pokemonset: event.target.value,
+                        };
+                    })
+                }
                 type="text"
                 placeholder="Set"
             >
