@@ -142,15 +142,6 @@ function App() {
         });
     }
 
-    // function filterCards(event){
-    //     setFilteredPokemonCards((prevData) => {
-    //         return {
-    //             ...prevData,
-    //             []
-    //         }
-    //     })
-    // }
-
     return (
         <>
             <h1> Pokemon Card Collection App </h1>
