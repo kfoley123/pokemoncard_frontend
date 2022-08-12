@@ -1,8 +1,21 @@
 import API from "./api";
+import { useQuery } from "@tanstack/react-query";
+
+export function useAllPokemonCards() {
+    return useQuery(["allPokemonCards"], asyncAllPokemonCards);
+}
+
+const asyncAllPokemonCards = async () => {
+    const { data } = await API.get("pokemoncards/");
+    return data;
+};
 
 export function getAllPokemonCards(setPokemonCards) {
-    API.get("pokemoncards/").then((response) => setPokemonCards(response.data));
+    return API.get("pokemoncards/").then((response) =>
+        setPokemonCards(response.data)
+    );
 }
+console.log(API);
 
 export function getAllPokemonCollections(setCollectedArray) {
     API.get("pokemoncollections/").then((response) =>

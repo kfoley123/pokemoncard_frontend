@@ -5,10 +5,11 @@ import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import * as apiCalls from "./Helpers/apiCalls";
 import Filter from "./Components/Filter/Filter";
+import { useAllPokemonCards } from "./Helpers/apiCalls";
 
 function App() {
     //state variables
-    const [pokemonCards, setPokemonCards] = useState([]);
+    const [pokemonCards, setPokemonCards] = useState([]); //
     const [pokemonCardSets, setPokemonCardSets] = useState([]);
     const [pokemonTypes, setPokemonTypes] = useState([]);
     const [collectedArray, setCollectedArray] = useState([]);
@@ -24,6 +25,8 @@ function App() {
         pokemonset: "",
         pokemontype: "",
     });
+
+    const { data, isLoading, isSuccess, isError } = useAllPokemonCards();
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -177,14 +180,15 @@ function App() {
                     filterKey="pokemontype"
                 />
             </div>
-
-            <Table
-                setSelectedPokemon={setSelectedPokemon}
-                pokemonCards={pokemonCards}
-                setPokemonCardData={setPokemonCardData}
-                deletePokemon={deletePokemon}
-                addToCollection={addToCollection}
-            />
+            {isSuccess && (
+                <Table
+                    setSelectedPokemon={setSelectedPokemon}
+                    pokemonCards={data}
+                    setPokemonCardData={setPokemonCardData}
+                    deletePokemon={deletePokemon}
+                    addToCollection={addToCollection}
+                />
+            )}
 
             <AddPokemon
                 pokemonTypes={pokemonTypes}
