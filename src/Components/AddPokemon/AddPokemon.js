@@ -9,6 +9,13 @@ export default function AddPokemon(props) {
             <h2>Add a Pokemon Card</h2>
 
             <input
+                name="image"
+                onChange={updateCardData}
+                type="text"
+                placeholder="Image"
+            ></input>
+
+            <input
                 name="pokedexIndex"
                 onChange={updateCardData}
                 type="text"
