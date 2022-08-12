@@ -14,6 +14,14 @@ export default function EditPokemon(props) {
         <div>
             <form key={selectedPokemon.id}>
                 <h2>Edit Pokemon Card</h2>
+
+                <input
+                    defaultValue={selectedPokemon.image}
+                    name="image"
+                    onChange={updateCardData}
+                    type="text"
+                ></input>
+
                 <input
                     defaultValue={selectedPokemon.pokedexIndex}
                     name="pokedexIndex"
