@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import EditPokemon from "./Components/EditPokemon/EditPokemon";
 import AddPokemon from "./Components/AddPokemon/AddPokemon";
-import FilterByType from "./Components/FilterByType/FilterByType";
 import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import * as apiCalls from "./Helpers/apiCalls";
-import FilterBySet from "./Components/FilterBySet/FilterBySet";
+import Filter from "./Components/Filter/Filter";
 
 function App() {
     //state variables
@@ -18,6 +17,10 @@ function App() {
     const [pokemonCardData, setPokemonCardData] = useState({});
 
     const [filterParams, setFilterParams] = useState({
+        pokemonset: "",
+        pokemontype: "",
+    });
+    const [filterCollectionParams, setFilterCollectionParams] = useState({
         pokemonset: "",
         pokemontype: "",
     });
@@ -35,6 +38,19 @@ function App() {
             refreshPokemonCards();
         } else apiCalls.getFilteredPokemonCards(filterParams, setPokemonCards);
     }, [filterParams]);
+
+    useEffect(() => {
+        if (
+            filterCollectionParams.pokemontype === "" &&
+            filterCollectionParams.pokemonset === ""
+        ) {
+            refreshPokemonCollections();
+        } else
+            apiCalls.getFilteredPokemonCollection(
+                filterCollectionParams,
+                setCollectedArray
+            );
+    }, [filterCollectionParams]);
 
     //runs an API call to GET all pokemon types and sets PokemonTypes variable to the response
     function refreshPokemonTypes() {
@@ -147,13 +163,18 @@ function App() {
             <h1> Pokemon Card Collection App </h1>
 
             <div className="filters">
-                <FilterByType
+                <Filter
                     setFilterParams={setFilterParams}
-                    pokemonTypes={pokemonTypes}
+                    filterOptions={pokemonCardSets}
+                    filterName="Set"
+                    filterKey="pokemonset"
                 />
-                <FilterBySet
+
+                <Filter
                     setFilterParams={setFilterParams}
-                    pokemonCardSets={pokemonCardSets}
+                    filterOptions={pokemonTypes}
+                    filterName="Type"
+                    filterKey="pokemontype"
                 />
             </div>
 
@@ -186,6 +207,10 @@ function App() {
             <Collections
                 collectedArray={collectedArray}
                 removeFromCollection={removeFromCollection}
+                pokemonCardSets={pokemonCardSets}
+                setFilterParams={setFilterParams}
+                pokemonTypes={pokemonTypes}
+                setFilterCollectionParams={setFilterCollectionParams}
             />
         </>
     );

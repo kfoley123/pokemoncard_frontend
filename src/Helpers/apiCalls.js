@@ -78,3 +78,23 @@ export function getFilteredPokemonCards(filterParams, setPokemonCards) {
         setPokemonCards(response.data)
     );
 }
+
+export function getFilteredPokemonCollection(
+    filterCollectionParams,
+    setCollectedArray
+) {
+    let filterString = "";
+    if (filterCollectionParams.pokemontype !== "") {
+        filterString += `pokemontype=${filterCollectionParams.pokemontype}`;
+    }
+    if (filterString !== "") {
+        filterString += "&";
+    }
+    if (filterCollectionParams.pokemonset !== "") {
+        filterString += `pokemonset=${filterCollectionParams.pokemonset}`;
+    }
+
+    API.get(`pokemoncollections?${filterString}`).then((response) =>
+        setCollectedArray(response.data)
+    );
+}

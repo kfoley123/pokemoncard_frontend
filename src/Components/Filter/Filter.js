@@ -1,31 +1,30 @@
 import React from "react";
 
-export default function FilterByType(props) {
-    const { setFilterParams, pokemonTypes } = props;
+export default function Filter(props) {
+    const { setFilterParams, filterOptions, filterName, filterKey } = props;
     return (
         <form>
-            <h2>Filter By Type</h2>
+            <h2>Filter By {filterName}</h2>
             <select
                 onChange={(event) =>
                     setFilterParams((prevData) => {
                         return {
                             ...prevData,
-                            pokemontype: event.target.value,
+                            [filterKey]: event.target.value,
                         };
                     })
                 }
                 type="text"
-                placeholder="Type"
             >
                 <option value="" disabled>
-                    Select A Type
+                    Select A {filterName}
                 </option>
                 <option value="">View All</option>
 
-                {pokemonTypes.map((type) => {
+                {filterOptions.map((option) => {
                     return (
-                        <option key={type.id} value={type.id}>
-                            {type.pokemonType}
+                        <option key={option.id} value={option.id}>
+                            {option.name || option.pokemonType}
                         </option>
                     );
                 })}
