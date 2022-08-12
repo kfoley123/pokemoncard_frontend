@@ -62,14 +62,19 @@ export function deleteSelectedCard(cardID, refreshPokemonCards) {
     API.delete(`pokemoncards/${cardID}`).then(() => refreshPokemonCards());
 }
 
-export function getFilteredType(typeFilter, setPokemonCards) {
-    API.get(`pokemoncards?pokemontype=${typeFilter}`).then((response) =>
-        setPokemonCards(response.data)
-    );
-}
+export function getFilteredPokemonCards(filterParams, setPokemonCards) {
+    let filterString = "";
+    if (filterParams.pokemontype !== "") {
+        filterString += `pokemontype=${filterParams.pokemontype}`;
+    }
+    if (filterString !== "") {
+        filterString += "&";
+    }
+    if (filterParams.pokemonset !== "") {
+        filterString += `pokemonset=${filterParams.pokemonset}`;
+    }
 
-export function getFilteredSet(setFilter, setPokemonCards) {
-    API.get(`pokemoncards?pokemonset=${setFilter}`).then((response) =>
+    API.get(`pokemoncards?${filterString}`).then((response) =>
         setPokemonCards(response.data)
     );
 }

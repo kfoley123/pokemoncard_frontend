@@ -31,18 +31,10 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (filterParams.pokemontype === "") {
+        if (filterParams.pokemontype === "" && filterParams.pokemonset === "") {
             refreshPokemonCards();
-        } else
-            apiCalls.getFilteredType(filterParams.pokemontype, setPokemonCards);
-    }, [filterParams.pokemontype]);
-
-    useEffect(() => {
-        if (filterParams.pokemonset === "") {
-            refreshPokemonCards();
-        } else
-            apiCalls.getFilteredSet(filterParams.pokemonset, setPokemonCards);
-    }, [filterParams.pokemonset]);
+        } else apiCalls.getFilteredPokemonCards(filterParams, setPokemonCards);
+    }, [filterParams]);
 
     //runs an API call to GET all pokemon types and sets PokemonTypes variable to the response
     function refreshPokemonTypes() {
