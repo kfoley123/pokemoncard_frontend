@@ -5,7 +5,7 @@ import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import * as apiCalls from "./Helpers/apiCalls";
 import Filter from "./Components/Filter/Filter";
-import { useAllPokemonCards } from "./Helpers/apiCalls";
+import { useAllPokemonCards, useAllSets } from "./Helpers/apiCalls";
 
 function App() {
     //state variables
@@ -27,6 +27,9 @@ function App() {
     });
 
     const { data, isLoading, isSuccess, isError } = useAllPokemonCards();
+    const { data: sets, isSuccess: setsSuccess } = useAllSets();
+
+    console.log(sets, setsSuccess);
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -166,12 +169,14 @@ function App() {
             <h1> Pokemon Card Collection App </h1>
 
             <div className="filters">
-                <Filter
-                    setFilterParams={setFilterParams}
-                    filterOptions={pokemonCardSets}
-                    filterName="Set"
-                    filterKey="pokemonset"
-                />
+                {setsSuccess && (
+                    <Filter
+                        setFilterParams={setFilterParams}
+                        filterOptions={sets}
+                        filterName="Set"
+                        filterKey="pokemonset"
+                    />
+                )}
 
                 <Filter
                     setFilterParams={setFilterParams}
@@ -190,16 +195,18 @@ function App() {
                 />
             )}
 
-            <AddPokemon
-                pokemonTypes={pokemonTypes}
-                pokemonCardSets={pokemonCardSets}
-                saveNewPokemon={saveNewPokemon}
-                updateCardData={updateCardData}
-            />
+            {setsSuccess && (
+                <AddPokemon
+                    pokemonTypes={pokemonTypes}
+                    pokemonCardSets={sets}
+                    saveNewPokemon={saveNewPokemon}
+                    updateCardData={updateCardData}
+                />
+            )}
 
-            {Object.keys(selectedPokemon).length !== 0 && (
+            {Object.keys(selectedPokemon).length !== 0 && setsSuccess && (
                 <EditPokemon
-                    pokemonCardSets={pokemonCardSets}
+                    pokemonCardSets={sets}
                     updateSelectedCard={updateSelectedCard}
                     setSelectedPokemon={setSelectedPokemon}
                     selectedPokemon={selectedPokemon}
@@ -208,14 +215,16 @@ function App() {
                 />
             )}
 
-            <Collections
-                collectedArray={collectedArray}
-                removeFromCollection={removeFromCollection}
-                pokemonCardSets={pokemonCardSets}
-                setFilterParams={setFilterParams}
-                pokemonTypes={pokemonTypes}
-                setFilterCollectionParams={setFilterCollectionParams}
-            />
+            {setsSuccess && (
+                <Collections
+                    collectedArray={collectedArray}
+                    removeFromCollection={removeFromCollection}
+                    pokemonCardSets={sets}
+                    setFilterParams={setFilterParams}
+                    pokemonTypes={pokemonTypes}
+                    setFilterCollectionParams={setFilterCollectionParams}
+                />
+            )}
         </>
     );
 }

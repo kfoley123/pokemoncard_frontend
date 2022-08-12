@@ -27,6 +27,15 @@ export function getAllPokemonTypes(setPokemonTypes) {
     API.get("pokemontypes/").then((response) => setPokemonTypes(response.data));
 }
 
+export function useAllSets() {
+    return useQuery(["allSets"], getAllSets);
+}
+
+const getAllSets = async () => {
+    const { data } = await API.get("pokemoncardsets/");
+    return data;
+};
+
 export function getAllPokemonSets(setPokemonCardSets) {
     API.get("pokemoncardsets/").then((response) =>
         setPokemonCardSets(response.data)
