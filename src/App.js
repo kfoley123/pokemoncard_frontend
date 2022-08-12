@@ -146,6 +146,17 @@ function App() {
         <>
             <h1> Pokemon Card Collection App </h1>
 
+            <div className="filters">
+                <FilterByType
+                    setFilterParams={setFilterParams}
+                    pokemonTypes={pokemonTypes}
+                />
+                <FilterBySet
+                    setFilterParams={setFilterParams}
+                    pokemonCardSets={pokemonCardSets}
+                />
+            </div>
+
             <Table
                 setSelectedPokemon={setSelectedPokemon}
                 pokemonCards={pokemonCards}
@@ -171,16 +182,6 @@ function App() {
                     updateCardData={updateCardData}
                 />
             )}
-
-            <FilterByType
-                setFilterParams={setFilterParams}
-                pokemonTypes={pokemonTypes}
-            />
-
-            <FilterBySet
-                setFilterParams={setFilterParams}
-                pokemonCardSets={pokemonCardSets}
-            />
 
             <Collections
                 collectedArray={collectedArray}
