@@ -6,7 +6,8 @@ export default function AddPokemon(props) {
     const { sets, types, updateCardData, cardData } = props;
 
     const queryClient = useQueryClient();
-    const { mutate, isLoading } = useMutation(createNewCard, {
+
+    const { mutate: createCard } = useMutation(createNewCard, {
         onSuccess: () => {
             queryClient.invalidateQueries(["allPokemonCards"]);
         },
@@ -69,7 +70,7 @@ export default function AddPokemon(props) {
             <button
                 onClick={(event) => {
                     event.preventDefault();
-                    mutate(cardData);
+                    createCard(cardData);
                 }}
             >
                 Submit

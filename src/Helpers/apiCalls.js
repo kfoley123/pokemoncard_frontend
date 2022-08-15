@@ -1,88 +1,84 @@
 import API from "./api";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+
+//get all X from API endpoints custom hooks
 
 export function useAllPokemonCards() {
-    return useQuery(["allPokemonCards"], asyncAllPokemonCards);
+    return useQuery(["allPokemonCards"], getAllPokemonCards);
 }
-
-const asyncAllPokemonCards = async () => {
-    const { data } = await API.get("pokemoncards/");
-    return data;
-};
 
 export function useAllCollections() {
     return useQuery(["allCollections"], getAllCollections);
 }
+
+export function useAllTypes() {
+    return useQuery(["allTypes"], getAllTypes);
+}
+
+export function useAllSets() {
+    return useQuery(["allSets"], getAllSets);
+}
+
+//GET API Calls
+
+const getAllPokemonCards = async () => {
+    const { data } = await API.get("pokemoncards/");
+    return data;
+};
 
 const getAllCollections = async () => {
     const { data } = await API.get("pokemoncollections/");
     return data;
 };
 
-export function useAllTypes() {
-    return useQuery(["allTypes"], getAllTypes);
-}
-
 const getAllTypes = async () => {
     const { data } = await API.get("pokemontypes/");
     return data;
 };
-
-export function useAllSets() {
-    return useQuery(["allSets"], getAllSets);
-}
 
 const getAllSets = async () => {
     const { data } = await API.get("pokemoncardsets/");
     return data;
 };
 
-// export function putSelectedCard(
-//     pokemonCardData,
-//     selectedPokemon,
-//     refreshPokemonCards
-// ) {
-//     API.put(`pokemoncards/${selectedPokemon.id}/`, pokemonCardData).then(() =>
-//         refreshPokemonCards()
-//     );
-// }
+// PUT (update) API calls
 
 export const updateSelectedCard = async (cardData) => {
-    console.log(cardData);
     const { data } = await API.put(`pokemoncards/${cardData.id}/`, cardData);
     return data;
 };
+
+export const updateSelectedCollection = async (collectionData) => {
+    const { data } = await API.put(
+        `pokemoncollections/${collectionData.id}/`,
+        collectionData
+    );
+    return data;
+};
+
+// All POST (create) API calls
 
 export const createNewCard = async (newCard) => {
     const { data } = await API.post("pokemoncards/", newCard);
     return data;
 };
 
-export function updateSelectedCollection(
-    item,
-    collectionObj,
-    refreshPokemonCollections
-) {
-    API.put(`pokemoncollections/${item.id}/`, collectionObj).then(() =>
-        refreshPokemonCollections()
-    );
-}
+export const createNewCollection = async (collectionData) => {
+    const { data } = await API.post("pokemoncollections/", collectionData);
+    return data;
+};
 
-export function createNewCollection(collectionObj, refreshPokemonCollections) {
-    API.post("pokemoncollections/", collectionObj).then(() =>
-        refreshPokemonCollections()
-    );
-}
+// all DELETE API calls
 
-export function deleteSelectedCollection(card, refreshPokemonCollections) {
-    API.delete(`pokemoncollections/${card.id}`).then(() =>
-        refreshPokemonCollections()
-    );
-}
+export const deleteSelectedCard = async (cardID) => {
+    const { data } = await API.delete(`pokemoncards/${cardID}`);
+    return data;
+};
 
-export function deleteSelectedCard(cardID, refreshPokemonCards) {
-    API.delete(`pokemoncards/${cardID}`).then(() => refreshPokemonCards());
-}
+export const deleteSelectedCollection = async (collectionID) => {
+    const { data } = await API.delete(`pokemoncollections/${collectionID}`);
+    return data;
+};
 
 export function getFilteredPokemonCards(filterParams, setPokemonCards) {
     let filterString = "";

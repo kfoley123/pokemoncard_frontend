@@ -1,14 +1,48 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import {
+    deleteSelectedCollection,
+    updateSelectedCollection,
+} from "../../Helpers/apiCalls";
 import Filter from "../Filter/Filter";
 
 export default function Collections(props) {
-    const {
-        collections,
-        removeFromCollection,
-        sets,
-        types,
-        setFilterCollectionParams,
-    } = props;
+    const { collections, sets, types, setFilterCollectionParams } = props;
+
+    const queryClient = useQueryClient();
+
+    const { mutate: deleteCollection } = useMutation(deleteSelectedCollection, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allCollections"]);
+        },
+    });
+
+    const { mutate: updateCollections } = useMutation(
+        updateSelectedCollection,
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(["allCollections"]);
+            },
+        }
+    );
+
+    function removeFromCollection(card) {
+        let numbOfCards = card.quantity;
+
+        if (numbOfCards - 1 <= 0) {
+            deleteCollection(card.id);
+        } else {
+            let collectionObj = {
+                id: card.id,
+                user: "User1",
+                quantity: numbOfCards - 1,
+                collectedCard: card.collectedCard.id,
+            };
+
+            updateCollections(collectionObj);
+        }
+    }
+
     return (
         <>
             <h1> Collection</h1>

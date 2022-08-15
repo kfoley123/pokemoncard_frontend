@@ -14,10 +14,6 @@ import {
 
 function App() {
     //state variables
-    // const [pokemonCards, setPokemonCards] = useState([]); //
-    // const [pokemonCardSets, setPokemonCardSets] = useState([]);
-    // const [pokemonTypes, setPokemonTypes] = useState([]);
-    const [collectedArray, setCollectedArray] = useState([]);
 
     const [selectedPokemon, setSelectedPokemon] = useState(0);
     const [pokemonCardData, setPokemonCardData] = useState({});
@@ -31,13 +27,13 @@ function App() {
         pokemontype: "",
     });
 
-    const { data, isLoading, isSuccess, isError } = useAllPokemonCards();
+    //react query variables
+
+    const { data: cards, isSuccess: cardsSuccess } = useAllPokemonCards();
     const { data: sets, isSuccess: setsSuccess } = useAllSets();
     const { data: types, isSuccess: typesSuccess } = useAllTypes();
     const { data: collections, isSuccess: collectionSuccess } =
         useAllCollections();
-
-    console.log(collections, collectionSuccess);
 
     //because there is nothing in dependency array, runs one time when you load the page
 
@@ -53,62 +49,8 @@ function App() {
             filterCollectionParams.pokemonset === ""
         ) {
             // refreshPokemonCollections();
-        } else
-            apiCalls.getFilteredPokemonCollection(
-                filterCollectionParams,
-                setCollectedArray
-            );
+        } else apiCalls.getFilteredPokemonCollection(filterCollectionParams);
     }, [filterCollectionParams]);
-
-    // function that adds card to collection (PUT) if its a duplicate or POSTs card if its new to collection
-    function addToCollection(card) {
-        let cardMatch = false;
-        collectedArray.forEach((item) => {
-            if (item.collectedCard.id === card.id) {
-                let collectionObj = {
-                    user: item.user,
-                    quantity: item.quantity + 1,
-                    collectedCard: card.id,
-                };
-                apiCalls.updateSelectedCollection(item, collectionObj);
-                cardMatch = true;
-                return;
-            }
-        });
-
-        if (!cardMatch) {
-            let collectionObj = {
-                user: "User1",
-                quantity: "1",
-                collectedCard: card.id,
-            };
-
-            apiCalls.createNewCollection(collectionObj);
-        }
-    }
-
-    // function that removes a card from the collection or deletes that card from the collection if its the last one
-
-    function removeFromCollection(card) {
-        let numbOfCards = card.quantity;
-
-        if (numbOfCards - 1 <= 0) {
-            apiCalls.deleteSelectedCollection(card);
-        } else {
-            let collectionObj = {
-                user: "User1",
-                quantity: numbOfCards - 1,
-                collectedCard: card.collectedCard.id,
-            };
-
-            apiCalls.updateSelectedCollection(card, collectionObj);
-        }
-    }
-
-    // runs an API call that deleted selected card and refreshes pokemon cards
-    function deletePokemon(cardID) {
-        apiCalls.deleteSelectedCard(cardID);
-    }
 
     // function that allows you to update any key:value pair depending on which one you select- each select/input in edit pokemon has a name and value is what is entered/selected
     function updateCardData(event) {
@@ -143,13 +85,12 @@ function App() {
                     />
                 )}
             </div>
-            {isSuccess && (
+            {cardsSuccess && (
                 <Table
                     setSelectedPokemon={setSelectedPokemon}
-                    pokemonCards={data}
+                    pokemonCards={cards}
                     setPokemonCardData={setPokemonCardData}
-                    deletePokemon={deletePokemon}
-                    addToCollection={addToCollection}
+                    collections={collections}
                 />
             )}
 
@@ -176,7 +117,6 @@ function App() {
             {setsSuccess && typesSuccess && collectionSuccess && (
                 <Collections
                     collections={collections}
-                    removeFromCollection={removeFromCollection}
                     sets={sets}
                     setFilterParams={setFilterParams}
                     types={types}
