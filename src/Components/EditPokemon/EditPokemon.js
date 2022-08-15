@@ -1,35 +1,47 @@
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import React from "react";
+import { updateSelectedCard } from "../../Helpers/apiCalls";
 
 export default function EditPokemon(props) {
     const {
         types,
         sets,
-        updateSelectedCard,
         setSelectedPokemon,
         selectedPokemon,
+        cardData,
         updateCardData,
     } = props;
 
+    console.log(cardData);
+
+    const queryClient = useQueryClient();
+
+    const { mutate, isLoading } = useMutation(updateSelectedCard, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allPokemonCards"]);
+        },
+    });
+
     return (
         <div>
-            <form key={selectedPokemon.id}>
+            <form key={cardData.id}>
                 <h2>Edit Pokemon Card</h2>
 
                 <input
-                    defaultValue={selectedPokemon.image}
+                    defaultValue={cardData.image}
                     name="image"
                     onChange={updateCardData}
                     type="text"
                 ></input>
 
                 <input
-                    defaultValue={selectedPokemon.pokedexIndex}
+                    defaultValue={cardData.pokedexIndex}
                     name="pokedexIndex"
                     onChange={updateCardData}
                     type="text"
                 ></input>
                 <input
-                    defaultValue={selectedPokemon.name}
+                    defaultValue={cardData.name}
                     name="name"
                     onChange={updateCardData}
                     type="text"
@@ -38,7 +50,7 @@ export default function EditPokemon(props) {
                 <select
                     name="type"
                     onChange={updateCardData}
-                    value={selectedPokemon.type.id}
+                    value={cardData.type.id}
                 >
                     {types.map((type) => {
                         return (
@@ -50,7 +62,7 @@ export default function EditPokemon(props) {
                 </select>
 
                 <input
-                    defaultValue={selectedPokemon.HP}
+                    defaultValue={cardData.HP}
                     name="HP"
                     onChange={updateCardData}
                     type="text"
@@ -59,7 +71,7 @@ export default function EditPokemon(props) {
                 <select
                     name="pokemonCardSet"
                     onChange={updateCardData}
-                    value={selectedPokemon.pokemonCardSet.id}
+                    value={cardData.pokemonCardSet.id}
                 >
                     {sets.map((set) => {
                         return (
@@ -74,12 +86,12 @@ export default function EditPokemon(props) {
             <button
                 onClick={(event) => {
                     event.preventDefault();
-                    updateSelectedCard();
+                    mutate(cardData);
                 }}
             >
                 Submit
             </button>
-            <button onClick={() => setSelectedPokemon({})}>Close</button>
+            <button onClick={() => setSelectedPokemon(0)}>Close</button>
         </div>
     );
 }

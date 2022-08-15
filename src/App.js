@@ -14,12 +14,12 @@ import {
 
 function App() {
     //state variables
-    const [pokemonCards, setPokemonCards] = useState([]); //
-    const [pokemonCardSets, setPokemonCardSets] = useState([]);
-    const [pokemonTypes, setPokemonTypes] = useState([]);
+    // const [pokemonCards, setPokemonCards] = useState([]); //
+    // const [pokemonCardSets, setPokemonCardSets] = useState([]);
+    // const [pokemonTypes, setPokemonTypes] = useState([]);
     const [collectedArray, setCollectedArray] = useState([]);
 
-    const [selectedPokemon, setSelectedPokemon] = useState({});
+    const [selectedPokemon, setSelectedPokemon] = useState(0);
     const [pokemonCardData, setPokemonCardData] = useState({});
 
     const [filterParams, setFilterParams] = useState({
@@ -34,7 +34,6 @@ function App() {
     const { data, isLoading, isSuccess, isError } = useAllPokemonCards();
     const { data: sets, isSuccess: setsSuccess } = useAllSets();
     const { data: types, isSuccess: typesSuccess } = useAllTypes();
-
     const { data: collections, isSuccess: collectionSuccess } =
         useAllCollections();
 
@@ -45,7 +44,7 @@ function App() {
     useEffect(() => {
         if (filterParams.pokemontype === "" && filterParams.pokemonset === "") {
             // refreshPokemonCards();
-        } else apiCalls.getFilteredPokemonCards(filterParams, setPokemonCards);
+        } else apiCalls.getFilteredPokemonCards(filterParams);
     }, [filterParams]);
 
     useEffect(() => {
@@ -60,16 +59,6 @@ function App() {
                 setCollectedArray
             );
     }, [filterCollectionParams]);
-
-    // runs an API call to update (PUT) selected card and then refreshes pokemon cards
-    function updateSelectedCard() {
-        apiCalls.putSelectedCard(pokemonCardData, selectedPokemon);
-    }
-
-    //runs an API call to save new pokemon card (POST) and refreshes pokemon cards
-    function saveNewPokemon() {
-        apiCalls.createNewPokemonCard(pokemonCardData);
-    }
 
     // function that adds card to collection (PUT) if its a duplicate or POSTs card if its new to collection
     function addToCollection(card) {
@@ -168,23 +157,21 @@ function App() {
                 <AddPokemon
                     types={types}
                     sets={sets}
-                    saveNewPokemon={saveNewPokemon}
+                    cardData={pokemonCardData}
                     updateCardData={updateCardData}
                 />
             )}
 
-            {Object.keys(selectedPokemon).length !== 0 &&
-                setsSuccess &&
-                typesSuccess && (
-                    <EditPokemon
-                        sets={sets}
-                        updateSelectedCard={updateSelectedCard}
-                        setSelectedPokemon={setSelectedPokemon}
-                        selectedPokemon={selectedPokemon}
-                        types={types}
-                        updateCardData={updateCardData}
-                    />
-                )}
+            {selectedPokemon !== 0 && setsSuccess && typesSuccess && (
+                <EditPokemon
+                    sets={sets}
+                    setSelectedPokemon={setSelectedPokemon}
+                    selectedPokemon={selectedPokemon}
+                    types={types}
+                    updateCardData={updateCardData}
+                    cardData={pokemonCardData}
+                />
+            )}
 
             {setsSuccess && typesSuccess && collectionSuccess && (
                 <Collections

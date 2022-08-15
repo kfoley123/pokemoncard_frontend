@@ -1,5 +1,5 @@
 import API from "./api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useAllPokemonCards() {
     return useQuery(["allPokemonCards"], asyncAllPokemonCards);
@@ -10,18 +10,6 @@ const asyncAllPokemonCards = async () => {
     return data;
 };
 
-// export function getAllPokemonCards(setPokemonCards) {
-//     return API.get("pokemoncards/").then((response) =>
-//         setPokemonCards(response.data)
-//     );
-// }
-
-// export function getAllPokemonCollections(setCollectedArray) {
-//     API.get("pokemoncollections/").then((response) =>
-//         setCollectedArray(response.data)
-//     );
-// }
-
 export function useAllCollections() {
     return useQuery(["allCollections"], getAllCollections);
 }
@@ -30,10 +18,6 @@ const getAllCollections = async () => {
     const { data } = await API.get("pokemoncollections/");
     return data;
 };
-
-// export function getAllPokemonTypes(setPokemonTypes) {
-//     API.get("pokemontypes/").then((response) => setPokemonTypes(response.data));
-// }
 
 export function useAllTypes() {
     return useQuery(["allTypes"], getAllTypes);
@@ -53,27 +37,26 @@ const getAllSets = async () => {
     return data;
 };
 
-// export function getAllPokemonSets(setPokemonCardSets) {
-//     API.get("pokemoncardsets/").then((response) =>
-//         setPokemonCardSets(response.data)
+// export function putSelectedCard(
+//     pokemonCardData,
+//     selectedPokemon,
+//     refreshPokemonCards
+// ) {
+//     API.put(`pokemoncards/${selectedPokemon.id}/`, pokemonCardData).then(() =>
+//         refreshPokemonCards()
 //     );
 // }
 
-export function putSelectedCard(
-    pokemonCardData,
-    selectedPokemon,
-    refreshPokemonCards
-) {
-    API.put(`pokemoncards/${selectedPokemon.id}/`, pokemonCardData).then(() =>
-        refreshPokemonCards()
-    );
-}
+export const updateSelectedCard = async (cardData) => {
+    console.log(cardData);
+    const { data } = await API.put(`pokemoncards/${cardData.id}/`, cardData);
+    return data;
+};
 
-export function createNewPokemonCard(pokemonCardData, refreshPokemonCards) {
-    API.post("pokemoncards/", pokemonCardData).then(() =>
-        refreshPokemonCards()
-    );
-}
+export const createNewCard = async (newCard) => {
+    const { data } = await API.post("pokemoncards/", newCard);
+    return data;
+};
 
 export function updateSelectedCollection(
     item,

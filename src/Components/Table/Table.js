@@ -37,7 +37,7 @@ export default function Table(props) {
                             <td>
                                 <button
                                     onClick={() => {
-                                        setSelectedPokemon(card);
+                                        setSelectedPokemon(card.id);
                                         setPokemonCardData(() => {
                                             let typeid = card.type.id;
                                             let setid = card.pokemonCardSet.id;
