@@ -3,25 +3,26 @@ import Filter from "../Filter/Filter";
 
 export default function Collections(props) {
     const {
-        collectedArray,
+        collections,
         removeFromCollection,
-        pokemonCardSets,
-        pokemonTypes,
+        sets,
+        types,
         setFilterCollectionParams,
     } = props;
     return (
         <>
             <h1> Collection</h1>
+
             <Filter
                 setFilterParams={setFilterCollectionParams}
-                filterOptions={pokemonCardSets}
+                filterOptions={sets}
                 filterName="Set"
                 filterKey="pokemonset"
             />
 
             <Filter
                 setFilterParams={setFilterCollectionParams}
-                filterOptions={pokemonTypes}
+                filterOptions={types}
                 filterName="Type"
                 filterKey="pokemontype"
             />
@@ -36,7 +37,7 @@ export default function Collections(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {collectedArray.map((card, i) => (
+                    {collections.map((card, i) => (
                         <tr key={i}>
                             <td>{card.collectedCard.name}</td>
                             <td>{card.collectedCard.pokemonCardSet.name}</td>

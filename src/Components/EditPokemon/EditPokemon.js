@@ -2,8 +2,8 @@ import React from "react";
 
 export default function EditPokemon(props) {
     const {
-        pokemonTypes,
-        pokemonCardSets,
+        types,
+        sets,
         updateSelectedCard,
         setSelectedPokemon,
         selectedPokemon,
@@ -40,7 +40,7 @@ export default function EditPokemon(props) {
                     onChange={updateCardData}
                     value={selectedPokemon.type.id}
                 >
-                    {pokemonTypes.map((type) => {
+                    {types.map((type) => {
                         return (
                             <option key={type.id} value={type.id}>
                                 {type.pokemonType}
@@ -61,7 +61,7 @@ export default function EditPokemon(props) {
                     onChange={updateCardData}
                     value={selectedPokemon.pokemonCardSet.id}
                 >
-                    {pokemonCardSets.map((set) => {
+                    {sets.map((set) => {
                         return (
                             <option key={set.id} value={set.id}>
                                 {set.name}

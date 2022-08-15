@@ -1,8 +1,7 @@
 import React from "react";
 
 export default function AddPokemon(props) {
-    const { pokemonCardSets, pokemonTypes, saveNewPokemon, updateCardData } =
-        props;
+    const { sets, types, saveNewPokemon, updateCardData } = props;
 
     return (
         <form>
@@ -35,7 +34,7 @@ export default function AddPokemon(props) {
                 type="text"
                 placeholder="Type"
             >
-                {pokemonTypes.map((type) => {
+                {types.map((type) => {
                     return (
                         <option key={type.id} value={type.id}>
                             {type.pokemonType}
@@ -50,7 +49,7 @@ export default function AddPokemon(props) {
                 placeholder="HP"
             ></input>
             <select name="pokemonCardSet" onChange={updateCardData}>
-                {pokemonCardSets.map((set) => {
+                {sets.map((set) => {
                     return (
                         <option key={set.id} value={set.id}>
                             {set.name}

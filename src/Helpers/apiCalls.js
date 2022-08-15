@@ -10,22 +10,39 @@ const asyncAllPokemonCards = async () => {
     return data;
 };
 
-export function getAllPokemonCards(setPokemonCards) {
-    return API.get("pokemoncards/").then((response) =>
-        setPokemonCards(response.data)
-    );
-}
-console.log(API);
+// export function getAllPokemonCards(setPokemonCards) {
+//     return API.get("pokemoncards/").then((response) =>
+//         setPokemonCards(response.data)
+//     );
+// }
 
-export function getAllPokemonCollections(setCollectedArray) {
-    API.get("pokemoncollections/").then((response) =>
-        setCollectedArray(response.data)
-    );
+// export function getAllPokemonCollections(setCollectedArray) {
+//     API.get("pokemoncollections/").then((response) =>
+//         setCollectedArray(response.data)
+//     );
+// }
+
+export function useAllCollections() {
+    return useQuery(["allCollections"], getAllCollections);
 }
 
-export function getAllPokemonTypes(setPokemonTypes) {
-    API.get("pokemontypes/").then((response) => setPokemonTypes(response.data));
+const getAllCollections = async () => {
+    const { data } = await API.get("pokemoncollections/");
+    return data;
+};
+
+// export function getAllPokemonTypes(setPokemonTypes) {
+//     API.get("pokemontypes/").then((response) => setPokemonTypes(response.data));
+// }
+
+export function useAllTypes() {
+    return useQuery(["allTypes"], getAllTypes);
 }
+
+const getAllTypes = async () => {
+    const { data } = await API.get("pokemontypes/");
+    return data;
+};
 
 export function useAllSets() {
     return useQuery(["allSets"], getAllSets);
@@ -36,11 +53,11 @@ const getAllSets = async () => {
     return data;
 };
 
-export function getAllPokemonSets(setPokemonCardSets) {
-    API.get("pokemoncardsets/").then((response) =>
-        setPokemonCardSets(response.data)
-    );
-}
+// export function getAllPokemonSets(setPokemonCardSets) {
+//     API.get("pokemoncardsets/").then((response) =>
+//         setPokemonCardSets(response.data)
+//     );
+// }
 
 export function putSelectedCard(
     pokemonCardData,

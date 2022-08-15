@@ -5,7 +5,12 @@ import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import * as apiCalls from "./Helpers/apiCalls";
 import Filter from "./Components/Filter/Filter";
-import { useAllPokemonCards, useAllSets } from "./Helpers/apiCalls";
+import {
+    useAllPokemonCards,
+    useAllSets,
+    useAllTypes,
+    useAllCollections,
+} from "./Helpers/apiCalls";
 
 function App() {
     //state variables
@@ -28,20 +33,18 @@ function App() {
 
     const { data, isLoading, isSuccess, isError } = useAllPokemonCards();
     const { data: sets, isSuccess: setsSuccess } = useAllSets();
+    const { data: types, isSuccess: typesSuccess } = useAllTypes();
 
-    console.log(sets, setsSuccess);
+    const { data: collections, isSuccess: collectionSuccess } =
+        useAllCollections();
+
+    console.log(collections, collectionSuccess);
 
     //because there is nothing in dependency array, runs one time when you load the page
-    useEffect(() => {
-        refreshPokemonTypes();
-        refreshPokemonCards();
-        refreshPokemonCardSets();
-        refreshPokemonCollections();
-    }, []);
 
     useEffect(() => {
         if (filterParams.pokemontype === "" && filterParams.pokemonset === "") {
-            refreshPokemonCards();
+            // refreshPokemonCards();
         } else apiCalls.getFilteredPokemonCards(filterParams, setPokemonCards);
     }, [filterParams]);
 
@@ -50,7 +53,7 @@ function App() {
             filterCollectionParams.pokemontype === "" &&
             filterCollectionParams.pokemonset === ""
         ) {
-            refreshPokemonCollections();
+            // refreshPokemonCollections();
         } else
             apiCalls.getFilteredPokemonCollection(
                 filterCollectionParams,
@@ -58,39 +61,14 @@ function App() {
             );
     }, [filterCollectionParams]);
 
-    //runs an API call to GET all pokemon types and sets PokemonTypes variable to the response
-    function refreshPokemonTypes() {
-        apiCalls.getAllPokemonTypes(setPokemonTypes);
-    }
-
-    // runs an API call to GET all pokemon collections, saves them into the collectedArray
-    function refreshPokemonCollections() {
-        apiCalls.getAllPokemonCollections(setCollectedArray);
-    }
-
-    //runs an API call to GET Pokemon Cards and sets PokemonCards variable to the response
-    function refreshPokemonCards() {
-        apiCalls.getAllPokemonCards(setPokemonCards);
-    }
-
-    // runs an API call to GET all pokemon sets and sets PokemonCardSets to the response
-
-    function refreshPokemonCardSets() {
-        apiCalls.getAllPokemonSets(setPokemonCardSets);
-    }
-
     // runs an API call to update (PUT) selected card and then refreshes pokemon cards
     function updateSelectedCard() {
-        apiCalls.putSelectedCard(
-            pokemonCardData,
-            selectedPokemon,
-            refreshPokemonCards
-        );
+        apiCalls.putSelectedCard(pokemonCardData, selectedPokemon);
     }
 
     //runs an API call to save new pokemon card (POST) and refreshes pokemon cards
     function saveNewPokemon() {
-        apiCalls.createNewPokemonCard(pokemonCardData, refreshPokemonCards);
+        apiCalls.createNewPokemonCard(pokemonCardData);
     }
 
     // function that adds card to collection (PUT) if its a duplicate or POSTs card if its new to collection
@@ -103,11 +81,7 @@ function App() {
                     quantity: item.quantity + 1,
                     collectedCard: card.id,
                 };
-                apiCalls.updateSelectedCollection(
-                    item,
-                    collectionObj,
-                    refreshPokemonCollections
-                );
+                apiCalls.updateSelectedCollection(item, collectionObj);
                 cardMatch = true;
                 return;
             }
@@ -120,10 +94,7 @@ function App() {
                 collectedCard: card.id,
             };
 
-            apiCalls.createNewCollection(
-                collectionObj,
-                refreshPokemonCollections
-            );
+            apiCalls.createNewCollection(collectionObj);
         }
     }
 
@@ -133,7 +104,7 @@ function App() {
         let numbOfCards = card.quantity;
 
         if (numbOfCards - 1 <= 0) {
-            apiCalls.deleteSelectedCollection(card, refreshPokemonCollections);
+            apiCalls.deleteSelectedCollection(card);
         } else {
             let collectionObj = {
                 user: "User1",
@@ -141,17 +112,13 @@ function App() {
                 collectedCard: card.collectedCard.id,
             };
 
-            apiCalls.updateSelectedCollection(
-                card,
-                collectionObj,
-                refreshPokemonCollections
-            );
+            apiCalls.updateSelectedCollection(card, collectionObj);
         }
     }
 
     // runs an API call that deleted selected card and refreshes pokemon cards
     function deletePokemon(cardID) {
-        apiCalls.deleteSelectedCard(cardID, refreshPokemonCards);
+        apiCalls.deleteSelectedCard(cardID);
     }
 
     // function that allows you to update any key:value pair depending on which one you select- each select/input in edit pokemon has a name and value is what is entered/selected
@@ -178,12 +145,14 @@ function App() {
                     />
                 )}
 
-                <Filter
-                    setFilterParams={setFilterParams}
-                    filterOptions={pokemonTypes}
-                    filterName="Type"
-                    filterKey="pokemontype"
-                />
+                {typesSuccess && (
+                    <Filter
+                        setFilterParams={setFilterParams}
+                        filterOptions={types}
+                        filterName="Type"
+                        filterKey="pokemontype"
+                    />
+                )}
             </div>
             {isSuccess && (
                 <Table
@@ -195,33 +164,35 @@ function App() {
                 />
             )}
 
-            {setsSuccess && (
+            {setsSuccess && typesSuccess && (
                 <AddPokemon
-                    pokemonTypes={pokemonTypes}
-                    pokemonCardSets={sets}
+                    types={types}
+                    sets={sets}
                     saveNewPokemon={saveNewPokemon}
                     updateCardData={updateCardData}
                 />
             )}
 
-            {Object.keys(selectedPokemon).length !== 0 && setsSuccess && (
-                <EditPokemon
-                    pokemonCardSets={sets}
-                    updateSelectedCard={updateSelectedCard}
-                    setSelectedPokemon={setSelectedPokemon}
-                    selectedPokemon={selectedPokemon}
-                    pokemonTypes={pokemonTypes}
-                    updateCardData={updateCardData}
-                />
-            )}
+            {Object.keys(selectedPokemon).length !== 0 &&
+                setsSuccess &&
+                typesSuccess && (
+                    <EditPokemon
+                        sets={sets}
+                        updateSelectedCard={updateSelectedCard}
+                        setSelectedPokemon={setSelectedPokemon}
+                        selectedPokemon={selectedPokemon}
+                        types={types}
+                        updateCardData={updateCardData}
+                    />
+                )}
 
-            {setsSuccess && (
+            {setsSuccess && typesSuccess && collectionSuccess && (
                 <Collections
-                    collectedArray={collectedArray}
+                    collections={collections}
                     removeFromCollection={removeFromCollection}
-                    pokemonCardSets={sets}
+                    sets={sets}
                     setFilterParams={setFilterParams}
-                    pokemonTypes={pokemonTypes}
+                    types={types}
                     setFilterCollectionParams={setFilterCollectionParams}
                 />
             )}
