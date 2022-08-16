@@ -3,8 +3,9 @@ import EditPokemon from "./Components/EditPokemon/EditPokemon";
 import AddPokemon from "./Components/AddPokemon/AddPokemon";
 import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
-import * as apiCalls from "./Helpers/apiCalls";
 import Filter from "./Components/Filter/Filter";
+import * as apiCalls from "./Helpers/apiCalls";
+
 import {
     useAllPokemonCards,
     useAllSets,
