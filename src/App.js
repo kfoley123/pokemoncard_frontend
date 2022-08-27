@@ -5,6 +5,7 @@ import FilterByType from "./Components/FilterByType/FilterByType";
 import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import * as apiCalls from "./Helpers/apiCalls";
+import FilterBySet from "./Components/FilterBySet/FilterBySet";
 
 function App() {
     //state variables
@@ -16,7 +17,10 @@ function App() {
     const [selectedPokemon, setSelectedPokemon] = useState({});
     const [pokemonCardData, setPokemonCardData] = useState({});
 
-    const [typeFilter, setTypeFilter] = useState("");
+    const [filterParams, setFilterParams] = useState({
+        pokemonset: "",
+        pokemontype: "",
+    });
 
     //because there is nothing in dependency array, runs one time when you load the page
     useEffect(() => {
@@ -27,10 +31,10 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (typeFilter === "") {
+        if (filterParams.pokemontype === "" && filterParams.pokemonset === "") {
             refreshPokemonCards();
-        } else apiCalls.getFilteredPokemon(typeFilter, setPokemonCards);
-    }, [typeFilter]);
+        } else apiCalls.getFilteredPokemonCards(filterParams, setPokemonCards);
+    }, [filterParams]);
 
     //runs an API call to GET all pokemon types and sets PokemonTypes variable to the response
     function refreshPokemonTypes() {
@@ -142,6 +146,17 @@ function App() {
         <>
             <h1> Pokemon Card Collection App </h1>
 
+            <div className="filters">
+                <FilterByType
+                    setFilterParams={setFilterParams}
+                    pokemonTypes={pokemonTypes}
+                />
+                <FilterBySet
+                    setFilterParams={setFilterParams}
+                    pokemonCardSets={pokemonCardSets}
+                />
+            </div>
+
             <Table
                 setSelectedPokemon={setSelectedPokemon}
                 pokemonCards={pokemonCards}
@@ -167,11 +182,6 @@ function App() {
                     updateCardData={updateCardData}
                 />
             )}
-
-            <FilterByType
-                setTypeFilter={setTypeFilter}
-                pokemonTypes={pokemonTypes}
-            />
 
             <Collections
                 collectedArray={collectedArray}
