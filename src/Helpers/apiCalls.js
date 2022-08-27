@@ -75,7 +75,7 @@ export function useDeleteSelectedCard() {
 
 export function useDeleteCollection() {
     const queryClient = useQueryClient();
-    return useMutation(deleteSelectedCard, {
+    return useMutation(deleteSelectedCollection, {
         onSuccess: () => {
             queryClient.invalidateQueries(["allCollections"]);
         },
@@ -129,12 +129,12 @@ const getAllSets = async () => {
 
 // PUT (update) API calls
 
-export const updateSelectedCard = async (cardData) => {
+const updateSelectedCard = async (cardData) => {
     const { data } = await API.put(`pokemoncards/${cardData.id}/`, cardData);
     return data;
 };
 
-export const updateSelectedCollection = async (collectionData) => {
+const updateSelectedCollection = async (collectionData) => {
     const { data } = await API.put(
         `pokemoncollections/${collectionData.id}/`,
         collectionData
@@ -144,24 +144,24 @@ export const updateSelectedCollection = async (collectionData) => {
 
 // All POST (create) API calls
 
-export const createNewCard = async (newCard) => {
+const createNewCard = async (newCard) => {
     const { data } = await API.post("pokemoncards/", newCard);
     return data;
 };
 
-export const createNewCollection = async (collectionData) => {
+const createNewCollection = async (collectionData) => {
     const { data } = await API.post("pokemoncollections/", collectionData);
     return data;
 };
 
 // all DELETE API calls
 
-export const deleteSelectedCard = async (cardID) => {
+const deleteSelectedCard = async (cardID) => {
     const { data } = await API.delete(`pokemoncards/${cardID}`);
     return data;
 };
 
-export const deleteSelectedCollection = async (collectionID) => {
+const deleteSelectedCollection = async (collectionID) => {
     const { data } = await API.delete(`pokemoncollections/${collectionID}`);
     return data;
 };
