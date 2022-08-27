@@ -1,17 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { createNewCard } from "../../Helpers/apiCalls";
+import { useCreateCard } from "../../Helpers/apiCalls";
 
 export default function AddPokemon(props) {
     const { sets, types, updateCardData, cardData } = props;
 
-    const queryClient = useQueryClient();
-
-    const { mutate: createCard } = useMutation(createNewCard, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(["allPokemonCards"]);
-        },
-    });
+    const { mutate: createCard } = useCreateCard();
 
     return (
         <form>

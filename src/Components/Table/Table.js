@@ -1,10 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import "./Table.css";
 import {
-    createNewCollection,
-    updateSelectedCollection,
-    deleteSelectedCard,
+    useCreateCollection,
+    useUpdateSelectedCollection,
+    useDeleteSelectedCard,
 } from "../../Helpers/apiCalls";
 
 export default function Table(props) {
@@ -15,25 +14,11 @@ export default function Table(props) {
         collections,
     } = props;
 
-    const queryClient = useQueryClient();
+    const { mutate: createCollection } = useCreateCollection();
 
-    const { mutate: createCollection } = useMutation(createNewCollection, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(["allCollections"]);
-        },
-    });
+    const { mutate: updateCollection } = useUpdateSelectedCollection();
 
-    const { mutate: updateCollection } = useMutation(updateSelectedCollection, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(["allCollections"]);
-        },
-    });
-
-    const { mutate: deleteCard } = useMutation(deleteSelectedCard, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(["allPokemonCards"]);
-        },
-    });
+    const { mutate: deleteCard } = useDeleteSelectedCard();
 
     function addToCollection(card) {
         let cardMatch = false;

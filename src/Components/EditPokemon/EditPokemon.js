@@ -1,17 +1,10 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
 import React from "react";
-import { updateSelectedCard } from "../../Helpers/apiCalls";
+import { useUpdateSelectedCard } from "../../Helpers/apiCalls";
 
 export default function EditPokemon(props) {
     const { types, sets, setSelectedPokemon, cardData, updateCardData } = props;
 
-    const queryClient = useQueryClient();
-
-    const { mutate: updateCard } = useMutation(updateSelectedCard, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(["allPokemonCards"]);
-        },
-    });
+    const { mutate: updateCard } = useUpdateSelectedCard();
 
     return (
         <div>

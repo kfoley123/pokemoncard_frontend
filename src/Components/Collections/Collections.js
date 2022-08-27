@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import {
     deleteSelectedCollection,
-    updateSelectedCollection,
+    useUpdateSelectedCollection,
 } from "../../Helpers/apiCalls";
 import Filter from "../Filter/Filter";
 
@@ -17,14 +17,7 @@ export default function Collections(props) {
         },
     });
 
-    const { mutate: updateCollections } = useMutation(
-        updateSelectedCollection,
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries(["allCollections"]);
-            },
-        }
-    );
+    const { mutate: updateCollections } = useUpdateSelectedCollection();
 
     function removeFromCollection(card) {
         let numbOfCards = card.quantity;

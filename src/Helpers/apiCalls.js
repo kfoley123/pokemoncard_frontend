@@ -1,5 +1,5 @@
 import API from "./api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 //get all X from API endpoints custom hooks
 
@@ -17,6 +17,65 @@ export function useAllTypes() {
 
 export function useAllSets() {
     return useQuery(["allSets"], getAllSets);
+}
+
+//update endpoints custom hooks
+
+export function useUpdateSelectedCard() {
+    const queryClient = useQueryClient();
+    return useMutation(updateSelectedCard, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allPokemonCards"]);
+        },
+    });
+}
+
+export function useUpdateSelectedCollection() {
+    const queryClient = useQueryClient();
+    return useMutation(updateSelectedCollection, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allCollections"]);
+        },
+    });
+}
+
+//create endpoint custom hook
+export function useCreateCard() {
+    const queryClient = useQueryClient();
+    return useMutation(createNewCard, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allPokemonCards"]);
+        },
+    });
+}
+
+export function useCreateCollection() {
+    const queryClient = useQueryClient();
+    return useMutation(createNewCollection, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allCollections"]);
+        },
+    });
+}
+
+//delete endpoint custom hook
+
+export function useDeleteSelectedCard() {
+    const queryClient = useQueryClient();
+    return useMutation(deleteSelectedCard, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allPokemonCards"]);
+        },
+    });
+}
+
+export function useDeleteCollection() {
+    const queryClient = useQueryClient();
+    return useMutation(deleteSelectedCard, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allCollections"]);
+        },
+    });
 }
 
 //GET API Calls
