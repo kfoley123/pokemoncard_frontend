@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import EditPokemon from "./Components/EditPokemon/EditPokemon";
 import AddPokemon from "./Components/AddPokemon/AddPokemon";
 import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import Filter from "./Components/Filter/Filter";
-import * as apiCalls from "./Helpers/apiCalls";
 
 import {
     useAllPokemonCards,
@@ -30,28 +29,12 @@ function App() {
 
     //react query variables
 
-    const { data: cards, isSuccess: cardsSuccess } = useAllPokemonCards();
+    const { data: cards, isSuccess: cardsSuccess } =
+        useAllPokemonCards(filterParams);
     const { data: sets, isSuccess: setsSuccess } = useAllSets();
     const { data: types, isSuccess: typesSuccess } = useAllTypes();
     const { data: collections, isSuccess: collectionSuccess } =
-        useAllCollections();
-
-    //because there is nothing in dependency array, runs one time when you load the page
-
-    useEffect(() => {
-        if (filterParams.pokemontype === "" && filterParams.pokemonset === "") {
-            // refreshPokemonCards();
-        } else apiCalls.getFilteredPokemonCards(filterParams);
-    }, [filterParams]);
-
-    useEffect(() => {
-        if (
-            filterCollectionParams.pokemontype === "" &&
-            filterCollectionParams.pokemonset === ""
-        ) {
-            // refreshPokemonCollections();
-        } else apiCalls.getFilteredPokemonCollection(filterCollectionParams);
-    }, [filterCollectionParams]);
+        useAllCollections(filterCollectionParams);
 
     // function that allows you to update any key:value pair depending on which one you select- each select/input in edit pokemon has a name and value is what is entered/selected
     function updateCardData(event) {
@@ -115,15 +98,27 @@ function App() {
                 />
             )}
 
-            {setsSuccess && typesSuccess && collectionSuccess && (
-                <Collections
-                    collections={collections}
-                    sets={sets}
-                    setFilterParams={setFilterParams}
-                    types={types}
-                    setFilterCollectionParams={setFilterCollectionParams}
+            <h1> Collection</h1>
+
+            {setsSuccess && (
+                <Filter
+                    setFilterParams={setFilterCollectionParams}
+                    filterOptions={sets}
+                    filterName="Set"
+                    filterKey="pokemonset"
                 />
             )}
+
+            {typesSuccess && (
+                <Filter
+                    setFilterParams={setFilterCollectionParams}
+                    filterOptions={types}
+                    filterName="Type"
+                    filterKey="pokemontype"
+                />
+            )}
+
+            {collectionSuccess && <Collections collections={collections} />}
         </>
     );
 }

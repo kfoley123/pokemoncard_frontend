@@ -3,7 +3,7 @@ import React from "react";
 export default function Filter(props) {
     const { setFilterParams, filterOptions, filterName, filterKey } = props;
     return (
-        <form>
+        <>
             <h2>Filter By {filterName}</h2>
             <select
                 onChange={(event) =>
@@ -29,6 +29,6 @@ export default function Filter(props) {
                     );
                 })}
             </select>
-        </form>
+        </>
     );
 }

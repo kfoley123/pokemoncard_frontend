@@ -3,12 +3,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 //get all X from API endpoints custom hooks
 
-export function useAllPokemonCards() {
-    return useQuery(["allPokemonCards"], getAllPokemonCards);
+export function useAllPokemonCards(filterParams) {
+    return useQuery(["allPokemonCards", filterParams], () =>
+        getAllPokemonCards(filterParams)
+    );
 }
 
-export function useAllCollections() {
-    return useQuery(["allCollections"], getAllCollections);
+export function useAllCollections(filterCollectionParams) {
+    return useQuery(["allCollections", filterCollectionParams], () =>
+        getAllCollections(filterCollectionParams)
+    );
 }
 
 export function useAllTypes() {
@@ -80,13 +84,36 @@ export function useDeleteCollection() {
 
 //GET API Calls
 
-const getAllPokemonCards = async () => {
-    const { data } = await API.get("pokemoncards/");
+const getAllPokemonCards = async (filterParams) => {
+    const { pokemonset, pokemontype } = filterParams;
+    let filterString = "";
+    if (pokemontype !== "") {
+        filterString += `pokemontype=${pokemontype}`;
+    }
+    if (filterString !== "") {
+        filterString += "&";
+    }
+    if (pokemonset !== "") {
+        filterString += `pokemonset=${pokemonset}`;
+    }
+    const { data } = await API.get(`pokemoncards/?${filterString}`);
     return data;
 };
 
-const getAllCollections = async () => {
-    const { data } = await API.get("pokemoncollections/");
+const getAllCollections = async (filterCollectionParams) => {
+    const { pokemonset, pokemontype } = filterCollectionParams;
+    let filterString = "";
+    if (pokemontype !== "") {
+        filterString += `pokemontype=${pokemontype}`;
+    }
+    if (filterString !== "") {
+        filterString += "&";
+    }
+    if (pokemonset !== "") {
+        filterString += `pokemonset=${pokemonset}`;
+    }
+
+    const { data } = await API.get(`pokemoncollections/?${filterString}`);
     return data;
 };
 
@@ -138,40 +165,3 @@ export const deleteSelectedCollection = async (collectionID) => {
     const { data } = await API.delete(`pokemoncollections/${collectionID}`);
     return data;
 };
-
-export function getFilteredPokemonCards(filterParams, setPokemonCards) {
-    let filterString = "";
-    if (filterParams.pokemontype !== "") {
-        filterString += `pokemontype=${filterParams.pokemontype}`;
-    }
-    if (filterString !== "") {
-        filterString += "&";
-    }
-    if (filterParams.pokemonset !== "") {
-        filterString += `pokemonset=${filterParams.pokemonset}`;
-    }
-
-    API.get(`pokemoncards?${filterString}`).then((response) =>
-        setPokemonCards(response.data)
-    );
-}
-
-export function getFilteredPokemonCollection(
-    filterCollectionParams,
-    setCollectedArray
-) {
-    let filterString = "";
-    if (filterCollectionParams.pokemontype !== "") {
-        filterString += `pokemontype=${filterCollectionParams.pokemontype}`;
-    }
-    if (filterString !== "") {
-        filterString += "&";
-    }
-    if (filterCollectionParams.pokemonset !== "") {
-        filterString += `pokemonset=${filterCollectionParams.pokemonset}`;
-    }
-
-    API.get(`pokemoncollections?${filterString}`).then((response) =>
-        setCollectedArray(response.data)
-    );
-}
