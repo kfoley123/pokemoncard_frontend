@@ -39,8 +39,8 @@ export default function Collections(props) {
                 </tr>
             </thead>
             <tbody>
-                {collections.map((card, i) => (
-                    <tr key={i}>
+                {collections.map((card) => (
+                    <tr key={card.id}>
                         <td>{card.collectedCard.name}</td>
                         <td>{card.collectedCard.pokemonCardSet.name}</td>
                         <td>{card.collectedCard.type.pokemonType}</td>
@@ -50,7 +50,6 @@ export default function Collections(props) {
                                 Remove fr Collection
                             </button>
                         </td>
-                        <td></td>
                     </tr>
                 ))}
             </tbody>

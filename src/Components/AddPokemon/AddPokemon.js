@@ -31,12 +31,7 @@ export default function AddPokemon(props) {
                 placeholder="Name"
             ></input>
 
-            <select
-                name="type"
-                onChange={updateCardData}
-                type="text"
-                placeholder="Type"
-            >
+            <select name="type" onChange={updateCardData}>
                 {types.map((type) => {
                     return (
                         <option key={type.id} value={type.id}>

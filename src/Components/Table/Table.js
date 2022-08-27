@@ -59,8 +59,8 @@ export default function Table(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {pokemonCards.map((card, i) => (
-                        <tr key={i}>
+                    {pokemonCards.map((card) => (
+                        <tr key={card.id}>
                             <td>
                                 <img
                                     className="image"

@@ -14,7 +14,6 @@ export default function Filter(props) {
                         };
                     })
                 }
-                type="text"
             >
                 <option value="" disabled>
                     Select A {filterName}
