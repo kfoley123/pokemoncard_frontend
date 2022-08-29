@@ -158,8 +158,8 @@ const createNewCollection = async (collectionData) => {
     return data;
 };
 
-const createNewUser = async (newUser) => {
-    const { data } = await API.post("users/", newUser);
+const createNewUser = async (userData) => {
+    const { data } = await API.post("users/", userData);
     return data;
 };
 
