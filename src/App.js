@@ -4,6 +4,7 @@ import AddPokemon from "./Components/AddPokemon/AddPokemon";
 import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import Filter from "./Components/Filter/Filter";
+import CreateUser from "./Components/CreateUser/CreateUser";
 
 import {
     useAllPokemonCards,
@@ -48,8 +49,8 @@ function App() {
 
     return (
         <>
+            <CreateUser />
             <h1> Pokemon Card Collection App </h1>
-
             <div className="filters">
                 {setsSuccess && (
                     <Filter
@@ -77,7 +78,6 @@ function App() {
                     collections={collections}
                 />
             )}
-
             {setsSuccess && typesSuccess && (
                 <AddPokemon
                     types={types}
@@ -86,7 +86,6 @@ function App() {
                     updateCardData={updateCardData}
                 />
             )}
-
             {selectedPokemon !== 0 && setsSuccess && typesSuccess && (
                 <EditPokemon
                     sets={sets}
@@ -97,9 +96,7 @@ function App() {
                     cardData={pokemonCardData}
                 />
             )}
-
             <h1> Collection</h1>
-
             {setsSuccess && (
                 <Filter
                     setFilterParams={setFilterCollectionParams}
@@ -108,7 +105,6 @@ function App() {
                     filterKey="pokemonset"
                 />
             )}
-
             {typesSuccess && (
                 <Filter
                     setFilterParams={setFilterCollectionParams}
@@ -117,7 +113,6 @@ function App() {
                     filterKey="pokemontype"
                 />
             )}
-
             {collectionSuccess && <Collections collections={collections} />}
         </>
     );

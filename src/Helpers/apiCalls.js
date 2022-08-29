@@ -43,7 +43,7 @@ export function useUpdateSelectedCollection() {
     });
 }
 
-//create endpoint custom hook
+//create endpoint (POST) custom hook
 export function useCreateCard() {
     const queryClient = useQueryClient();
     return useMutation(createNewCard, {
@@ -60,6 +60,10 @@ export function useCreateCollection() {
             queryClient.invalidateQueries(["allCollections"]);
         },
     });
+}
+
+export function useCreateUser() {
+    return useMutation(createNewUser);
 }
 
 //delete endpoint custom hook
@@ -151,6 +155,11 @@ const createNewCard = async (newCard) => {
 
 const createNewCollection = async (collectionData) => {
     const { data } = await API.post("pokemoncollections/", collectionData);
+    return data;
+};
+
+const createNewUser = async (newUser) => {
+    const { data } = await API.post("users/", newUser);
     return data;
 };
 
