@@ -1,14 +1,49 @@
 import React from "react";
 import "./Table.css";
+import {
+    useCreateCollection,
+    useUpdateSelectedCollection,
+    useDeleteSelectedCard,
+} from "../../Helpers/apiCalls";
 
 export default function Table(props) {
     const {
         pokemonCards,
         setSelectedPokemon,
         setPokemonCardData,
-        deletePokemon,
-        addToCollection,
+        collections,
     } = props;
+
+    const { mutate: createCollection } = useCreateCollection();
+
+    const { mutate: updateCollection } = useUpdateSelectedCollection();
+
+    const { mutate: deleteCard } = useDeleteSelectedCard();
+
+    function addToCollection(card) {
+        let cardMatch = false;
+        collections.forEach((item) => {
+            if (item.collectedCard.id === card.id) {
+                let collectionObj = {
+                    ...item,
+                    quantity: item.quantity + 1,
+                    collectedCard: item.collectedCard.id,
+                };
+                updateCollection(collectionObj);
+                cardMatch = true;
+                return;
+            }
+        });
+        if (!cardMatch) {
+            let collectionObj = {
+                user: "User1",
+                quantity: "1",
+                collectedCard: card.id,
+            };
+            createCollection(collectionObj);
+        }
+    }
+
     return (
         <>
             <h2>All Cards</h2>
@@ -24,10 +59,14 @@ export default function Table(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {pokemonCards.map((card, i) => (
-                        <tr key={i}>
+                    {pokemonCards.map((card) => (
+                        <tr key={card.id}>
                             <td>
-                                <img className="image" src={card.image} />
+                                <img
+                                    className="image"
+                                    src={card.image}
+                                    alt={card.name}
+                                />
                             </td>
                             <td>{card.pokedexIndex}</td>
                             <td>{card.name}</td>
@@ -37,7 +76,7 @@ export default function Table(props) {
                             <td>
                                 <button
                                     onClick={() => {
-                                        setSelectedPokemon(card);
+                                        setSelectedPokemon(card.id);
                                         setPokemonCardData(() => {
                                             let typeid = card.type.id;
                                             let setid = card.pokemonCardSet.id;
@@ -53,14 +92,10 @@ export default function Table(props) {
                                 </button>
                             </td>
                             <td>
-                                <button onClick={() => deletePokemon(card.id)}>
+                                <button onClick={() => deleteCard(card.id)}>
                                     Delete
                                 </button>
-                                <button
-                                    onClick={() => {
-                                        addToCollection(card);
-                                    }}
-                                >
+                                <button onClick={() => addToCollection(card)}>
                                     Add To Collection
                                 </button>
                             </td>

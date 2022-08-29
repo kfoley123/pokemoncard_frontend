@@ -1,35 +1,31 @@
 import React from "react";
+import { useUpdateSelectedCard } from "../../Helpers/apiCalls";
 
 export default function EditPokemon(props) {
-    const {
-        pokemonTypes,
-        pokemonCardSets,
-        updateSelectedCard,
-        setSelectedPokemon,
-        selectedPokemon,
-        updateCardData,
-    } = props;
+    const { types, sets, setSelectedPokemon, cardData, updateCardData } = props;
+
+    const { mutate: updateCard } = useUpdateSelectedCard();
 
     return (
         <div>
-            <form key={selectedPokemon.id}>
+            <form key={cardData.id}>
                 <h2>Edit Pokemon Card</h2>
 
                 <input
-                    defaultValue={selectedPokemon.image}
+                    defaultValue={cardData.image}
                     name="image"
                     onChange={updateCardData}
                     type="text"
                 ></input>
 
                 <input
-                    defaultValue={selectedPokemon.pokedexIndex}
+                    defaultValue={cardData.pokedexIndex}
                     name="pokedexIndex"
                     onChange={updateCardData}
                     type="text"
                 ></input>
                 <input
-                    defaultValue={selectedPokemon.name}
+                    defaultValue={cardData.name}
                     name="name"
                     onChange={updateCardData}
                     type="text"
@@ -38,9 +34,9 @@ export default function EditPokemon(props) {
                 <select
                     name="type"
                     onChange={updateCardData}
-                    value={selectedPokemon.type.id}
+                    value={cardData.type.id}
                 >
-                    {pokemonTypes.map((type) => {
+                    {types.map((type) => {
                         return (
                             <option key={type.id} value={type.id}>
                                 {type.pokemonType}
@@ -50,7 +46,7 @@ export default function EditPokemon(props) {
                 </select>
 
                 <input
-                    defaultValue={selectedPokemon.HP}
+                    defaultValue={cardData.HP}
                     name="HP"
                     onChange={updateCardData}
                     type="text"
@@ -59,9 +55,9 @@ export default function EditPokemon(props) {
                 <select
                     name="pokemonCardSet"
                     onChange={updateCardData}
-                    value={selectedPokemon.pokemonCardSet.id}
+                    value={cardData.pokemonCardSet.id}
                 >
-                    {pokemonCardSets.map((set) => {
+                    {sets.map((set) => {
                         return (
                             <option key={set.id} value={set.id}>
                                 {set.name}
@@ -74,12 +70,12 @@ export default function EditPokemon(props) {
             <button
                 onClick={(event) => {
                     event.preventDefault();
-                    updateSelectedCard();
+                    updateCard(cardData);
                 }}
             >
                 Submit
             </button>
-            <button onClick={() => setSelectedPokemon({})}>Close</button>
+            <button onClick={() => setSelectedPokemon(0)}>Close</button>
         </div>
     );
 }

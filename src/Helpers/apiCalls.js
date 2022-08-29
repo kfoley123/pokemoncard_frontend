@@ -1,80 +1,167 @@
 import API from "./api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export function getAllPokemonCards(setPokemonCards) {
-    API.get("pokemoncards/").then((response) => setPokemonCards(response.data));
-}
+//get all X from API endpoints custom hooks
 
-export function getAllPokemonCollections(setCollectedArray) {
-    API.get("pokemoncollections/").then((response) =>
-        setCollectedArray(response.data)
+export function useAllPokemonCards(filterParams) {
+    return useQuery(["allPokemonCards", filterParams], () =>
+        getAllPokemonCards(filterParams)
     );
 }
 
-export function getAllPokemonTypes(setPokemonTypes) {
-    API.get("pokemontypes/").then((response) => setPokemonTypes(response.data));
-}
-
-export function getAllPokemonSets(setPokemonCardSets) {
-    API.get("pokemoncardsets/").then((response) =>
-        setPokemonCardSets(response.data)
+export function useAllCollections(filterCollectionParams) {
+    return useQuery(["allCollections", filterCollectionParams], () =>
+        getAllCollections(filterCollectionParams)
     );
 }
 
-export function putSelectedCard(
-    pokemonCardData,
-    selectedPokemon,
-    refreshPokemonCards
-) {
-    API.put(`pokemoncards/${selectedPokemon.id}/`, pokemonCardData).then(() =>
-        refreshPokemonCards()
-    );
+export function useAllTypes() {
+    return useQuery(["allTypes"], getAllTypes);
 }
 
-export function createNewPokemonCard(pokemonCardData, refreshPokemonCards) {
-    API.post("pokemoncards/", pokemonCardData).then(() =>
-        refreshPokemonCards()
-    );
+export function useAllSets() {
+    return useQuery(["allSets"], getAllSets);
 }
 
-export function updateSelectedCollection(
-    item,
-    collectionObj,
-    refreshPokemonCollections
-) {
-    API.put(`pokemoncollections/${item.id}/`, collectionObj).then(() =>
-        refreshPokemonCollections()
-    );
+//update endpoints custom hooks
+
+export function useUpdateSelectedCard() {
+    const queryClient = useQueryClient();
+    return useMutation(updateSelectedCard, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allPokemonCards"]);
+        },
+    });
 }
 
-export function createNewCollection(collectionObj, refreshPokemonCollections) {
-    API.post("pokemoncollections/", collectionObj).then(() =>
-        refreshPokemonCollections()
-    );
+export function useUpdateSelectedCollection() {
+    const queryClient = useQueryClient();
+    return useMutation(updateSelectedCollection, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allCollections"]);
+        },
+    });
 }
 
-export function deleteSelectedCollection(card, refreshPokemonCollections) {
-    API.delete(`pokemoncollections/${card.id}`).then(() =>
-        refreshPokemonCollections()
-    );
+//create endpoint custom hook
+export function useCreateCard() {
+    const queryClient = useQueryClient();
+    return useMutation(createNewCard, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allPokemonCards"]);
+        },
+    });
 }
 
-export function deleteSelectedCard(cardID, refreshPokemonCards) {
-    API.delete(`pokemoncards/${cardID}`).then(() => refreshPokemonCards());
+export function useCreateCollection() {
+    const queryClient = useQueryClient();
+    return useMutation(createNewCollection, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allCollections"]);
+        },
+    });
 }
 
-export function getFilteredPokemonCards(filterParams, setPokemonCards) {
+//delete endpoint custom hook
+
+export function useDeleteSelectedCard() {
+    const queryClient = useQueryClient();
+    return useMutation(deleteSelectedCard, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allPokemonCards"]);
+        },
+    });
+}
+
+export function useDeleteCollection() {
+    const queryClient = useQueryClient();
+    return useMutation(deleteSelectedCollection, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allCollections"]);
+        },
+    });
+}
+
+//GET API Calls
+
+const getAllPokemonCards = async (filterParams) => {
+    const { pokemonset, pokemontype } = filterParams;
     let filterString = "";
-    if (filterParams.pokemontype !== "") {
-        filterString += `pokemontype=${filterParams.pokemontype}`;
+    if (pokemontype !== "") {
+        filterString += `pokemontype=${pokemontype}`;
     }
     if (filterString !== "") {
         filterString += "&";
     }
-    if (filterParams.pokemonset !== "") {
-        filterString += `pokemonset=${filterParams.pokemonset}`;
+    if (pokemonset !== "") {
+        filterString += `pokemonset=${pokemonset}`;
+    }
+    const { data } = await API.get(`pokemoncards/?${filterString}`);
+    return data;
+};
+
+const getAllCollections = async (filterCollectionParams) => {
+    const { pokemonset, pokemontype } = filterCollectionParams;
+    let filterString = "";
+    if (pokemontype !== "") {
+        filterString += `pokemontype=${pokemontype}`;
+    }
+    if (filterString !== "") {
+        filterString += "&";
+    }
+    if (pokemonset !== "") {
+        filterString += `pokemonset=${pokemonset}`;
     }
 
-    API.get(`pokemoncards?${filterString}`).then((response) =>
-        setPokemonCards(response.data)
+    const { data } = await API.get(`pokemoncollections/?${filterString}`);
+    return data;
+};
+
+const getAllTypes = async () => {
+    const { data } = await API.get("pokemontypes/");
+    return data;
+};
+
+const getAllSets = async () => {
+    const { data } = await API.get("pokemoncardsets/");
+    return data;
+};
+
+// PUT (update) API calls
+
+const updateSelectedCard = async (cardData) => {
+    const { data } = await API.put(`pokemoncards/${cardData.id}/`, cardData);
+    return data;
+};
+
+const updateSelectedCollection = async (collectionData) => {
+    const { data } = await API.put(
+        `pokemoncollections/${collectionData.id}/`,
+        collectionData
     );
-}
+    return data;
+};
+
+// All POST (create) API calls
+
+const createNewCard = async (newCard) => {
+    const { data } = await API.post("pokemoncards/", newCard);
+    return data;
+};
+
+const createNewCollection = async (collectionData) => {
+    const { data } = await API.post("pokemoncollections/", collectionData);
+    return data;
+};
+
+// all DELETE API calls
+
+const deleteSelectedCard = async (cardID) => {
+    const { data } = await API.delete(`pokemoncards/${cardID}`);
+    return data;
+};
+
+const deleteSelectedCollection = async (collectionID) => {
+    const { data } = await API.delete(`pokemoncollections/${collectionID}`);
+    return data;
+};

@@ -1,8 +1,10 @@
 import React from "react";
+import { useCreateCard } from "../../Helpers/apiCalls";
 
 export default function AddPokemon(props) {
-    const { pokemonCardSets, pokemonTypes, saveNewPokemon, updateCardData } =
-        props;
+    const { sets, types, updateCardData, cardData } = props;
+
+    const { mutate: createCard } = useCreateCard();
 
     return (
         <form>
@@ -29,13 +31,8 @@ export default function AddPokemon(props) {
                 placeholder="Name"
             ></input>
 
-            <select
-                name="type"
-                onChange={updateCardData}
-                type="text"
-                placeholder="Type"
-            >
-                {pokemonTypes.map((type) => {
+            <select name="type" onChange={updateCardData}>
+                {types.map((type) => {
                     return (
                         <option key={type.id} value={type.id}>
                             {type.pokemonType}
@@ -50,7 +47,7 @@ export default function AddPokemon(props) {
                 placeholder="HP"
             ></input>
             <select name="pokemonCardSet" onChange={updateCardData}>
-                {pokemonCardSets.map((set) => {
+                {sets.map((set) => {
                     return (
                         <option key={set.id} value={set.id}>
                             {set.name}
@@ -61,7 +58,7 @@ export default function AddPokemon(props) {
             <button
                 onClick={(event) => {
                     event.preventDefault();
-                    saveNewPokemon();
+                    createCard(cardData);
                 }}
             >
                 Submit

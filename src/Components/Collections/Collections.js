@@ -1,36 +1,58 @@
 import React from "react";
+import {
+    useDeleteCollection,
+    useUpdateSelectedCollection,
+} from "../../Helpers/apiCalls";
 
 export default function Collections(props) {
-    const { collectedArray, removeFromCollection } = props;
+    const { collections } = props;
+
+    const { mutate: deleteCollection } = useDeleteCollection();
+
+    const { mutate: updateCollections } = useUpdateSelectedCollection();
+
+    function removeFromCollection(card) {
+        let numbOfCards = card.quantity;
+
+        if (numbOfCards - 1 <= 0) {
+            deleteCollection(card.id);
+        } else {
+            let collectionObj = {
+                id: card.id,
+                user: "User1",
+                quantity: numbOfCards - 1,
+                collectedCard: card.collectedCard.id,
+            };
+
+            updateCollections(collectionObj);
+        }
+    }
+
     return (
-        <>
-            <h1> Collection</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Set</th>
-                        <th>Number In Collection</th>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Set</th>
+                    <th>Type</th>
+                    <th>Number In Collection</th>
+                </tr>
+            </thead>
+            <tbody>
+                {collections.map((card) => (
+                    <tr key={card.id}>
+                        <td>{card.collectedCard.name}</td>
+                        <td>{card.collectedCard.pokemonCardSet.name}</td>
+                        <td>{card.collectedCard.type.pokemonType}</td>
+                        <td> {card.quantity} </td>
+                        <td>
+                            <button onClick={() => removeFromCollection(card)}>
+                                Remove fr Collection
+                            </button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {collectedArray.map((card, i) => (
-                        <tr key={i}>
-                            <td>{card.collectedCard.name}</td>
-                            <td>{card.collectedCard.pokemonCardSet.name}</td>
-                            <td> {card.quantity} </td>
-                            <td>
-                                <button
-                                    onClick={() => removeFromCollection(card)}
-                                >
-                                    Remove fr Collection
-                                </button>
-                            </td>
-                            <td></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </>
+                ))}
+            </tbody>
+        </table>
     );
 }
