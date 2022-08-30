@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useCreateCard } from "../../Helpers/apiCalls";
+import "./AddPokemon.css";
+import { validateCard } from "../../Helpers/formValidator";
 
 export default function AddPokemon(props) {
     const { sets, types } = props;
@@ -15,6 +17,8 @@ export default function AddPokemon(props) {
 
     const [newCardData, setNewCardData] = useState(newCardDataDefault);
 
+    const [validationMessage, setValidationMessage] = useState("");
+
     function updateCardData(event) {
         setNewCardData((prevData) => {
             return {
@@ -29,6 +33,7 @@ export default function AddPokemon(props) {
     return (
         <form>
             <h2>Add a Pokemon Card</h2>
+            <span className="error">{validationMessage}</span>
 
             <input
                 name="image"
@@ -92,8 +97,13 @@ export default function AddPokemon(props) {
             <button
                 onClick={(event) => {
                     event.preventDefault();
-                    createCard(newCardData);
-                    setNewCardData(newCardDataDefault);
+                    let validationResponse = validateCard(newCardData);
+                    if (validationResponse.valid) {
+                        console.log("hello");
+                        createCard(newCardData);
+                        setNewCardData(newCardDataDefault);
+                        setValidationMessage("");
+                    } else setValidationMessage(validationResponse.message);
                 }}
             >
                 Submit
