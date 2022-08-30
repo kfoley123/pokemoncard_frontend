@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCreateCard } from "../../Helpers/apiCalls";
 
 export default function AddPokemon(props) {
-    const { sets, types, updateCardData, cardData } = props;
+    const { sets, types } = props;
+
+    const newCardDataDefault = {
+        image: "",
+        pokedexIndex: "",
+        name: "",
+        type: 0,
+        HP: "",
+        pokemonCardSet: 0,
+    };
+
+    const [newCardData, setNewCardData] = useState(newCardDataDefault);
+
+    function updateCardData(event) {
+        setNewCardData((prevData) => {
+            return {
+                ...prevData,
+                [event.target.name]: event.target.value,
+            };
+        });
+    }
 
     const { mutate: createCard } = useCreateCard();
 
@@ -15,6 +35,7 @@ export default function AddPokemon(props) {
                 onChange={updateCardData}
                 type="text"
                 placeholder="Image"
+                value={newCardData.image}
             ></input>
 
             <input
@@ -22,6 +43,7 @@ export default function AddPokemon(props) {
                 onChange={updateCardData}
                 type="text"
                 placeholder="Pokedex Index"
+                value={newCardData.pokedexIndex}
             ></input>
 
             <input
@@ -29,9 +51,15 @@ export default function AddPokemon(props) {
                 onChange={updateCardData}
                 type="text"
                 placeholder="Name"
+                value={newCardData.name}
             ></input>
 
-            <select name="type" onChange={updateCardData}>
+            <select
+                name="type"
+                value={newCardData.type}
+                onChange={updateCardData}
+            >
+                <option value="0">Type</option>
                 {types.map((type) => {
                     return (
                         <option key={type.id} value={type.id}>
@@ -45,8 +73,14 @@ export default function AddPokemon(props) {
                 onChange={updateCardData}
                 type="text"
                 placeholder="HP"
+                value={newCardData.HP}
             ></input>
-            <select name="pokemonCardSet" onChange={updateCardData}>
+            <select
+                name="pokemonCardSet"
+                value={newCardData.pokemonCardSet}
+                onChange={updateCardData}
+            >
+                <option value="0">Set</option>
                 {sets.map((set) => {
                     return (
                         <option key={set.id} value={set.id}>
@@ -58,7 +92,8 @@ export default function AddPokemon(props) {
             <button
                 onClick={(event) => {
                     event.preventDefault();
-                    createCard(cardData);
+                    createCard(newCardData);
+                    setNewCardData(newCardDataDefault);
                 }}
             >
                 Submit

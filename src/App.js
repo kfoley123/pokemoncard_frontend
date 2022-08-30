@@ -79,12 +79,7 @@ function App() {
                 />
             )}
             {setsSuccess && typesSuccess && (
-                <AddPokemon
-                    types={types}
-                    sets={sets}
-                    cardData={pokemonCardData}
-                    updateCardData={updateCardData}
-                />
+                <AddPokemon types={types} sets={sets} />
             )}
             {selectedPokemon !== 0 && setsSuccess && typesSuccess && (
                 <EditPokemon
