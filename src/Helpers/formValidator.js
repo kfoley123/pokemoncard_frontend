@@ -8,6 +8,18 @@ function isValidUrl(urlString) {
     return url.protocol === "http:" || url.protocol === "https:";
 }
 
+function isValidEmail(email) {
+    console.log("hello");
+    var validRegex =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (email.match(validRegex)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 export function validateCard(cardData) {
     let validationResponse = { valid: true, message: "" };
 
@@ -47,6 +59,38 @@ export function validateCard(cardData) {
         validationResponse = {
             valid: false,
             message: "Please select a set",
+        };
+    }
+    return validationResponse;
+}
+
+export function validateUser(userData) {
+    let validationResponse = { valid: true, message: "" };
+
+    if (userData.username === "") {
+        validationResponse = {
+            valid: false,
+            message: "Please complete all fields",
+        };
+    }
+    if (userData.password === "" || userData.password.length < 8) {
+        validationResponse = {
+            valid: false,
+            message: "Please enter a password of at least 8 characters",
+        };
+    }
+
+    if (!isValidEmail(userData.email)) {
+        validationResponse = {
+            valid: false,
+            message: "Please enter valid email",
+        };
+    }
+
+    if (!isValidUrl(userData.profilePic)) {
+        validationResponse = {
+            valid: false,
+            message: "Please enter valid URL",
         };
     }
     return validationResponse;

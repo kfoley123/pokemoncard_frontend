@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import { useCreateUser } from "../../Helpers/apiCalls";
+import { validateUser } from "../../Helpers/formValidator";
 
 export default function CreateUser() {
-    const [userData, setUserData] = useState({});
+    let defaultUser = {
+        username: "",
+        password: "",
+        email: "",
+        profilePic: "",
+    };
+    const [userData, setUserData] = useState(defaultUser);
     const { mutate: createUser } = useCreateUser();
+
+    const [validationMessage, setValidationMessage] = useState("");
 
     function updateUserData(event) {
         setUserData((prevData) => {
@@ -17,6 +26,7 @@ export default function CreateUser() {
     return (
         <form>
             <h2>Create New User</h2>
+            <span className="error">{validationMessage}</span>
 
             <input
                 onChange={updateUserData}
@@ -49,7 +59,15 @@ export default function CreateUser() {
             <button
                 onClick={(event) => {
                     event.preventDefault();
-                    createUser(userData);
+
+                    let validationResponse = validateUser(userData);
+                    if (validationResponse.valid) {
+                        createUser(userData);
+                        setValidationMessage("");
+                        setUserData(defaultUser);
+                    } else {
+                        setValidationMessage(validationResponse.message);
+                    }
                 }}
             >
                 Submit

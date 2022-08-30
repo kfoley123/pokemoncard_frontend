@@ -16,3 +16,8 @@ body {
 .filters > * {
     margin: 0 15px;
 }
+
+.error {
+    color: red;
+    font-weight: bold;
+}
