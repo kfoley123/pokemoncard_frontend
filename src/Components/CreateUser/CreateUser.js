@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCreateUser } from "../../Helpers/apiCalls";
+import { useCreateUser, useAllUsers } from "../../Helpers/apiCalls";
 import { validateUser } from "../../Helpers/formValidator";
 
 export default function CreateUser() {
@@ -11,6 +11,8 @@ export default function CreateUser() {
     };
     const [userData, setUserData] = useState(defaultUser);
     const { mutate: createUser } = useCreateUser();
+
+    const { data: usernames, isSuccess: usersSuccess } = useAllUsers();
 
     const [validationMessage, setValidationMessage] = useState("");
 
@@ -60,7 +62,7 @@ export default function CreateUser() {
                 onClick={(event) => {
                     event.preventDefault();
 
-                    let validationResponse = validateUser(userData);
+                    let validationResponse = validateUser(userData, usernames);
                     if (validationResponse.valid) {
                         createUser(userData);
                         setValidationMessage("");

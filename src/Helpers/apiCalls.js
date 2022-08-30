@@ -23,6 +23,10 @@ export function useAllSets() {
     return useQuery(["allSets"], getAllSets);
 }
 
+export function useAllUsers() {
+    return useQuery(["allUsers"], getAllUsers);
+}
+
 //update endpoints custom hooks
 
 export function useUpdateSelectedCard() {
@@ -129,6 +133,14 @@ const getAllTypes = async () => {
 const getAllSets = async () => {
     const { data } = await API.get("pokemoncardsets/");
     return data;
+};
+
+const getAllUsers = async () => {
+    const { data } = await API.get("users/");
+    let usernames = data.map((user) => {
+        return user.username;
+    });
+    return usernames;
 };
 
 // PUT (update) API calls
