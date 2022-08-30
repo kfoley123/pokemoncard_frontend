@@ -99,7 +99,6 @@ export default function AddPokemon(props) {
                     event.preventDefault();
                     let validationResponse = validateCard(newCardData);
                     if (validationResponse.valid) {
-                        console.log("hello");
                         createCard(newCardData);
                         setNewCardData(newCardDataDefault);
                         setValidationMessage("");
