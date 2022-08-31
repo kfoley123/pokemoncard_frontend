@@ -4,6 +4,7 @@ import AddPokemon from "./Components/AddPokemon/AddPokemon";
 import Table from "./Components/Table/Table";
 import Collections from "./Components/Collections/Collections";
 import Filter from "./Components/Filter/Filter";
+import CreateUser from "./Components/CreateUser/CreateUser";
 
 import {
     useAllPokemonCards,
@@ -36,9 +37,8 @@ function App() {
     const { data: collections, isSuccess: collectionSuccess } =
         useAllCollections(filterCollectionParams);
 
-    // function that allows you to update any key:value pair depending on which one you select- each select/input in edit pokemon has a name and value is what is entered/selected
-    function updateCardData(event) {
-        setPokemonCardData((prevData) => {
+    function updateFormData(event, setterFunction) {
+        setterFunction((prevData) => {
             return {
                 ...prevData,
                 [event.target.name]: event.target.value,
@@ -48,8 +48,8 @@ function App() {
 
     return (
         <>
+            <CreateUser updateUserData={updateFormData} />
             <h1> Pokemon Card Collection App </h1>
-
             <div className="filters">
                 {setsSuccess && (
                     <Filter
@@ -77,29 +77,25 @@ function App() {
                     collections={collections}
                 />
             )}
-
             {setsSuccess && typesSuccess && (
                 <AddPokemon
                     types={types}
                     sets={sets}
-                    cardData={pokemonCardData}
-                    updateCardData={updateCardData}
+                    updateCardData={updateFormData}
                 />
             )}
-
             {selectedPokemon !== 0 && setsSuccess && typesSuccess && (
                 <EditPokemon
                     sets={sets}
                     setSelectedPokemon={setSelectedPokemon}
                     selectedPokemon={selectedPokemon}
                     types={types}
-                    updateCardData={updateCardData}
+                    updateCardData={updateFormData}
                     cardData={pokemonCardData}
+                    setPokemonCardData={setPokemonCardData}
                 />
             )}
-
             <h1> Collection</h1>
-
             {setsSuccess && (
                 <Filter
                     setFilterParams={setFilterCollectionParams}
@@ -108,7 +104,6 @@ function App() {
                     filterKey="pokemonset"
                 />
             )}
-
             {typesSuccess && (
                 <Filter
                     setFilterParams={setFilterCollectionParams}
@@ -117,7 +112,6 @@ function App() {
                     filterKey="pokemontype"
                 />
             )}
-
             {collectionSuccess && <Collections collections={collections} />}
         </>
     );
