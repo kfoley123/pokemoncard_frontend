@@ -3,6 +3,8 @@ import { useCreateUser, useAllUsers } from "../../Helpers/apiCalls";
 import { validateUser } from "../../Helpers/formValidator";
 
 export default function CreateUser(props) {
+    const { updateUserData } = props;
+
     let defaultUser = {
         username: "",
         password: "",
@@ -10,11 +12,10 @@ export default function CreateUser(props) {
         profilePic: "",
     };
 
-    const { updateUserData } = props;
     const [userData, setUserData] = useState(defaultUser);
     const { mutate: createUser } = useCreateUser();
 
-    const { data: usernames, isSuccess: usersSuccess } = useAllUsers();
+    const { data: usernames } = useAllUsers();
 
     const [validationMessage, setValidationMessage] = useState("");
 
