@@ -35,6 +35,7 @@ export default function CreateUser() {
                 name="username"
                 type="text"
                 placeholder="Username"
+                value={userData.username}
             ></input>
 
             <input
@@ -42,6 +43,7 @@ export default function CreateUser() {
                 name="password"
                 type="text"
                 placeholder="Password"
+                value={userData.password}
             ></input>
 
             <input
@@ -49,6 +51,7 @@ export default function CreateUser() {
                 name="email"
                 type="text"
                 placeholder="e-mail"
+                value={userData.email}
             ></input>
 
             <input
@@ -56,6 +59,7 @@ export default function CreateUser() {
                 name="profilePic"
                 type="text"
                 placeholder="Profile Pic URL"
+                value={userData.profilePic}
             ></input>
 
             <button
