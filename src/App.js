@@ -37,9 +37,8 @@ function App() {
     const { data: collections, isSuccess: collectionSuccess } =
         useAllCollections(filterCollectionParams);
 
-    // function that allows you to update any key:value pair depending on which one you select- each select/input in edit pokemon has a name and value is what is entered/selected
-    function updateCardData(event) {
-        setPokemonCardData((prevData) => {
+    function updateFormData(event, setterFunction) {
+        setterFunction((prevData) => {
             return {
                 ...prevData,
                 [event.target.name]: event.target.value,
@@ -49,7 +48,7 @@ function App() {
 
     return (
         <>
-            <CreateUser />
+            <CreateUser updateUserData={updateFormData} />
             <h1> Pokemon Card Collection App </h1>
             <div className="filters">
                 {setsSuccess && (
@@ -79,7 +78,11 @@ function App() {
                 />
             )}
             {setsSuccess && typesSuccess && (
-                <AddPokemon types={types} sets={sets} />
+                <AddPokemon
+                    types={types}
+                    sets={sets}
+                    updateCardData={updateFormData}
+                />
             )}
             {selectedPokemon !== 0 && setsSuccess && typesSuccess && (
                 <EditPokemon
@@ -87,7 +90,7 @@ function App() {
                     setSelectedPokemon={setSelectedPokemon}
                     selectedPokemon={selectedPokemon}
                     types={types}
-                    updateCardData={updateCardData}
+                    updateCardData={updateFormData}
                     cardData={pokemonCardData}
                 />
             )}

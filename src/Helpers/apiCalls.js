@@ -67,7 +67,12 @@ export function useCreateCollection() {
 }
 
 export function useCreateUser() {
-    return useMutation(createNewUser);
+    const queryClient = useQueryClient();
+    return useMutation(createNewUser, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["allUsers"]);
+        },
+    });
 }
 
 //delete endpoint custom hook

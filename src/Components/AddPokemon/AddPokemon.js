@@ -4,7 +4,7 @@ import "./AddPokemon.css";
 import { validateCard } from "../../Helpers/formValidator";
 
 export default function AddPokemon(props) {
-    const { sets, types } = props;
+    const { sets, types, updateCardData } = props;
 
     const newCardDataDefault = {
         image: "",
@@ -19,13 +19,8 @@ export default function AddPokemon(props) {
 
     const [validationMessage, setValidationMessage] = useState("");
 
-    function updateCardData(event) {
-        setNewCardData((prevData) => {
-            return {
-                ...prevData,
-                [event.target.name]: event.target.value,
-            };
-        });
+    function formHandler(event) {
+        updateCardData(event, setNewCardData);
     }
 
     const { mutate: createCard } = useCreateCard();
@@ -37,7 +32,7 @@ export default function AddPokemon(props) {
 
             <input
                 name="image"
-                onChange={updateCardData}
+                onChange={formHandler}
                 type="text"
                 placeholder="Image"
                 value={newCardData.image}
@@ -45,7 +40,7 @@ export default function AddPokemon(props) {
 
             <input
                 name="pokedexIndex"
-                onChange={updateCardData}
+                onChange={formHandler}
                 type="text"
                 placeholder="Pokedex Index"
                 value={newCardData.pokedexIndex}
@@ -53,17 +48,13 @@ export default function AddPokemon(props) {
 
             <input
                 name="name"
-                onChange={updateCardData}
+                onChange={formHandler}
                 type="text"
                 placeholder="Name"
                 value={newCardData.name}
             ></input>
 
-            <select
-                name="type"
-                value={newCardData.type}
-                onChange={updateCardData}
-            >
+            <select name="type" value={newCardData.type} onChange={formHandler}>
                 <option value="0">Type</option>
                 {types.map((type) => {
                     return (
@@ -75,7 +66,7 @@ export default function AddPokemon(props) {
             </select>
             <input
                 name="HP"
-                onChange={updateCardData}
+                onChange={formHandler}
                 type="text"
                 placeholder="HP"
                 value={newCardData.HP}
@@ -83,7 +74,7 @@ export default function AddPokemon(props) {
             <select
                 name="pokemonCardSet"
                 value={newCardData.pokemonCardSet}
-                onChange={updateCardData}
+                onChange={formHandler}
             >
                 <option value="0">Set</option>
                 {sets.map((set) => {
