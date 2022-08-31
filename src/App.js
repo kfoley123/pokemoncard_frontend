@@ -92,6 +92,7 @@ function App() {
                     types={types}
                     updateCardData={updateFormData}
                     cardData={pokemonCardData}
+                    setPokemonCardData={setPokemonCardData}
                 />
             )}
             <h1> Collection</h1>
