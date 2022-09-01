@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Collections from "../Components/Collections/Collections";
 import Filter from "../Components/Filter/Filter";
 
 export default function CollectionsPage(props) {
     const {
-        setFilterCollectionParams,
         setsSuccess,
         typesSuccess,
         sets,
-        collectionSuccess,
         types,
+        collectionSuccess,
         collections,
+        setFilterCollectionParams,
     } = props;
+
     return (
         <>
             <h1> Collection</h1>

@@ -1,48 +1,23 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import CollectionsPage from "./Pages/CollectionsPage";
 import Home from "./Pages/Home";
 import PageNotFound from "./Pages/PageNotFound";
-import {
-    useAllPokemonCards,
-    useAllSets,
-    useAllTypes,
-    useAllCollections,
-} from "./Helpers/apiCalls";
+import { useAllSets, useAllTypes, useAllCollections } from "./Helpers/apiCalls";
 
 function App() {
-    //state variables
+    //react query variables
+    const { data: sets, isSuccess: setsSuccess } = useAllSets();
+    const { data: types, isSuccess: typesSuccess } = useAllTypes();
 
-    const [selectedPokemon, setSelectedPokemon] = useState(0);
-    const [pokemonCardData, setPokemonCardData] = useState({});
-
-    const [filterParams, setFilterParams] = useState({
-        pokemonset: "",
-        pokemontype: "",
-    });
     const [filterCollectionParams, setFilterCollectionParams] = useState({
         pokemonset: "",
         pokemontype: "",
     });
 
-    //react query variables
-
-    const { data: cards, isSuccess: cardsSuccess } =
-        useAllPokemonCards(filterParams);
-    const { data: sets, isSuccess: setsSuccess } = useAllSets();
-    const { data: types, isSuccess: typesSuccess } = useAllTypes();
     const { data: collections, isSuccess: collectionSuccess } =
         useAllCollections(filterCollectionParams);
-
-    function updateFormData(event, setterFunction) {
-        setterFunction((prevData) => {
-            return {
-                ...prevData,
-                [event.target.name]: event.target.value,
-            };
-        });
-    }
 
     return (
         <BrowserRouter>
@@ -52,19 +27,12 @@ function App() {
                         index
                         element={
                             <Home
-                                updateFormData={updateFormData}
-                                setFilterParams={setFilterParams}
                                 sets={sets}
                                 setsSuccess={setsSuccess}
                                 typesSuccess={typesSuccess}
                                 types={types}
-                                cardsSuccess={cardsSuccess}
-                                setSelectedPokemon={setSelectedPokemon}
-                                cards={cards}
-                                setPokemonCardData={setPokemonCardData}
-                                pokemonCardData={pokemonCardData}
                                 collections={collections}
-                                selectedPokemon={selectedPokemon}
+                                collectionSuccess={collectionSuccess}
                             />
                         }
                     />
@@ -72,15 +40,15 @@ function App() {
                         path="collections"
                         element={
                             <CollectionsPage
-                                setFilterCollectionParams={
-                                    setFilterCollectionParams
-                                }
                                 setsSuccess={setsSuccess}
                                 typesSuccess={typesSuccess}
                                 sets={sets}
-                                collectionSuccess={collectionSuccess}
                                 types={types}
                                 collections={collections}
+                                collectionSuccess={collectionSuccess}
+                                setFilterCollectionParams={
+                                    setFilterCollectionParams
+                                }
                             />
                         }
                     />

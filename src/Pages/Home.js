@@ -1,26 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import CreateUser from "../Components/CreateUser/CreateUser";
 import Filter from "../Components/Filter/Filter";
 import Table from "../Components/Table/Table";
 import AddPokemon from "../Components/AddPokemon/AddPokemon";
 import EditPokemon from "../Components/EditPokemon/EditPokemon";
+import { useAllPokemonCards } from "../Helpers/apiCalls";
 
 export default function Home(props) {
-    const {
-        updateFormData,
-        setFilterParams,
-        sets,
-        setsSuccess,
-        typesSuccess,
-        types,
-        cardsSuccess,
-        setSelectedPokemon,
-        cards,
-        setPokemonCardData,
-        pokemonCardData,
-        collections,
-        selectedPokemon,
-    } = props;
+    const { sets, setsSuccess, typesSuccess, types, collections } = props;
+
+    const [filterParams, setFilterParams] = useState({
+        pokemonset: "",
+        pokemontype: "",
+    });
+
+    const { data: cards, isSuccess: cardsSuccess } =
+        useAllPokemonCards(filterParams);
+
+    const [selectedPokemon, setSelectedPokemon] = useState(0);
+    const [pokemonCardData, setPokemonCardData] = useState({});
+
+    function updateFormData(event, setterFunction) {
+        setterFunction((prevData) => {
+            return {
+                ...prevData,
+                [event.target.name]: event.target.value,
+            };
+        });
+    }
 
     return (
         <>
