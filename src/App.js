@@ -1,11 +1,9 @@
 import { useState } from "react";
-import EditPokemon from "./Components/EditPokemon/EditPokemon";
-import AddPokemon from "./Components/AddPokemon/AddPokemon";
-import Table from "./Components/Table/Table";
-import Collections from "./Components/Collections/Collections";
-import Filter from "./Components/Filter/Filter";
-import CreateUser from "./Components/CreateUser/CreateUser";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./Components/Layout/Layout";
+import CollectionsPage from "./Pages/CollectionsPage";
+import Home from "./Pages/Home";
+import PageNotFound from "./Pages/PageNotFound";
 import {
     useAllPokemonCards,
     useAllSets,
@@ -47,73 +45,49 @@ function App() {
     }
 
     return (
-        <>
-            <CreateUser updateUserData={updateFormData} />
-            <h1> Pokemon Card Collection App </h1>
-            <div className="filters">
-                {setsSuccess && (
-                    <Filter
-                        setFilterParams={setFilterParams}
-                        filterOptions={sets}
-                        filterName="Set"
-                        filterKey="pokemonset"
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route
+                        index
+                        element={
+                            <Home
+                                updateFormData={updateFormData}
+                                setFilterParams={setFilterParams}
+                                sets={sets}
+                                setsSuccess={setsSuccess}
+                                typesSuccess={typesSuccess}
+                                types={types}
+                                cardsSuccess={cardsSuccess}
+                                setSelectedPokemon={setSelectedPokemon}
+                                cards={cards}
+                                setPokemonCardData={setPokemonCardData}
+                                pokemonCardData={pokemonCardData}
+                                collections={collections}
+                                selectedPokemon={selectedPokemon}
+                            />
+                        }
                     />
-                )}
-
-                {typesSuccess && (
-                    <Filter
-                        setFilterParams={setFilterParams}
-                        filterOptions={types}
-                        filterName="Type"
-                        filterKey="pokemontype"
+                    <Route
+                        path="collections"
+                        element={
+                            <CollectionsPage
+                                setFilterCollectionParams={
+                                    setFilterCollectionParams
+                                }
+                                setsSuccess={setsSuccess}
+                                typesSuccess={typesSuccess}
+                                sets={sets}
+                                collectionSuccess={collectionSuccess}
+                                types={types}
+                                collections={collections}
+                            />
+                        }
                     />
-                )}
-            </div>
-            {cardsSuccess && (
-                <Table
-                    setSelectedPokemon={setSelectedPokemon}
-                    pokemonCards={cards}
-                    setPokemonCardData={setPokemonCardData}
-                    collections={collections}
-                />
-            )}
-            {setsSuccess && typesSuccess && (
-                <AddPokemon
-                    types={types}
-                    sets={sets}
-                    updateCardData={updateFormData}
-                />
-            )}
-            {selectedPokemon !== 0 && setsSuccess && typesSuccess && (
-                <EditPokemon
-                    sets={sets}
-                    setSelectedPokemon={setSelectedPokemon}
-                    selectedPokemon={selectedPokemon}
-                    types={types}
-                    updateCardData={updateFormData}
-                    cardData={pokemonCardData}
-                    setPokemonCardData={setPokemonCardData}
-                />
-            )}
-            <h1> Collection</h1>
-            {setsSuccess && (
-                <Filter
-                    setFilterParams={setFilterCollectionParams}
-                    filterOptions={sets}
-                    filterName="Set"
-                    filterKey="pokemonset"
-                />
-            )}
-            {typesSuccess && (
-                <Filter
-                    setFilterParams={setFilterCollectionParams}
-                    filterOptions={types}
-                    filterName="Type"
-                    filterKey="pokemontype"
-                />
-            )}
-            {collectionSuccess && <Collections collections={collections} />}
-        </>
+                    <Route path="*" element={<PageNotFound />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
