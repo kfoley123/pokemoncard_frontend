@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./Components/Layout/Layout";
+import Header from "./Components/Header/Header";
 import CollectionsPage from "./Pages/CollectionsPage";
 import Home from "./Pages/Home";
 import PageNotFound from "./Pages/PageNotFound";
@@ -22,7 +22,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout />}>
+                <Route path="/" element={<Header />}>
                     <Route
                         index
                         element={

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Collections from "../Components/Collections/Collections";
 import Filter from "../Components/Filter/Filter";
 

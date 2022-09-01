@@ -32,7 +32,7 @@ export default function Home(props) {
     return (
         <>
             <CreateUser updateUserData={updateFormData} />
-            <h1> Pokemon Card Collection App </h1>
+            <h2> All Cards </h2>
             <div className="filters">
                 {setsSuccess && (
                     <Filter
