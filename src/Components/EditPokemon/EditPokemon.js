@@ -3,11 +3,22 @@ import { useUpdateSelectedCard } from "../../Helpers/apiCalls";
 import { validateCard } from "../../Helpers/formValidator";
 
 export default function EditPokemon(props) {
-    const { types, sets, setSelectedPokemon, cardData, updateCardData } = props;
+    const {
+        types,
+        sets,
+        setSelectedPokemon,
+        cardData,
+        updateCardData,
+        setPokemonCardData,
+    } = props;
 
     const [validationMessage, setValidationMessage] = useState("");
 
     const { mutate: updateCard } = useUpdateSelectedCard();
+
+    function formHandler(event) {
+        updateCardData(event, setPokemonCardData);
+    }
 
     return (
         <div>
@@ -18,26 +29,26 @@ export default function EditPokemon(props) {
                 <input
                     value={cardData.image}
                     name="image"
-                    onChange={updateCardData}
+                    onChange={formHandler}
                     type="text"
                 ></input>
 
                 <input
                     value={cardData.pokedexIndex}
                     name="pokedexIndex"
-                    onChange={updateCardData}
+                    onChange={formHandler}
                     type="text"
                 ></input>
                 <input
                     value={cardData.name}
                     name="name"
-                    onChange={updateCardData}
+                    onChange={formHandler}
                     type="text"
                 ></input>
 
                 <select
                     name="type"
-                    onChange={updateCardData}
+                    onChange={formHandler}
                     value={cardData.type.id}
                 >
                     {types.map((type) => {
@@ -52,13 +63,13 @@ export default function EditPokemon(props) {
                 <input
                     value={cardData.HP}
                     name="HP"
-                    onChange={updateCardData}
+                    onChange={formHandler}
                     type="text"
                 ></input>
 
                 <select
                     name="pokemonCardSet"
-                    onChange={updateCardData}
+                    onChange={formHandler}
                     value={cardData.pokemonCardSet.id}
                 >
                     {sets.map((set) => {

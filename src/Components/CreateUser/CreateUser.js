@@ -2,27 +2,25 @@ import React, { useState } from "react";
 import { useCreateUser, useAllUsers } from "../../Helpers/apiCalls";
 import { validateUser } from "../../Helpers/formValidator";
 
-export default function CreateUser() {
+export default function CreateUser(props) {
+    const { updateUserData } = props;
+
     let defaultUser = {
         username: "",
         password: "",
         email: "",
         profilePic: "",
     };
+
     const [userData, setUserData] = useState(defaultUser);
     const { mutate: createUser } = useCreateUser();
 
-    const { data: usernames, isSuccess: usersSuccess } = useAllUsers();
+    const { data: usernames } = useAllUsers();
 
     const [validationMessage, setValidationMessage] = useState("");
 
-    function updateUserData(event) {
-        setUserData((prevData) => {
-            return {
-                ...prevData,
-                [event.target.name]: event.target.value,
-            };
-        });
+    function formHandler(event) {
+        updateUserData(event, setUserData);
     }
 
     return (
@@ -31,7 +29,7 @@ export default function CreateUser() {
             <span className="error">{validationMessage}</span>
 
             <input
-                onChange={updateUserData}
+                onChange={formHandler}
                 name="username"
                 type="text"
                 placeholder="Username"
@@ -39,7 +37,7 @@ export default function CreateUser() {
             ></input>
 
             <input
-                onChange={updateUserData}
+                onChange={formHandler}
                 name="password"
                 type="text"
                 placeholder="Password"
@@ -47,7 +45,7 @@ export default function CreateUser() {
             ></input>
 
             <input
-                onChange={updateUserData}
+                onChange={formHandler}
                 name="email"
                 type="text"
                 placeholder="e-mail"
@@ -55,7 +53,7 @@ export default function CreateUser() {
             ></input>
 
             <input
-                onChange={updateUserData}
+                onChange={formHandler}
                 name="profilePic"
                 type="text"
                 placeholder="Profile Pic URL"

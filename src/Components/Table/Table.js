@@ -46,7 +46,6 @@ export default function Table(props) {
 
     return (
         <>
-            <h2>All Cards</h2>
             <table>
                 <thead>
                     <tr>
