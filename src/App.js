@@ -8,8 +8,6 @@ import { useAllSets, useAllTypes, useAllCollections } from "./Helpers/apiCalls";
 
 function App() {
     //react query variables
-    const { data: sets, isSuccess: setsSuccess } = useAllSets();
-    const { data: types, isSuccess: typesSuccess } = useAllTypes();
 
     const [filterCollectionParams, setFilterCollectionParams] = useState({
         pokemonset: "",
@@ -18,6 +16,8 @@ function App() {
 
     const { data: collections, isSuccess: collectionSuccess } =
         useAllCollections(filterCollectionParams);
+    const { data: sets, isSuccess: setsSuccess } = useAllSets();
+    const { data: types, isSuccess: typesSuccess } = useAllTypes();
 
     return (
         <BrowserRouter>
