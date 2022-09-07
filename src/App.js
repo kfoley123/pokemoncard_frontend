@@ -1,119 +1,61 @@
-import { useState } from "react";
-import EditPokemon from "./Components/EditPokemon/EditPokemon";
-import AddPokemon from "./Components/AddPokemon/AddPokemon";
-import Table from "./Components/Table/Table";
-import Collections from "./Components/Collections/Collections";
-import Filter from "./Components/Filter/Filter";
-import CreateUser from "./Components/CreateUser/CreateUser";
-
-import {
-    useAllPokemonCards,
-    useAllSets,
-    useAllTypes,
-    useAllCollections,
-} from "./Helpers/apiCalls";
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./Components/Header/Header";
+import CollectionsPage from "./Pages/CollectionsPage";
+import Home from "./Pages/Home";
+import PageNotFound from "./Pages/PageNotFound";
+import { useAllSets, useAllTypes, useAllCollections } from "./Helpers/apiCalls";
 
 function App() {
-    //state variables
+    //react query variables
 
-    const [selectedPokemon, setSelectedPokemon] = useState(0);
-    const [pokemonCardData, setPokemonCardData] = useState({});
-
-    const [filterParams, setFilterParams] = useState({
-        pokemonset: "",
-        pokemontype: "",
-    });
     const [filterCollectionParams, setFilterCollectionParams] = useState({
         pokemonset: "",
         pokemontype: "",
     });
 
-    //react query variables
-
-    const { data: cards, isSuccess: cardsSuccess } =
-        useAllPokemonCards(filterParams);
-    const { data: sets, isSuccess: setsSuccess } = useAllSets();
-    const { data: types, isSuccess: typesSuccess } = useAllTypes();
     const { data: collections, isSuccess: collectionSuccess } =
         useAllCollections(filterCollectionParams);
-
-    function updateFormData(event, setterFunction) {
-        setterFunction((prevData) => {
-            return {
-                ...prevData,
-                [event.target.name]: event.target.value,
-            };
-        });
-    }
+    const { data: sets, isSuccess: setsSuccess } = useAllSets();
+    const { data: types, isSuccess: typesSuccess } = useAllTypes();
 
     return (
-        <>
-            <CreateUser updateUserData={updateFormData} />
-            <h1> Pokemon Card Collection App </h1>
-            <div className="filters">
-                {setsSuccess && (
-                    <Filter
-                        setFilterParams={setFilterParams}
-                        filterOptions={sets}
-                        filterName="Set"
-                        filterKey="pokemonset"
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Header />}>
+                    <Route
+                        index
+                        element={
+                            <Home
+                                sets={sets}
+                                setsSuccess={setsSuccess}
+                                typesSuccess={typesSuccess}
+                                types={types}
+                                collections={collections}
+                                collectionSuccess={collectionSuccess}
+                            />
+                        }
                     />
-                )}
-
-                {typesSuccess && (
-                    <Filter
-                        setFilterParams={setFilterParams}
-                        filterOptions={types}
-                        filterName="Type"
-                        filterKey="pokemontype"
+                    <Route
+                        path="collections"
+                        element={
+                            <CollectionsPage
+                                setsSuccess={setsSuccess}
+                                typesSuccess={typesSuccess}
+                                sets={sets}
+                                types={types}
+                                collections={collections}
+                                collectionSuccess={collectionSuccess}
+                                setFilterCollectionParams={
+                                    setFilterCollectionParams
+                                }
+                            />
+                        }
                     />
-                )}
-            </div>
-            {cardsSuccess && (
-                <Table
-                    setSelectedPokemon={setSelectedPokemon}
-                    pokemonCards={cards}
-                    setPokemonCardData={setPokemonCardData}
-                    collections={collections}
-                />
-            )}
-            {setsSuccess && typesSuccess && (
-                <AddPokemon
-                    types={types}
-                    sets={sets}
-                    updateCardData={updateFormData}
-                />
-            )}
-            {selectedPokemon !== 0 && setsSuccess && typesSuccess && (
-                <EditPokemon
-                    sets={sets}
-                    setSelectedPokemon={setSelectedPokemon}
-                    selectedPokemon={selectedPokemon}
-                    types={types}
-                    updateCardData={updateFormData}
-                    cardData={pokemonCardData}
-                    setPokemonCardData={setPokemonCardData}
-                />
-            )}
-            <h1> Collection</h1>
-            {setsSuccess && (
-                <Filter
-                    setFilterParams={setFilterCollectionParams}
-                    filterOptions={sets}
-                    filterName="Set"
-                    filterKey="pokemonset"
-                />
-            )}
-            {typesSuccess && (
-                <Filter
-                    setFilterParams={setFilterCollectionParams}
-                    filterOptions={types}
-                    filterName="Type"
-                    filterKey="pokemontype"
-                />
-            )}
-            {collectionSuccess && <Collections collections={collections} />}
-        </>
+                    <Route path="*" element={<PageNotFound />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
