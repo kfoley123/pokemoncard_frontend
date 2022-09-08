@@ -4,7 +4,8 @@ import Filter from "../Components/Filter/Filter";
 import Table from "../Components/Table/Table";
 import AddPokemon from "../Components/AddPokemon/AddPokemon";
 import EditPokemon from "../Components/EditPokemon/EditPokemon";
-import { useAllPokemonCards } from "../Helpers/apiCalls";
+import { useAllPokemonCards, useAllUsers } from "../Helpers/apiCalls";
+import LogIn from "../Components/LogIn/LogIn";
 
 export default function Home(props) {
     const { sets, setsSuccess, typesSuccess, types, collections } = props;
@@ -16,6 +17,8 @@ export default function Home(props) {
 
     const { data: cards, isSuccess: cardsSuccess } =
         useAllPokemonCards(filterParams);
+
+    const { data: users } = useAllUsers();
 
     const [selectedPokemon, setSelectedPokemon] = useState(0);
     const [pokemonCardData, setPokemonCardData] = useState({});
@@ -31,7 +34,8 @@ export default function Home(props) {
 
     return (
         <>
-            <CreateUser updateUserData={updateFormData} />
+            <LogIn updateLogInRequest={updateFormData} users={users} />
+            <CreateUser updateUserData={updateFormData} users={users} />
             <h2> All Cards </h2>
             <div className="filters">
                 {setsSuccess && (

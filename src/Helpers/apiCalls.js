@@ -27,7 +27,7 @@ export function useAllUsers() {
     return useQuery(["allUsers"], getAllUsers);
 }
 
-//update endpoints custom hooks
+//update endpoints (PUT) custom hooks
 
 export function useUpdateSelectedCard() {
     const queryClient = useQueryClient();
@@ -45,6 +45,10 @@ export function useUpdateSelectedCollection() {
             queryClient.invalidateQueries(["allCollections"]);
         },
     });
+}
+
+export function useLogIn() {
+    return useMutation(logIn);
 }
 
 //create endpoint (POST) custom hook
@@ -143,7 +147,7 @@ const getAllSets = async () => {
 const getAllUsers = async () => {
     const { data } = await API.get("users/");
     let usernames = data.map((user) => {
-        return user.username;
+        return { id: user.id, username: user.username };
     });
     return usernames;
 };
@@ -160,6 +164,11 @@ const updateSelectedCollection = async (collectionData) => {
         `pokemoncollections/${collectionData.id}/`,
         collectionData
     );
+    return data;
+};
+
+const logIn = async (loginData) => {
+    const { data } = await API.patch(`login/${loginData.id}/`, loginData);
     return data;
 };
 
