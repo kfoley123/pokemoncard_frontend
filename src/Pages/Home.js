@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import CreateUser from "../Components/CreateUser/CreateUser";
 import Filter from "../Components/Filter/Filter";
 import Table from "../Components/Table/Table";
 import AddPokemon from "../Components/AddPokemon/AddPokemon";
 import EditPokemon from "../Components/EditPokemon/EditPokemon";
-import { useAllPokemonCards, useAllUsers } from "../Helpers/apiCalls";
-import LogIn from "../Components/LogIn/LogIn";
+import { useAllPokemonCards } from "../Helpers/apiCalls";
 
 export default function Home(props) {
     const {
@@ -14,7 +12,7 @@ export default function Home(props) {
         typesSuccess,
         types,
         collections,
-        setLoggedInUser,
+        updateFormData,
     } = props;
 
     const [filterParams, setFilterParams] = useState({
@@ -25,28 +23,11 @@ export default function Home(props) {
     const { data: cards, isSuccess: cardsSuccess } =
         useAllPokemonCards(filterParams);
 
-    const { data: users } = useAllUsers();
-
     const [selectedPokemon, setSelectedPokemon] = useState(0);
     const [pokemonCardData, setPokemonCardData] = useState({});
 
-    function updateFormData(event, setterFunction) {
-        setterFunction((prevData) => {
-            return {
-                ...prevData,
-                [event.target.name]: event.target.value,
-            };
-        });
-    }
-
     return (
         <>
-            <LogIn
-                updateLogInRequest={updateFormData}
-                users={users}
-                setLoggedInUser={setLoggedInUser}
-            />
-            <CreateUser updateUserData={updateFormData} users={users} />
             <h2> All Cards </h2>
             <div className="filters">
                 {setsSuccess && (
