@@ -79,17 +79,29 @@ function App() {
                     <Route
                         path="collections"
                         element={
-                            <CollectionsPage
-                                setsSuccess={setsSuccess}
-                                typesSuccess={typesSuccess}
-                                sets={sets}
-                                types={types}
-                                collections={collections}
-                                collectionSuccess={collectionSuccess}
-                                setFilterCollectionParams={
-                                    setFilterCollectionParams
-                                }
-                            />
+                            loggedInUser > 0 ? (
+                                <CollectionsPage
+                                    setsSuccess={setsSuccess}
+                                    typesSuccess={typesSuccess}
+                                    sets={sets}
+                                    types={types}
+                                    collections={collections}
+                                    collectionSuccess={collectionSuccess}
+                                    setFilterCollectionParams={
+                                        setFilterCollectionParams
+                                    }
+                                />
+                            ) : (
+                                <>
+                                    <h2>please log in to view collections</h2>
+                                    <LogInPage
+                                        loggedInUser={loggedInUser}
+                                        updateFormData={updateFormData}
+                                        users={users}
+                                        setLoggedInUser={setLoggedInUser}
+                                    />
+                                </>
+                            )
                         }
                     />
                     <Route path="*" element={<PageNotFound />} />

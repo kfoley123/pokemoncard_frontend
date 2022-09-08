@@ -13,6 +13,7 @@ export default function Home(props) {
         types,
         collections,
         updateFormData,
+        loggedInUser,
     } = props;
 
     const [filterParams, setFilterParams] = useState({
@@ -54,6 +55,7 @@ export default function Home(props) {
                     pokemonCards={cards}
                     setPokemonCardData={setPokemonCardData}
                     collections={collections}
+                    loggedInUser={loggedInUser}
                 />
             )}
             {setsSuccess && typesSuccess && (
