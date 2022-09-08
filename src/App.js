@@ -26,7 +26,15 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Header />}>
+                <Route
+                    path="/"
+                    element={
+                        <Header
+                            setLoggedInUser={setLoggedInUser}
+                            loggedInUser={loggedInUser}
+                        />
+                    }
+                >
                     <Route
                         index
                         element={
