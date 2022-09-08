@@ -19,6 +19,10 @@ function App() {
     const { data: sets, isSuccess: setsSuccess } = useAllSets();
     const { data: types, isSuccess: typesSuccess } = useAllTypes();
 
+    const [loggedInUser, setLoggedInUser] = useState(0);
+
+    console.log(loggedInUser);
+
     return (
         <BrowserRouter>
             <Routes>
@@ -33,6 +37,7 @@ function App() {
                                 types={types}
                                 collections={collections}
                                 collectionSuccess={collectionSuccess}
+                                setLoggedInUser={setLoggedInUser}
                             />
                         }
                     />

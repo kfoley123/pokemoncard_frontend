@@ -8,7 +8,14 @@ import { useAllPokemonCards, useAllUsers } from "../Helpers/apiCalls";
 import LogIn from "../Components/LogIn/LogIn";
 
 export default function Home(props) {
-    const { sets, setsSuccess, typesSuccess, types, collections } = props;
+    const {
+        sets,
+        setsSuccess,
+        typesSuccess,
+        types,
+        collections,
+        setLoggedInUser,
+    } = props;
 
     const [filterParams, setFilterParams] = useState({
         pokemonset: "",
@@ -34,7 +41,11 @@ export default function Home(props) {
 
     return (
         <>
-            <LogIn updateLogInRequest={updateFormData} users={users} />
+            <LogIn
+                updateLogInRequest={updateFormData}
+                users={users}
+                setLoggedInUser={setLoggedInUser}
+            />
             <CreateUser updateUserData={updateFormData} users={users} />
             <h2> All Cards </h2>
             <div className="filters">

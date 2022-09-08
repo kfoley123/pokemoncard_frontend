@@ -47,8 +47,12 @@ export function useUpdateSelectedCollection() {
     });
 }
 
-export function useLogIn() {
-    return useMutation(logIn);
+export function useLogIn(setLoggedInUser) {
+    return useMutation(logIn, {
+        onSuccess: (_, vars) => {
+            setLoggedInUser(vars.id);
+        },
+    });
 }
 
 //create endpoint (POST) custom hook

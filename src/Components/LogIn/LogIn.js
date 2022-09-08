@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useLogIn } from "../../Helpers/apiCalls";
 
 export default function LogIn(props) {
-    const { updateLogInRequest, users } = props;
+    const { updateLogInRequest, users, setLoggedInUser } = props;
 
     const [logInRequest, setLogInRequest] = useState({});
 
-    const { mutate: logIn } = useLogIn();
+    const { mutate: logIn } = useLogIn(setLoggedInUser);
 
     function formHandler(event) {
         updateLogInRequest(event, setLogInRequest);
@@ -36,7 +36,6 @@ export default function LogIn(props) {
                     event.preventDefault();
                     users.forEach((userObj) => {
                         if (userObj.username === logInRequest.username) {
-                            console.log("dog");
                             let LogInData = {
                                 id: userObj.id,
                                 loggedIn: true,
