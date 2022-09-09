@@ -47,10 +47,15 @@ export function useUpdateSelectedCollection() {
     });
 }
 
-export function useLogIn(setLoggedInUser) {
+export function useLogIn(setLoggedInUser, setErrorMessage) {
     return useMutation(logIn, {
         onSuccess: (_, vars) => {
             setLoggedInUser(vars.id);
+        },
+        onError: () => {
+            setErrorMessage(
+                "Log in error. Please check your credentials and try again"
+            );
         },
     });
 }
