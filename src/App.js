@@ -4,7 +4,13 @@ import Header from "./Components/Header/Header";
 import CollectionsPage from "./Pages/CollectionsPage";
 import Home from "./Pages/Home";
 import PageNotFound from "./Pages/PageNotFound";
-import { useAllSets, useAllTypes, useAllCollections } from "./Helpers/apiCalls";
+import LogInPage from "./Pages/LogInPage";
+import {
+    useAllSets,
+    useAllTypes,
+    useAllCollections,
+    useAllUsers,
+} from "./Helpers/apiCalls";
 
 function App() {
     //react query variables
@@ -18,11 +24,31 @@ function App() {
         useAllCollections(filterCollectionParams);
     const { data: sets, isSuccess: setsSuccess } = useAllSets();
     const { data: types, isSuccess: typesSuccess } = useAllTypes();
+    const { data: users } = useAllUsers();
+
+    const [loggedInUser, setLoggedInUser] = useState(0);
+
+    function updateFormData(event, setterFunction) {
+        setterFunction((prevData) => {
+            return {
+                ...prevData,
+                [event.target.name]: event.target.value,
+            };
+        });
+    }
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Header />}>
+                <Route
+                    path="/"
+                    element={
+                        <Header
+                            setLoggedInUser={setLoggedInUser}
+                            loggedInUser={loggedInUser}
+                        />
+                    }
+                >
                     <Route
                         index
                         element={
@@ -33,23 +59,49 @@ function App() {
                                 types={types}
                                 collections={collections}
                                 collectionSuccess={collectionSuccess}
+                                setLoggedInUser={setLoggedInUser}
+                                loggedInUser={loggedInUser}
+                                updateFormData={updateFormData}
+                            />
+                        }
+                    />
+                    <Route
+                        path="logIn"
+                        element={
+                            <LogInPage
+                                loggedInUser={loggedInUser}
+                                updateFormData={updateFormData}
+                                users={users}
+                                setLoggedInUser={setLoggedInUser}
                             />
                         }
                     />
                     <Route
                         path="collections"
                         element={
-                            <CollectionsPage
-                                setsSuccess={setsSuccess}
-                                typesSuccess={typesSuccess}
-                                sets={sets}
-                                types={types}
-                                collections={collections}
-                                collectionSuccess={collectionSuccess}
-                                setFilterCollectionParams={
-                                    setFilterCollectionParams
-                                }
-                            />
+                            loggedInUser > 0 ? (
+                                <CollectionsPage
+                                    setsSuccess={setsSuccess}
+                                    typesSuccess={typesSuccess}
+                                    sets={sets}
+                                    types={types}
+                                    collections={collections}
+                                    collectionSuccess={collectionSuccess}
+                                    setFilterCollectionParams={
+                                        setFilterCollectionParams
+                                    }
+                                />
+                            ) : (
+                                <>
+                                    <h2>please log in to view collections</h2>
+                                    <LogInPage
+                                        loggedInUser={loggedInUser}
+                                        updateFormData={updateFormData}
+                                        users={users}
+                                        setLoggedInUser={setLoggedInUser}
+                                    />
+                                </>
+                            )
                         }
                     />
                     <Route path="*" element={<PageNotFound />} />

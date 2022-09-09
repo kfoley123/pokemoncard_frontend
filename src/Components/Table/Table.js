@@ -12,6 +12,7 @@ export default function Table(props) {
         setSelectedPokemon,
         setPokemonCardData,
         collections,
+        loggedInUser,
     } = props;
 
     const { mutate: createCollection } = useCreateCollection();
@@ -94,9 +95,13 @@ export default function Table(props) {
                                 <button onClick={() => deleteCard(card.id)}>
                                     Delete
                                 </button>
-                                <button onClick={() => addToCollection(card)}>
-                                    Add To Collection
-                                </button>
+                                {loggedInUser > 0 && (
+                                    <button
+                                        onClick={() => addToCollection(card)}
+                                    >
+                                        Add To Collection
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}

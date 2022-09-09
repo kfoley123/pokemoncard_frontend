@@ -58,7 +58,7 @@ export function validateCard(cardData) {
     return validationResponse;
 }
 
-export function validateUser(userData, usernames) {
+export function validateUser(userData, users) {
     let validationResponse = { valid: true, message: "" };
 
     if (userData.username === "") {
@@ -67,12 +67,14 @@ export function validateUser(userData, usernames) {
             message: "Please complete all fields",
         };
     }
-    if (usernames.includes(userData.username)) {
-        validationResponse = {
-            valid: false,
-            message: "Username is already being used",
-        };
-    }
+    users.forEach((userObj) => {
+        if (userObj.username === userData.username) {
+            validationResponse = {
+                valid: false,
+                message: "Username is already being used",
+            };
+        }
+    });
 
     if (userData.password === "" || userData.password.length < 8) {
         validationResponse = {

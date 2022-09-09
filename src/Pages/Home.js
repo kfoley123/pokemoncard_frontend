@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import CreateUser from "../Components/CreateUser/CreateUser";
 import Filter from "../Components/Filter/Filter";
 import Table from "../Components/Table/Table";
 import AddPokemon from "../Components/AddPokemon/AddPokemon";
@@ -7,7 +6,15 @@ import EditPokemon from "../Components/EditPokemon/EditPokemon";
 import { useAllPokemonCards } from "../Helpers/apiCalls";
 
 export default function Home(props) {
-    const { sets, setsSuccess, typesSuccess, types, collections } = props;
+    const {
+        sets,
+        setsSuccess,
+        typesSuccess,
+        types,
+        collections,
+        updateFormData,
+        loggedInUser,
+    } = props;
 
     const [filterParams, setFilterParams] = useState({
         pokemonset: "",
@@ -20,18 +27,8 @@ export default function Home(props) {
     const [selectedPokemon, setSelectedPokemon] = useState(0);
     const [pokemonCardData, setPokemonCardData] = useState({});
 
-    function updateFormData(event, setterFunction) {
-        setterFunction((prevData) => {
-            return {
-                ...prevData,
-                [event.target.name]: event.target.value,
-            };
-        });
-    }
-
     return (
         <>
-            <CreateUser updateUserData={updateFormData} />
             <h2> All Cards </h2>
             <div className="filters">
                 {setsSuccess && (
@@ -58,6 +55,7 @@ export default function Home(props) {
                     pokemonCards={cards}
                     setPokemonCardData={setPokemonCardData}
                     collections={collections}
+                    loggedInUser={loggedInUser}
                 />
             )}
             {setsSuccess && typesSuccess && (
