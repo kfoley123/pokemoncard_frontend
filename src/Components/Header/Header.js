@@ -8,7 +8,7 @@ export default function Header(props) {
         <>
             <h1>Pokemon Card Collector</h1>
             <NavBar />
-            {loggedInUser > 0 && (
+            {loggedInUser.userID > 0 && (
                 <button
                     onClick={() => {
                         setLoggedInUser(0);

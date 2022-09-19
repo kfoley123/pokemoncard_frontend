@@ -37,7 +37,7 @@ export default function Table(props) {
         });
         if (!cardMatch) {
             let collectionObj = {
-                user: loggedInUser,
+                user: loggedInUser.userID,
                 quantity: "1",
                 collectedCard: card.id,
             };

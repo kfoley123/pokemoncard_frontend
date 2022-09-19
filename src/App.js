@@ -27,13 +27,18 @@ function App() {
     const { data: types, isSuccess: typesSuccess } = useAllTypes();
     const { data: users } = useAllUsers();
 
-    const [loggedInUser, setLoggedInUser] = useState(0);
+    const [loggedInUser, setLoggedInUser] = useState({
+        userID: 0,
+        username: "",
+        profilePic:
+            "https://www.pngitem.com/pimgs/m/338-3388231_thumb-image-pokemon-missingno-hd-png-download.png",
+    });
 
     useEffect(() => {
         setFilterCollectionParams({
             pokemonset: "",
             pokemontype: "",
-            user: loggedInUser,
+            user: loggedInUser.userID,
         });
     }, [loggedInUser]);
 
@@ -45,6 +50,8 @@ function App() {
             };
         });
     }
+
+    console.log(loggedInUser);
 
     return (
         <BrowserRouter>
@@ -88,7 +95,7 @@ function App() {
                     <Route
                         path="collections"
                         element={
-                            loggedInUser > 0 ? (
+                            loggedInUser.userID > 0 ? (
                                 <CollectionsPage
                                     setsSuccess={setsSuccess}
                                     typesSuccess={typesSuccess}

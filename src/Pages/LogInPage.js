@@ -6,7 +6,7 @@ export default function LogInPage(props) {
     const { loggedInUser, updateFormData, users, setLoggedInUser } = props;
     return (
         <>
-            {loggedInUser < 1 && (
+            {loggedInUser.userID < 1 && (
                 <LogIn
                     updateLogInRequest={updateFormData}
                     users={users}
