@@ -11,6 +11,7 @@ export default function CollectionsPage(props) {
         collectionSuccess,
         collections,
         setFilterCollectionParams,
+        loggedInUser,
     } = props;
 
     return (
@@ -32,7 +33,12 @@ export default function CollectionsPage(props) {
                     filterKey="pokemontype"
                 />
             )}
-            {collectionSuccess && <Collections collections={collections} />}
+            {collectionSuccess && (
+                <Collections
+                    collections={collections}
+                    loggedInUser={loggedInUser}
+                />
+            )}
         </>
     );
 }

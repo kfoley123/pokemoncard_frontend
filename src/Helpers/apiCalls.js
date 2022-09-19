@@ -127,8 +127,14 @@ const getAllPokemonCards = async (filterParams) => {
 };
 
 const getAllCollections = async (filterCollectionParams) => {
-    const { pokemonset, pokemontype } = filterCollectionParams;
+    const { pokemonset, pokemontype, user } = filterCollectionParams;
     let filterString = "";
+    if (user !== "") {
+        filterString += `user=${user}`;
+    }
+    if (filterString !== "") {
+        filterString += "&";
+    }
     if (pokemontype !== "") {
         filterString += `pokemontype=${pokemontype}`;
     }

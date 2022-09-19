@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./Components/Header/Header";
 import CollectionsPage from "./Pages/CollectionsPage";
@@ -18,6 +18,7 @@ function App() {
     const [filterCollectionParams, setFilterCollectionParams] = useState({
         pokemonset: "",
         pokemontype: "",
+        user: "",
     });
 
     const { data: collections, isSuccess: collectionSuccess } =
@@ -27,6 +28,14 @@ function App() {
     const { data: users } = useAllUsers();
 
     const [loggedInUser, setLoggedInUser] = useState(0);
+
+    useEffect(() => {
+        setFilterCollectionParams({
+            pokemonset: "",
+            pokemontype: "",
+            user: loggedInUser,
+        });
+    }, [loggedInUser]);
 
     function updateFormData(event, setterFunction) {
         setterFunction((prevData) => {
@@ -87,6 +96,7 @@ function App() {
                                     types={types}
                                     collections={collections}
                                     collectionSuccess={collectionSuccess}
+                                    loggedInUser={loggedInUser}
                                     setFilterCollectionParams={
                                         setFilterCollectionParams
                                     }
