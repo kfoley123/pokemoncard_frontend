@@ -51,8 +51,6 @@ function App() {
         });
     }
 
-    console.log(loggedInUser);
-
     return (
         <BrowserRouter>
             <Routes>
