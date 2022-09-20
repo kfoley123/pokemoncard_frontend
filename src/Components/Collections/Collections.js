@@ -5,7 +5,7 @@ import {
 } from "../../Helpers/apiCalls";
 
 export default function Collections(props) {
-    const { collections } = props;
+    const { collections, loggedInUser } = props;
 
     const { mutate: deleteCollection } = useDeleteCollection();
 
@@ -19,7 +19,7 @@ export default function Collections(props) {
         } else {
             let collectionObj = {
                 id: card.id,
-                user: "User1",
+                user: loggedInUser,
                 quantity: numbOfCards - 1,
                 collectedCard: card.collectedCard.id,
             };

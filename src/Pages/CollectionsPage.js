@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Collections from "../Components/Collections/Collections";
 import Filter from "../Components/Filter/Filter";
 
@@ -11,7 +11,14 @@ export default function CollectionsPage(props) {
         collectionSuccess,
         collections,
         setFilterCollectionParams,
+        loggedInUser,
     } = props;
+
+    useEffect(() => {
+        setFilterCollectionParams((prevData) => {
+            return { ...prevData, pokemonset: "", pokemontype: "" };
+        });
+    }, []);
 
     return (
         <>
@@ -32,7 +39,12 @@ export default function CollectionsPage(props) {
                     filterKey="pokemontype"
                 />
             )}
-            {collectionSuccess && <Collections collections={collections} />}
+            {collectionSuccess && (
+                <Collections
+                    collections={collections}
+                    loggedInUser={loggedInUser}
+                />
+            )}
         </>
     );
 }
