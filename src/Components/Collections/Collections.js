@@ -19,7 +19,7 @@ export default function Collections(props) {
         } else {
             let collectionObj = {
                 id: card.id,
-                user: loggedInUser,
+                user: loggedInUser.userID,
                 quantity: numbOfCards - 1,
                 collectedCard: card.collectedCard.id,
             };

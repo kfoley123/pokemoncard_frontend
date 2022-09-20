@@ -27,12 +27,14 @@ function App() {
     const { data: types, isSuccess: typesSuccess } = useAllTypes();
     const { data: users } = useAllUsers();
 
-    const [loggedInUser, setLoggedInUser] = useState({
+    const loggedOut = {
         userID: 0,
         username: "",
         profilePic:
             "https://www.pngitem.com/pimgs/m/338-3388231_thumb-image-pokemon-missingno-hd-png-download.png",
-    });
+    };
+
+    const [loggedInUser, setLoggedInUser] = useState(loggedOut);
 
     useEffect(() => {
         setFilterCollectionParams({
@@ -59,6 +61,7 @@ function App() {
                     element={
                         <Header
                             setLoggedInUser={setLoggedInUser}
+                            loggedOut={loggedOut}
                             loggedInUser={loggedInUser}
                         />
                     }
