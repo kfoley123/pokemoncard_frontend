@@ -49,8 +49,12 @@ export function useUpdateSelectedCollection() {
 
 export function useLogIn(setLoggedInUser, setErrorMessage) {
     return useMutation(logIn, {
-        onSuccess: (_, vars) => {
-            setLoggedInUser(vars.id);
+        onSuccess: (data) => {
+            setLoggedInUser({
+                userID: data.id,
+                username: data.username,
+                profilePic: data.profilePic,
+            });
         },
         onError: () => {
             setErrorMessage(

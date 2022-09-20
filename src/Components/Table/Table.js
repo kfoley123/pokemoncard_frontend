@@ -28,6 +28,7 @@ export default function Table(props) {
                 let collectionObj = {
                     ...item,
                     quantity: item.quantity + 1,
+                    user: item.user.id,
                     collectedCard: item.collectedCard.id,
                 };
                 updateCollection(collectionObj);
@@ -37,7 +38,7 @@ export default function Table(props) {
         });
         if (!cardMatch) {
             let collectionObj = {
-                user: loggedInUser,
+                user: loggedInUser.userID,
                 quantity: "1",
                 collectedCard: card.id,
             };
@@ -95,7 +96,7 @@ export default function Table(props) {
                                 <button onClick={() => deleteCard(card.id)}>
                                     Delete
                                 </button>
-                                {loggedInUser > 0 && (
+                                {loggedInUser.userID > 0 && (
                                     <button
                                         onClick={() => addToCollection(card)}
                                     >
