@@ -18,7 +18,7 @@ export default function CollectionsPage(props) {
         setFilterCollectionParams((prevData) => {
             return { ...prevData, pokemonset: "", pokemontype: "" };
         });
-    }, []);
+    }, [setFilterCollectionParams]);
 
     return (
         <>
