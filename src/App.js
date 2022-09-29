@@ -111,7 +111,9 @@ function App() {
                                 />
                             ) : (
                                 <>
-                                    <h2>please log in to view collections</h2>
+                                    <h2 className="error">
+                                        please log in to view collections
+                                    </h2>
                                     <LogInPage
                                         loggedInUser={loggedInUser}
                                         updateFormData={updateFormData}

@@ -8,23 +8,26 @@ export default function Header(props) {
         <>
             <h1>Pokemon Card Collector</h1>
             <NavBar />
-            <span>{loggedInUser.username}</span>
 
-            <img
-                className="profilePic"
-                src={loggedInUser.profilePic}
-                alt="profile pic for user"
-            />
+            <div className="userInfo">
+                <img
+                    className="profilePic"
+                    src={loggedInUser.profilePic}
+                    alt="profile pic for user"
+                />
+                <span className="username">{loggedInUser.username}</span>
+                {loggedInUser.userID > 0 && (
+                    <button
+                        className="logOut"
+                        onClick={() => {
+                            setLoggedInUser(loggedOut);
+                        }}
+                    >
+                        Log Out
+                    </button>
+                )}
+            </div>
 
-            {loggedInUser.userID > 0 && (
-                <button
-                    onClick={() => {
-                        setLoggedInUser(loggedOut);
-                    }}
-                >
-                    Log Out
-                </button>
-            )}
             <Outlet />
         </>
     );
