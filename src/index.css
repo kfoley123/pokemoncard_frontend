@@ -22,26 +22,6 @@ body {
     font-weight: bold;
 }
 
-.userInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    right: 40px;
-    top: 30px;
-}
-
-.username {
-    padding: 10px;
-}
-
-.profilePic {
-    border: 1px solid black;
-    border-radius: 50%;
-    height: 100px;
-    width: 100px;
-}
-
-.logOut {
-    width: 70px;
+.notLoggedIn {
+    text-align: center;
 }

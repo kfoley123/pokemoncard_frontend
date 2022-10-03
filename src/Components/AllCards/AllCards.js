@@ -1,12 +1,12 @@
 import React from "react";
-import "./Table.css";
+import "./AllCards.css";
 import {
     useCreateCollection,
     useUpdateSelectedCollection,
     useDeleteSelectedCard,
 } from "../../Helpers/apiCalls";
 
-export default function Table(props) {
+export default function AllCards(props) {
     const {
         pokemonCards,
         setSelectedPokemon,

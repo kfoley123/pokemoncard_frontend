@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./LogIn.css";
 import { useLogIn } from "../../Helpers/apiCalls";
 
 export default function LogIn(props) {
@@ -14,7 +15,7 @@ export default function LogIn(props) {
     }
 
     return (
-        <form>
+        <form className="logInForm">
             <h2>Log In</h2>
             <span className="error">{errorMessage}</span>
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Filter from "../Components/Filter/Filter";
-import Table from "../Components/Table/Table";
+import AllCards from "../Components/AllCards/AllCards";
 import AddPokemon from "../Components/AddPokemon/AddPokemon";
 import EditPokemon from "../Components/EditPokemon/EditPokemon";
 import { useAllPokemonCards } from "../Helpers/apiCalls";
@@ -50,7 +50,7 @@ export default function Home(props) {
                 )}
             </div>
             {cardsSuccess && (
-                <Table
+                <AllCards
                     setSelectedPokemon={setSelectedPokemon}
                     pokemonCards={cards}
                     setPokemonCardData={setPokemonCardData}

@@ -1,0 +1,16 @@
+.navLinks {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.navLink {
+    padding: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+    color: inherit;
+}
