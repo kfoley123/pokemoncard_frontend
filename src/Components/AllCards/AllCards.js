@@ -57,7 +57,9 @@ export default function AllCards(props) {
                             alt={card.name}
                         />
                         <div className="cardPopUp">
-                            {card.name} {card.pokedexIndex} {card.set}
+                            {card.name} {card.pokedexIndex} {card.set}{" "}
+                            {card.pokemonCardSet.name}
+                            {card.type.pokemonType}
                         </div>
 
                         <div>
