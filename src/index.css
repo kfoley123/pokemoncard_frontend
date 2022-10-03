@@ -1,4 +1,7 @@
 body {
+    background-image: url("../public/pokemonBackground.png");
+    background-size: auto 1520px;
+    background-repeat: no-repeat;
     margin: 0;
 
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
@@ -6,6 +9,14 @@ body {
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+    color: #ee631e;
+    text-shadow: 2px 2px black;
+    font-size: 50px;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
 }
 
 .filters {
