@@ -48,66 +48,25 @@ export default function AllCards(props) {
 
     return (
         <>
-            <table className="cardTable">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Pokedex Index</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>HP</th>
-                        <th>Set</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pokemonCards.map((card) => (
-                        <tr key={card.id}>
-                            <td>
-                                <img
-                                    className="image"
-                                    src={card.image}
-                                    alt={card.name}
-                                />
-                            </td>
-                            <td>{card.pokedexIndex}</td>
-                            <td>{card.name}</td>
-                            <td>{card.type.pokemonType}</td>
-                            <td>{card.HP}</td>
-                            <td>{card.pokemonCardSet.name}</td>
-                            <td>
-                                {/* <button
-                                    onClick={() => {
-                                        setSelectedPokemon(card.id);
-                                        setPokemonCardData(() => {
-                                            let typeid = card.type.id;
-                                            let setid = card.pokemonCardSet.id;
-                                            return {
-                                                ...card,
-                                                type: typeid,
-                                                pokemonCardSet: setid,
-                                            };
-                                        });
-                                    }}
-                                >
-                                    Edit
+            <div className="cardTable">
+                {pokemonCards.map((card) => (
+                    <div key={card.id}>
+                        <img
+                            className="image"
+                            src={card.image}
+                            alt={card.name}
+                        />
+
+                        <div>
+                            {loggedInUser.userID > 0 && (
+                                <button onClick={() => addToCollection(card)}>
+                                    Add To Collection
                                 </button>
-                            </td>
-                            <td>
-                                <button onClick={() => deleteCard(card.id)}>
-                                    Delete
-                                </button> */}
-                                {loggedInUser.userID > 0 && (
-                                    <button
-                                        onClick={() => addToCollection(card)}
-                                    >
-                                        Add To Collection
-                                    </button>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
         </>
     );
 }

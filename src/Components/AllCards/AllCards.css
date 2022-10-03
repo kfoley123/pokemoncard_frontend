@@ -1,8 +1,14 @@
 .cardTable {
-    /* display: grid; */
+    width: 1000px;
+    margin: auto;
+
+    background-color: blue;
+    display: flex;
+    flex-direction: row;
+    overflow-wrap: normal;
 }
 
 .image {
-    height: 200px;
+    height: 300px;
     padding-right: 10px;
 }
