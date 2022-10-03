@@ -50,12 +50,15 @@ export default function AllCards(props) {
         <>
             <div className="cardTable">
                 {pokemonCards.map((card) => (
-                    <div key={card.id}>
+                    <div className="card" key={card.id}>
                         <img
                             className="image"
                             src={card.image}
                             alt={card.name}
                         />
+                        <div className="cardPopUp">
+                            {card.name} {card.pokedexIndex} {card.set}
+                        </div>
 
                         <div>
                             {loggedInUser.userID > 0 && (
