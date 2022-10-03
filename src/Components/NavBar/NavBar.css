@@ -5,6 +5,7 @@
 }
 
 .navLink {
+    font-size: x-large;
     padding: 10px;
     text-decoration: none;
     color: inherit;
@@ -12,5 +13,5 @@
 
 .navLink:hover {
     text-decoration: underline;
-    color: inherit;
+    font-weight: bold;
 }

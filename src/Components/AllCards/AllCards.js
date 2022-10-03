@@ -48,10 +48,10 @@ export default function AllCards(props) {
 
     return (
         <>
-            <table>
+            <table className="cardTable">
                 <thead>
                     <tr>
-                        <th>Image</th>
+                        <th></th>
                         <th>Pokedex Index</th>
                         <th>Name</th>
                         <th>Type</th>
@@ -75,7 +75,7 @@ export default function AllCards(props) {
                             <td>{card.HP}</td>
                             <td>{card.pokemonCardSet.name}</td>
                             <td>
-                                <button
+                                {/* <button
                                     onClick={() => {
                                         setSelectedPokemon(card.id);
                                         setPokemonCardData(() => {
@@ -95,7 +95,7 @@ export default function AllCards(props) {
                             <td>
                                 <button onClick={() => deleteCard(card.id)}>
                                     Delete
-                                </button>
+                                </button> */}
                                 {loggedInUser.userID > 0 && (
                                     <button
                                         onClick={() => addToCollection(card)}
