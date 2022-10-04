@@ -1,4 +1,4 @@
-.cardTable {
+.collectionTable {
     width: 930px;
     height: 1100px;
     margin: auto;
@@ -11,7 +11,7 @@
     overflow-y: scroll;
 }
 
-.image {
+.CollectionImage {
     height: 300px;
     padding-right: 10px;
 }
@@ -20,7 +20,7 @@
     position: relative;
 }
 
-.cardPopUp {
+.collectionsPopUp {
     font-weight: 700;
     position: absolute;
     border-radius: 5px;
@@ -36,19 +36,15 @@
     text-align: center;
 }
 
-.card:hover .cardPopUp {
+.card:hover .collectionsPopUp {
     opacity: 1;
 }
 
-.card:hover .addButton {
+.card:hover .deleteButton {
     opacity: 1;
 }
 
-.indexName {
-    text-align: center;
-}
-
-.addButton {
+.deleteButton {
     height: 40px;
     font-size: large;
     position: absolute;

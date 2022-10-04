@@ -20,7 +20,13 @@ h1 {
 }
 
 h2 {
+    color: #ee631e;
+    text-shadow: 2px 2px black;
+    font-size: xx-large;
     text-align: center;
+}
+h3 {
+    font-size: x-large;
 }
 
 button {

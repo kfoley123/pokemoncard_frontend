@@ -1,4 +1,5 @@
 import React from "react";
+import "./Collections.css";
 import {
     useDeleteCollection,
     useUpdateSelectedCollection,
@@ -29,30 +30,33 @@ export default function Collections(props) {
     }
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Set</th>
-                    <th>Type</th>
-                    <th>Copies</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div>
+            <div className="collectionTable">
                 {collections.map((card) => (
-                    <tr key={card.id}>
-                        <td>{card.collectedCard.name}</td>
-                        <td>{card.collectedCard.pokemonCardSet.name}</td>
-                        <td>{card.collectedCard.type.pokemonType}</td>
-                        <td> {card.quantity} </td>
-                        <td>
-                            <button onClick={() => removeFromCollection(card)}>
+                    <div className="card" key={card.id}>
+                        <img
+                            className="image"
+                            src={card.collectedCard.image}
+                            alt={card.collectedCard.name}
+                        />
+                        <div className=" collectionsPopUp">
+                            {card.collectedCard.name}
+                            {card.collectedCard.pokemonCardSet.name}
+
+                            {card.quantity}
+                        </div>
+
+                        <div>
+                            <button
+                                className="deleteButton"
+                                onClick={() => removeFromCollection(card)}
+                            >
                                 Remove fr Collection
                             </button>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 ))}
-            </tbody>
-        </table>
+            </div>
+        </div>
     );
 }
