@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./LogIn.css";
 import { useLogIn } from "../../Helpers/apiCalls";
 
 export default function LogIn(props) {
