@@ -19,6 +19,10 @@ h1 {
         "Lucida Sans", Arial, sans-serif;
 }
 
+h2 {
+    text-align: center;
+}
+
 button {
     border-radius: 5px;
 }
@@ -26,6 +30,8 @@ button {
 .filters {
     display: flex;
     margin: 20px;
+    width: 800px;
+    padding-left: 425px;
 }
 
 .filters > * {

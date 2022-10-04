@@ -204,7 +204,6 @@ const createNewCollection = async (collectionData) => {
 };
 
 const createNewUser = async (userData) => {
-    console.log(userData);
     const { data } = await API.post("users/", userData);
     return data;
 };
