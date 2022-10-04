@@ -1,8 +1,9 @@
 .cardTable {
-    width: 925px;
+    width: 930px;
     height: 1100px;
     margin: auto;
     padding: 30px;
+    padding-left: 40px;
     border-radius: 15px;
     box-shadow: 5px 5px #3a3939;
     background-color: #42a6f2;
@@ -14,4 +15,32 @@
 .image {
     height: 300px;
     padding-right: 10px;
+}
+
+.card {
+    position: relative;
+}
+
+.cardPopUp {
+    font-weight: 700;
+    position: absolute;
+    border-radius: 5px;
+    width: 213px;
+    top: 130px;
+    background: #014979;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.2s;
+}
+
+.cardPopUpElement {
+    text-align: center;
+}
+
+.card:hover .cardPopUp {
+    opacity: 1;
+}
+
+.indexName {
+    text-align: center;
 }

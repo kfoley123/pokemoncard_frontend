@@ -35,7 +35,7 @@ export default function Collections(props) {
                     <th>Name</th>
                     <th>Set</th>
                     <th>Type</th>
-                    <th>Number In Collection</th>
+                    <th>Copies</th>
                 </tr>
             </thead>
             <tbody>

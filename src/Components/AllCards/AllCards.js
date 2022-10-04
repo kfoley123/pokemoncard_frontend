@@ -47,31 +47,28 @@ export default function AllCards(props) {
     }
 
     return (
-        <>
-            <div className="cardTable">
-                {pokemonCards.map((card) => (
-                    <div className="card" key={card.id}>
-                        <img
-                            className="image"
-                            src={card.image}
-                            alt={card.name}
-                        />
-                        <div className="cardPopUp">
-                            {card.name} {card.pokedexIndex} {card.set}{" "}
+        <div className="cardTable">
+            {pokemonCards.map((card) => (
+                <div className="card" key={card.id}>
+                    <img className="image" src={card.image} alt={card.name} />
+                    <div className="cardPopUp">
+                        <div className="cardPopUpElement">
+                            <div className="indexName">
+                                #{card.pokedexIndex}-{card.name}
+                            </div>
                             {card.pokemonCardSet.name}
-                            {card.type.pokemonType}
-                        </div>
-
-                        <div>
-                            {loggedInUser.userID > 0 && (
-                                <button onClick={() => addToCollection(card)}>
-                                    Add To Collection
-                                </button>
-                            )}
                         </div>
                     </div>
-                ))}
-            </div>
-        </>
+
+                    <div>
+                        {loggedInUser.userID > 0 && (
+                            <button onClick={() => addToCollection(card)}>
+                                Add To Collection
+                            </button>
+                        )}
+                    </div>
+                </div>
+            ))}
+        </div>
     );
 }
