@@ -3,23 +3,14 @@ import "./AllCards.css";
 import {
     useCreateCollection,
     useUpdateSelectedCollection,
-    useDeleteSelectedCard,
 } from "../../Helpers/apiCalls";
 
 export default function AllCards(props) {
-    const {
-        pokemonCards,
-        setSelectedPokemon,
-        setPokemonCardData,
-        collections,
-        loggedInUser,
-    } = props;
+    const { pokemonCards, collections, loggedInUser } = props;
 
     const { mutate: createCollection } = useCreateCollection();
 
     const { mutate: updateCollection } = useUpdateSelectedCollection();
-
-    const { mutate: deleteCard } = useDeleteSelectedCard();
 
     function addToCollection(card) {
         let cardMatch = false;
