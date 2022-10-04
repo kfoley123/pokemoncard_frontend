@@ -56,3 +56,7 @@
     left: 31px;
     opacity: 0;
 }
+
+.addButton:hover {
+    background-color: #8e8c8c;
+}

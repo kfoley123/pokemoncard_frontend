@@ -40,10 +40,10 @@ export default function Collections(props) {
                             alt={card.collectedCard.name}
                         />
                         <div className=" collectionsPopUp">
-                            {card.collectedCard.name}
+                            {card.collectedCard.name}-
                             {card.collectedCard.pokemonCardSet.name}
-
-                            {card.quantity}
+                            <br></br>
+                            Quantity: {card.quantity}
                         </div>
 
                         <div>
