@@ -39,11 +39,13 @@ export default function Collections(props) {
                             src={card.collectedCard.image}
                             alt={card.collectedCard.name}
                         />
-                        <div className=" collectionsPopUp">
-                            {card.collectedCard.name}-
-                            {card.collectedCard.pokemonCardSet.name}
-                            <br></br>
-                            Quantity: {card.quantity}
+                        <div className="collectionsPopUp">
+                            <p>
+                                #{card.collectedCard.pokedexIndex}-
+                                {card.collectedCard.name}
+                            </p>
+                            <p>{card.collectedCard.pokemonCardSet.name}</p>
+                            <p>Quantity: {card.quantity}</p>
                         </div>
 
                         <div>
