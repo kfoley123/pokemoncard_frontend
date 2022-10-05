@@ -53,8 +53,11 @@ export default function AllCards(props) {
 
                     <div>
                         {loggedInUser.userID > 0 && (
-                            <button onClick={() => addToCollection(card)}>
-                                Add To Collection
+                            <button
+                                className="addButton"
+                                onClick={() => addToCollection(card)}
+                            >
+                                Add to Collection
                             </button>
                         )}
                     </div>
