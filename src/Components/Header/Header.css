@@ -12,10 +12,14 @@
 }
 
 .username {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-weight: 600;
     padding: 10px;
 }
 
 .profilePic {
+    background-color: white;
     border: 1px solid black;
     border-radius: 50%;
     height: 100px;

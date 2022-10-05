@@ -1,6 +1,6 @@
 # _Pokemon Card Database_
 
-A database of Pokemon Cards that you can view or add to personal collections.
+A frontend app that links to an API of Pokemon Cards that you can view or add to personal collections.
 
 ---
 
@@ -16,6 +16,8 @@ Kortney Foley
 -   JavaScript
 -   CSS
 -   React
+-   [Axios](https://www.npmjs.com/package/axios)
+-   [React Query](https://tanstack.com/query/v4/?from=reactQueryV3&original=https://react-query-v3.tanstack.com/)
 -   [React Router](https://reactrouter.com/en/main)
 
 ---
