@@ -7,3 +7,7 @@
     width: 650px;
     padding: 20px;
 }
+
+.loggedIn {
+    text-align: center;
+}
