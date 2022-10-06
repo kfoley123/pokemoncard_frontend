@@ -4,7 +4,7 @@ import Header from "./Components/Header/Header";
 import CollectionsPage from "./Pages/CollectionsPage";
 import Home from "./Pages/Home";
 import PageNotFound from "./Pages/PageNotFound";
-import LogInPage from "./Pages/LogInPage";
+import LogInPage from "./Pages/LogInPage/LogInPage";
 import {
     useAllSets,
     useAllTypes,
@@ -111,7 +111,9 @@ function App() {
                                 />
                             ) : (
                                 <>
-                                    <h2>please log in to view collections</h2>
+                                    <h2 className="error notLoggedIn">
+                                        Please log in to view collections
+                                    </h2>
                                     <LogInPage
                                         loggedInUser={loggedInUser}
                                         updateFormData={updateFormData}

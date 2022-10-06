@@ -1,30 +1,45 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
+import { Link } from "react-router-dom";
+import "./Header.css";
 
 export default function Header(props) {
     const { setLoggedInUser, loggedInUser, loggedOut } = props;
     return (
         <>
-            <h1>Pokemon Card Collector</h1>
+            <h1 className="pageTitle">Pokemon Card Collector</h1>
             <NavBar />
-            <span>{loggedInUser.username}</span>
 
-            <img
-                className="profilePic"
-                src={loggedInUser.profilePic}
-                alt="profile pic for user"
-            />
+            <div className="userInfo">
+                <img
+                    className="profilePic"
+                    src={loggedInUser.profilePic}
+                    alt="profile pic for user"
+                />
+                {loggedInUser.username ? (
+                    <span className="username">{loggedInUser.username}</span>
+                ) : (
+                    <span className="username">Guest User</span>
+                )}
+                {loggedInUser.userID > 0 ? (
+                    <button
+                        className="logInOut"
+                        onClick={() => {
+                            setLoggedInUser(loggedOut);
+                        }}
+                    >
+                        Log Out
+                    </button>
+                ) : (
+                    <button className="logInOut">
+                        <Link className="logInLink" to="/logIn">
+                            Log In
+                        </Link>
+                    </button>
+                )}
+            </div>
 
-            {loggedInUser.userID > 0 && (
-                <button
-                    onClick={() => {
-                        setLoggedInUser(loggedOut);
-                    }}
-                >
-                    Log Out
-                </button>
-            )}
             <Outlet />
         </>
     );

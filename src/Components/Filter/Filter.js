@@ -4,7 +4,7 @@ export default function Filter(props) {
     const { setFilterParams, filterOptions, filterName, filterKey } = props;
     return (
         <>
-            <h2>Filter By {filterName}</h2>
+            <h3>Filter By {filterName}</h3>
             <select
                 onChange={(event) =>
                     setFilterParams((prevData) => {

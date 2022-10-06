@@ -1,0 +1,59 @@
+.collectionTable {
+    align-content: flex-start;
+    width: 930px;
+    height: 1100px;
+    margin: auto;
+    padding: 30px 30px 30px 40px;
+    border-radius: 15px;
+    box-shadow: 5px 5px #3a3939;
+    background-color: #42a6f2;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+}
+
+.CollectionImage {
+    height: 300px;
+    padding-right: 10px;
+}
+
+.card {
+    max-height: 300px;
+    position: relative;
+}
+
+.collectionsPopUp {
+    font-weight: 700;
+    line-height: 20%;
+    position: absolute;
+    text-align: center;
+    border-radius: 5px;
+    width: 213px;
+    top: 130px;
+    background: #014979;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.2s;
+}
+
+.card:hover .collectionsPopUp {
+    opacity: 1;
+}
+
+.card:hover .deleteButton {
+    opacity: 1;
+}
+
+.deleteButton {
+    position: absolute;
+    height: 40px;
+    font-size: large;
+    font-weight: 600;
+    bottom: 50px;
+    left: 9px;
+    opacity: 0;
+}
+
+.deleteButton:hover {
+    background-color: #8e8c8c;
+}

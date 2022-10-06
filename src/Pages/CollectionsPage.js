@@ -18,27 +18,30 @@ export default function CollectionsPage(props) {
         setFilterCollectionParams((prevData) => {
             return { ...prevData, pokemonset: "", pokemontype: "" };
         });
-    }, []);
+    }, [setFilterCollectionParams]);
 
     return (
         <>
-            <h1> Collection</h1>
-            {setsSuccess && (
-                <Filter
-                    setFilterParams={setFilterCollectionParams}
-                    filterOptions={sets}
-                    filterName="Set"
-                    filterKey="pokemonset"
-                />
-            )}
-            {typesSuccess && (
-                <Filter
-                    setFilterParams={setFilterCollectionParams}
-                    filterOptions={types}
-                    filterName="Type"
-                    filterKey="pokemontype"
-                />
-            )}
+            <h2>Collection</h2>
+
+            <div className="filters">
+                {setsSuccess && (
+                    <Filter
+                        setFilterParams={setFilterCollectionParams}
+                        filterOptions={sets}
+                        filterName="Set"
+                        filterKey="pokemonset"
+                    />
+                )}
+                {typesSuccess && (
+                    <Filter
+                        setFilterParams={setFilterCollectionParams}
+                        filterOptions={types}
+                        filterName="Type"
+                        filterKey="pokemontype"
+                    />
+                )}
+            </div>
             {collectionSuccess && (
                 <Collections
                     collections={collections}

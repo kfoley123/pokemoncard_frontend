@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Filter from "../Components/Filter/Filter";
-import Table from "../Components/Table/Table";
+import AllCards from "../Components/AllCards/AllCards";
 import AddPokemon from "../Components/AddPokemon/AddPokemon";
-import EditPokemon from "../Components/EditPokemon/EditPokemon";
 import { useAllPokemonCards } from "../Helpers/apiCalls";
 
 export default function Home(props) {
@@ -23,9 +22,6 @@ export default function Home(props) {
 
     const { data: cards, isSuccess: cardsSuccess } =
         useAllPokemonCards(filterParams);
-
-    const [selectedPokemon, setSelectedPokemon] = useState(0);
-    const [pokemonCardData, setPokemonCardData] = useState({});
 
     return (
         <>
@@ -50,32 +46,21 @@ export default function Home(props) {
                 )}
             </div>
             {cardsSuccess && (
-                <Table
-                    setSelectedPokemon={setSelectedPokemon}
+                <AllCards
                     pokemonCards={cards}
-                    setPokemonCardData={setPokemonCardData}
                     collections={collections}
                     loggedInUser={loggedInUser}
                 />
             )}
-            {setsSuccess && typesSuccess && (
-                <AddPokemon
-                    types={types}
-                    sets={sets}
-                    updateCardData={updateFormData}
-                />
-            )}
-            {selectedPokemon !== 0 && setsSuccess && typesSuccess && (
-                <EditPokemon
-                    sets={sets}
-                    setSelectedPokemon={setSelectedPokemon}
-                    selectedPokemon={selectedPokemon}
-                    types={types}
-                    updateCardData={updateFormData}
-                    cardData={pokemonCardData}
-                    setPokemonCardData={setPokemonCardData}
-                />
-            )}
+            {loggedInUser.username === "kortney" &&
+                setsSuccess &&
+                typesSuccess && (
+                    <AddPokemon
+                        types={types}
+                        sets={sets}
+                        updateCardData={updateFormData}
+                    />
+                )}
         </>
     );
 }

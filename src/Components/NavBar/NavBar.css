@@ -1,0 +1,17 @@
+.navLinks {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.navLink {
+    font-size: x-large;
+    padding: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}

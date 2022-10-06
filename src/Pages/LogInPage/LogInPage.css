@@ -1,0 +1,13 @@
+.LogInCreateUser {
+    background-color: #42a6f2;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 100px;
+    width: 650px;
+    padding: 20px;
+}
+
+.loggedIn {
+    text-align: center;
+}
